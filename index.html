@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Andre Rizzo | Profile Hub</title>
-    <meta name="description" content="Andre Rizzo. Project Manager, Engineer IT, Digital Advisor." />
+    <title>Andre Rizzo | Digital Card</title>
+    <meta name="description" content="Andre Rizzo. Project Manager, IT Engineer, Digital Advisor." />
     <meta name="theme-color" content="#060a12" />
 
-    <meta property="og:title" content="Andre Rizzo | Profile Hub" />
-    <meta property="og:description" content="Project Manager | Engineer IT | Digital Advisor" />
+    <meta property="og:title" content="Andre Rizzo | Digital Card" />
+    <meta property="og:description" content="Project Manager | IT Engineer | Digital Advisor" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/andrerizzo_profile_img.jpg" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Andre Rizzo | Profile Hub" />
-    <meta name="twitter:description" content="Project Manager | Engineer IT | Digital Advisor" />
+    <meta name="twitter:title" content="Andre Rizzo | Digital Card" />
+    <meta name="twitter:description" content="Project Manager | IT Engineer | Digital Advisor" />
 
     <link
       rel="icon"
@@ -27,7 +27,7 @@
     <div class="page-shell">
       <header class="hero" id="top">
         <div class="container">
-          <section class="hero-panel" data-reveal style="--delay: 0.04s">
+          <section class="hero-panel" data-reveal style="--delay: 0.02s">
             <div class="hero-media" data-reveal style="--delay: 0.08s">
               <img
                 src="assets/andrerizzo_profile_img.jpg"
@@ -40,8 +40,16 @@
 
             <div class="hero-content">
               <h1 data-reveal style="--delay: 0.14s">Andre Rizzo</h1>
-              <p class="role-stack" data-reveal style="--delay: 0.2s">
-                Project Manager<br />| Engineer IT |<br />Digital Advisor
+
+              <p class="role-line" data-reveal style="--delay: 0.2s">
+                <span class="sr-only">Project Manager, IT Engineer, Digital Advisor</span>
+                <span
+                  class="typewriter"
+                  aria-hidden="true"
+                  data-typewriter
+                  data-roles="Project Manager|IT Engineer|Digital Advisor"
+                  >Project Manager</span>
+                <span class="typewriter-caret" aria-hidden="true"></span>
               </p>
 
               <div class="social-row" data-reveal style="--delay: 0.26s">
@@ -74,7 +82,7 @@
                 <a
                   href="mailto:ing.and.rizzo@gmail.com"
                   class="social-link"
-                  aria-label="Invia email"
+                  aria-label="Email"
                   data-track="social_mail"
                 >
                   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -90,76 +98,156 @@
       </header>
 
       <main>
-        <section class="section" id="links">
+        <section class="section section-featured" id="balance">
+          <div class="container">
+            <article class="featured-card" data-reveal>
+              <p class="featured-kicker">Featured Project</p>
+              <h2 class="featured-title">Balance</h2>
+              <p class="featured-subtitle">Control your finances, beautifully.</p>
+              <p class="featured-meta">Privacy-first - Offline-first - Open source</p>
+              <a
+                href="https://ozzirr.github.io/balance/index.html"
+                class="featured-cta"
+                data-external="true"
+                data-track="balance_featured_cta"
+                >Discover Balance</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-focus" id="focus">
+          <div class="container">
+            <div class="section-head" data-reveal>
+              <p class="section-kicker">Focus</p>
+            </div>
+            <div class="focus-grid" data-reveal>
+              <article class="focus-item">Tech Strategy</article>
+              <article class="focus-item">Digital Advisory</article>
+              <article class="focus-item">Hospitality Projects</article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-selected" id="selected-work">
+          <div class="container">
+            <div class="section-head" data-reveal>
+              <p class="section-kicker">Selected work</p>
+              <h2 class="section-title">Curated projects</h2>
+            </div>
+            <div class="work-grid">
+              <a
+                href="https://ozzirr.github.io/balance/index.html"
+                class="work-card"
+                data-external="true"
+                data-track="selected_balance"
+                data-reveal
+              >
+                <span class="work-name">Balance</span>
+                <span class="work-note">Finance app</span>
+              </a>
+
+              <a
+                href="https://www.airbnb.com/l/z0k4JRlX"
+                class="work-card"
+                data-external="true"
+                data-track="selected_torre_lapillo"
+                data-reveal
+              >
+                <span class="work-name">Torre Lapillo</span>
+                <span class="work-note">Hospitality</span>
+              </a>
+
+              <a
+                href="https://generale-elettrica.com"
+                class="work-card"
+                data-external="true"
+                data-track="selected_generale_elettrica"
+                data-reveal
+              >
+                <span class="work-name">Generale Elettrica</span>
+                <span class="work-note">Digital advisory</span>
+              </a>
+
+              <a
+                href="https://www.msporte.it"
+                class="work-card"
+                data-external="true"
+                data-track="selected_ms_porte"
+                data-reveal
+              >
+                <span class="work-name">MS Porte</span>
+                <span class="work-note">Digital advisory</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-links" id="links">
           <div class="container">
             <div class="group-stack">
               <article class="link-group" data-reveal>
-                <h2 class="group-title">Contacts</h2>
+                <h2 class="group-title">Connect</h2>
                 <div class="cards-grid">
-                  <a href="https://it.linkedin.com/in/andrea-rizzo-ar" class="link-card" data-external="true" data-track="card_linkedin">
+                  <a
+                    href="https://it.linkedin.com/in/andrea-rizzo-ar"
+                    class="link-card"
+                    data-external="true"
+                    data-track="card_linkedin"
+                  >
                     <span class="card-title">LinkedIn</span>
                     <span class="card-action" aria-hidden="true">&#8942;</span>
                   </a>
 
-                  <a href="https://www.instagram.com/ozzirr/" class="link-card" data-external="true" data-track="card_instagram">
+                  <a
+                    href="https://www.instagram.com/ozzirr/"
+                    class="link-card"
+                    data-external="true"
+                    data-track="card_instagram"
+                  >
                     <span class="card-title">Instagram</span>
                     <span class="card-action" aria-hidden="true">&#8942;</span>
                   </a>
-
-                  <a href="mailto:ing.and.rizzo@gmail.com" class="link-card" data-track="card_email">
-                    <span class="card-title">Email</span>
-                    <span class="card-action" aria-hidden="true">&#8942;</span>
-                  </a>
                 </div>
               </article>
 
               <article class="link-group" data-reveal>
-                <h2 class="group-title">My Airbnb</h2>
-                <div class="cards-grid">
-                  <a href="https://www.airbnb.com/l/z0k4JRlX" class="link-card" data-external="true" data-track="card_airbnb">
-                    <span class="card-title">Torre Lapillo, Italy | Salento</span>
-                    <span class="card-action" aria-hidden="true">&#8942;</span>
-                  </a>
-                </div>
-              </article>
-
-              <article class="link-group" data-reveal>
-                <h2 class="group-title">Tech &amp; Digital Advisory</h2>
+                <h2 class="group-title">Advisory</h2>
                 <div class="cards-grid">
                   <a href="https://momafruit.it" class="link-card" data-external="true" data-track="card_moma_fruit">
                     <span class="card-title">Moma Fruit</span>
                     <span class="card-action" aria-hidden="true">&#8942;</span>
                   </a>
 
-                  <a href="https://generale-elettrica.com" class="link-card" data-external="true" data-track="card_generale_elettrica">
-                    <span class="card-title">Generale Elettrica</span>
-                    <span class="card-action" aria-hidden="true">&#8942;</span>
-                  </a>
-
-                  <a href="https://www.msporte.it" class="link-card" data-external="true" data-track="card_ms_porte">
-                    <span class="card-title">MS Porte</span>
-                    <span class="card-action" aria-hidden="true">&#8942;</span>
-                  </a>
-
-                  <a href="https://olioarsieni.it" class="link-card" data-external="true" data-track="card_olio_arsieni">
+                  <a
+                    href="https://olioarsieni.it"
+                    class="link-card"
+                    data-external="true"
+                    data-track="card_olio_arsieni"
+                  >
                     <span class="card-title">Olio Arsieni</span>
                     <span class="card-action" aria-hidden="true">&#8942;</span>
                   </a>
 
-                  <a href="http://salvatoremazzotta.it" class="link-card" data-external="true" data-track="card_vini_s_m">
-                    <span class="card-title">Vini Salvatore Mazzotta</span>
-                    <span class="card-action" aria-hidden="true">&#8942;</span>
-                  </a>
                 </div>
               </article>
             </div>
           </div>
         </section>
 
+        <section class="section section-availability" id="availability">
+          <div class="container">
+            <article class="availability-card" data-reveal>
+              <h2>Available for selected collaborations</h2>
+              <p>Tech, digital strategy, and curated projects.</p>
+              <a href="#contact" class="availability-cta" data-track="availability_get_in_touch">Get in touch</a>
+            </article>
+          </div>
+        </section>
+
         <section class="section section-contact" id="contact">
           <div class="container">
             <article class="contact-shell" data-reveal>
-              <h2 class="group-title">Contact</h2>
+              <h2 class="group-title">Let's talk</h2>
               <form
                 class="contact-form"
                 id="contactForm"
@@ -182,7 +270,7 @@
                       <option>General inquiry</option>
                       <option>Business collaboration</option>
                       <option>Tech consulting</option>
-                      <option>Airbnb / hospitality</option>
+                      <option>Hospitality / Airbnb</option>
                       <option>Other</option>
                     </select>
                   </div>
