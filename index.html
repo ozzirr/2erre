@@ -8,26 +8,29 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             margin: 0;
             padding: 20px;
+            color: white;
+            text-align: center;
         }
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             text-align: center;
+            color: #333;
         }
         h1 {
-            color: #333;
             font-size: 2.5em;
         }
         .bio {
             font-size: 1.2em;
             margin-bottom: 20px;
+            font-weight: 300;
         }
         ul {
             list-style-type: none;
@@ -44,13 +47,19 @@
             border-radius: 25px;
             font-weight: bold;
             transition: background 0.3s;
+            display: inline-block;
         }
         a:hover {
             background: #2980b9;
-            text-decoration: none;
         }
         .qr-code {
             margin-top: 30px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        img {
+            width: 100px;
         }
     </style>
 </head>
@@ -67,7 +76,7 @@
         <li><a href="https://ozzirr.github.io/balance/index.html" target="_blank">Sito Balance</a></li>
     </ul>
     <div class="qr-code">
-        <img src="QR_CODE_IMAGE_URL" alt="QR Code" width="100"/>
+        <img src="QR_CODE_IMAGE_URL" alt="QR Code" />
     </div>
 </div>
 
