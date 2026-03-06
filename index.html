@@ -1,84 +1,356 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balance - Tracker patrimonio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            margin: 0;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            color: #333;
-        }
-        h1 {
-            font-size: 2.5em;
-        }
-        .bio {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin: 15px 0;
-        }
-        a {
-            text-decoration: none;
-            background: #3498db;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: background 0.3s;
-            display: inline-block;
-        }
-        a:hover {
-            background: #2980b9;
-        }
-        .qr-code {
-            margin-top: 30px;
-            border: 2px solid #3498db;
-            border-radius: 10px;
-            padding: 10px;
-        }
-        img {
-            width: 100px;
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Andre Rizzo | Digital Card</title>
+    <meta name="description" content="Andre Rizzo. Project Manager, IT Engineer, Digital Advisor." />
+    <meta name="theme-color" content="#060a12" />
 
-<div class="container">
-    <h1>Balance - Tracker patrimonio</h1>
-    <div class="bio">Andre Rizzo | Project Manager | Engineer IT | Digital Advisor</div>
-    <ul>
-        <li><a href="https://www.instagram.com/ozzirr" target="_blank">Instagram</a></li>
-        <li><a href="https://www.linkedin.com/in/ozzirr/" target="_blank">LinkedIn</a></li>
-        <li><a href="https://github.com/ozzirr" target="_blank">GitHub</a></li>
-        <li><a href="https://www.airbnb.it/rooms/1080363939705470017" target="_blank">Airbnb</a></li>
-        <li><a href="https://ozzirr.github.io/balance/index.html" target="_blank">Sito Balance</a></li>
-    </ul>
-    <div class="qr-code">
-        <img src="QR_CODE_IMAGE_URL" alt="QR Code" />
+    <meta property="og:title" content="Andre Rizzo | Digital Card" />
+    <meta property="og:description" content="Project Manager | IT Engineer | Digital Advisor" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/andrerizzo_profile_img.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Andre Rizzo | Digital Card" />
+    <meta name="twitter:description" content="Project Manager | IT Engineer | Digital Advisor" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><rect width='128' height='128' rx='26' fill='%23060a12'/><text x='50%' y='58%' font-size='68' text-anchor='middle' fill='%23d3a289' font-family='Arial, sans-serif'>AR</text></svg>"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <script defer src="js/main.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero" id="top">
+        <div class="container">
+          <section class="hero-panel" data-reveal style="--delay: 0.02s">
+            <div class="hero-media" data-reveal style="--delay: 0.08s">
+              <img
+                src="assets/andrerizzo_profile_img.jpg"
+                alt="Andre Rizzo al tramonto sul mare"
+                class="hero-image"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </div>
+
+            <div class="hero-content">
+              <h1 data-reveal style="--delay: 0.14s">Andre Rizzo</h1>
+
+              <p class="role-line" data-reveal style="--delay: 0.2s">
+                <span class="sr-only">Project Manager, IT Engineer, Digital Advisor, Building digital products</span>
+                <span
+                  class="typewriter"
+                  aria-hidden="true"
+                  data-typewriter
+                  data-roles="Project Manager|IT Engineer|Digital Advisor|Building digital products"
+                  >Project Manager</span>
+                <span class="typewriter-caret" aria-hidden="true"></span>
+              </p>
+
+              <div class="social-row" data-reveal style="--delay: 0.26s">
+                <a
+                  href="https://instagram.com/ozzirr"
+                  class="social-link"
+                  aria-label="Instagram"
+                  data-external="true"
+                  data-track="social_instagram"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3zm0 1.8a2.7 2.7 0 0 0-2.7 2.7v9a2.7 2.7 0 0 0 2.7 2.7h9a2.7 2.7 0 0 0 2.7-2.7v-9a2.7 2.7 0 0 0-2.7-2.7h-9zm9.5 1.4a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 1.8a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/andrea-rizzo-ar"
+                  class="social-link"
+                  aria-label="LinkedIn"
+                  data-external="true"
+                  data-track="social_linkedin"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M6.9 8.6v8.8H4V8.6h2.9zM5.4 4a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM20 12.5v4.9h-2.9v-4.3c0-1.1-.4-1.9-1.4-1.9-.8 0-1.2.5-1.4 1-.1.2-.1.5-.1.8v4.4H11V8.6h2.9v1.2c.4-.6 1.1-1.4 2.8-1.4 2 0 3.3 1.3 3.3 4.1z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://t.me/ozzirr"
+                  class="social-link"
+                  aria-label="Telegram"
+                  data-external="true"
+                  data-track="social_telegram"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M20.5 3.6 2.9 10.4c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.3c.2.6.1.9.7.9.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.3 1.6-.8l2.8-13.4c.3-1.3-.5-1.9-1.5-1.5ZM8 12.9l10.2-6.4c.5-.3 1 0 .6.4L10.4 14l-.3 3.1-2.1-4.2Z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="mailto:ing.and.rizzo@gmail.com"
+                  class="social-link"
+                  aria-label="Email"
+                  data-track="social_mail"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M3.8 5h16.4C21.2 5 22 5.8 22 6.8v10.4c0 1-.8 1.8-1.8 1.8H3.8c-1 0-1.8-.8-1.8-1.8V6.8C2 5.8 2.8 5 3.8 5zm0 1.8 8.1 5.4 8.3-5.4H3.8zm16.4 10.4V8.7l-7.8 5.1a.9.9 0 0 1-1 0L3.8 8.7v8.5h16.4z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </header>
+
+      <main>
+        <section class="section section-featured" id="balance">
+          <div class="container">
+            <article class="featured-card" data-reveal>
+              <p class="featured-kicker">Featured Project</p>
+              <h2 class="featured-title">Balance</h2>
+              <p class="featured-subtitle">Personal finance app</p>
+              <p class="featured-meta">Privacy-first &middot; Offline-first &middot; Open source</p>
+              <a
+                href="https://ozzirr.github.io/balance/index.html"
+                class="featured-cta"
+                data-external="true"
+                data-track="balance_featured_cta"
+                >Discover Balance</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-focus" id="focus">
+          <div class="container">
+            <div class="section-head" data-reveal>
+              <p class="section-kicker">Focus</p>
+            </div>
+            <div class="focus-grid" data-reveal>
+              <article class="focus-item">Tech Strategy</article>
+              <article class="focus-item">Digital Advisory</article>
+              <article class="focus-item">Hospitality Projects</article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-selected" id="selected-work">
+          <div class="container">
+            <div class="section-head" data-reveal>
+              <p class="section-kicker">Selected work</p>
+              <h2 class="section-title">Curated projects</h2>
+            </div>
+            <div class="work-grid">
+              <a
+                href="https://ozzirr.github.io/balance/index.html"
+                class="work-card"
+                data-external="true"
+                data-track="selected_balance"
+                data-reveal
+              >
+                <span class="work-name">Balance</span>
+                <span class="work-note">Finance app</span>
+              </a>
+
+              <a
+                href="https://www.airbnb.com/l/z0k4JRlX"
+                class="work-card"
+                data-external="true"
+                data-track="selected_torre_lapillo"
+                data-reveal
+              >
+                <span class="work-name">Torre Lapillo</span>
+                <span class="work-note">Hospitality</span>
+              </a>
+
+              <a
+                href="https://generale-elettrica.com"
+                class="work-card"
+                data-external="true"
+                data-track="selected_generale_elettrica"
+                data-reveal
+              >
+                <span class="work-name">Generale Elettrica</span>
+                <span class="work-note">Digital advisory</span>
+              </a>
+
+              <a
+                href="https://www.msporte.it"
+                class="work-card"
+                data-external="true"
+                data-track="selected_ms_porte"
+                data-reveal
+              >
+                <span class="work-name">MS Porte</span>
+                <span class="work-note">Digital advisory</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-links" id="links">
+          <div class="container">
+            <div class="group-stack">
+              <article class="link-group" data-reveal>
+                <h2 class="group-title">Connect</h2>
+                <div class="cards-grid">
+                  <a
+                    href="https://it.linkedin.com/in/andrea-rizzo-ar"
+                    class="link-card"
+                    data-external="true"
+                    data-track="card_linkedin"
+                  >
+                    <span class="card-title">LinkedIn</span>
+                    <span class="card-action" aria-hidden="true">&#8942;</span>
+                  </a>
+
+                  <a
+                    href="https://www.instagram.com/ozzirr/"
+                    class="link-card"
+                    data-external="true"
+                    data-track="card_instagram"
+                  >
+                    <span class="card-title">Instagram</span>
+                    <span class="card-action" aria-hidden="true">&#8942;</span>
+                  </a>
+
+                  <a href="https://t.me/ozzirr" class="link-card" data-external="true" data-track="card_telegram">
+                    <span class="card-copy">
+                      <span class="card-title">Telegram</span>
+                      <span class="card-subtitle">Fast reply</span>
+                    </span>
+                    <span class="card-action" aria-hidden="true">&#8942;</span>
+                  </a>
+
+                  <a href="mailto:ing.and.rizzo@gmail.com" class="link-card" data-track="card_email">
+                    <span class="card-title">Email</span>
+                    <span class="card-action" aria-hidden="true">&#8942;</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="link-group" data-reveal>
+                <h2 class="group-title">Advisory</h2>
+                <div class="cards-grid">
+                  <a href="https://momafruit.it" class="link-card" data-external="true" data-track="card_moma_fruit">
+                    <span class="card-title">Moma Fruit</span>
+                    <span class="card-action" aria-hidden="true">&#8942;</span>
+                  </a>
+
+                  <a
+                    href="https://olioarsieni.it"
+                    class="link-card"
+                    data-external="true"
+                    data-track="card_olio_arsieni"
+                  >
+                    <span class="card-title">Olio Arsieni</span>
+                    <span class="card-action" aria-hidden="true">&#8942;</span>
+                  </a>
+
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-availability" id="availability">
+          <div class="container">
+            <article class="availability-card" data-reveal>
+              <h2>Available for selected collaborations</h2>
+              <p>Tech, digital strategy, and curated projects.</p>
+              <a href="#contact" class="availability-cta" data-track="availability_get_in_touch">Get in touch</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-contact" id="contact">
+          <div class="container">
+            <article class="contact-shell" data-reveal>
+              <h2 class="group-title">Let's talk</h2>
+              <form
+                class="contact-form"
+                id="contactForm"
+                action="#"
+                method="post"
+                novalidate
+                data-contact-form
+                data-mailto="mailto:ing.and.rizzo@gmail.com"
+              >
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="fullName">Full name</label>
+                    <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+                  </div>
+
+                  <div class="field">
+                    <label for="requestType">Request type</label>
+                    <select id="requestType" name="requestType" required>
+                      <option value="" selected disabled>Select a request type</option>
+                      <option>General inquiry</option>
+                      <option>Business collaboration</option>
+                      <option>Tech consulting</option>
+                      <option>Hospitality / Airbnb</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+
+                </div>
+
+                <div class="field">
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn-primary" data-track="submit_contact">Send request</button>
+                  <p class="form-status" role="status" aria-live="polite" hidden data-form-status></p>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <aside
+        class="music-dock"
+        data-reveal
+        data-music-control
+        data-audio-src=""
+        data-playlist-url="https://open.spotify.com/playlist/5IAxhxv0Hp6C3qmm1PTSzw"
+        data-autostart="false"
+      >
+        <button type="button" class="music-toggle" data-music-toggle aria-pressed="false" aria-label="Play playlist">
+          <span class="music-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M14.7 4.1a8.9 8.9 0 0 1 0 15.8l-1.1-1.8a6.8 6.8 0 0 0 0-12.2l1.1-1.8Zm-2.7 2.9a5.2 5.2 0 0 1 0 10l-1.1-1.9a3 3 0 0 0 0-6.2L12 7Zm-6.4 2.6H8l3.7-3v10.8L8 14.4H5.6V9.6Z"
+              />
+            </svg>
+          </span>
+          <span class="music-label" data-music-label>&#9834; My playlist</span>
+          <span class="music-eq" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+        <audio data-music-audio preload="none"></audio>
+      </aside>
+
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <p>&copy; <span id="year"></span> Andre Rizzo</p>
+          <nav aria-label="Legal links" class="footer-nav">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms &amp; Conditions</a>
+          </nav>
+        </div>
+      </footer>
     </div>
-</div>
-
-</body>
+  </body>
 </html>
