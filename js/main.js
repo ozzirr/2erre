@@ -303,6 +303,7 @@
     const statusNode = card.querySelector("[data-visitor-status]");
     const namespace = (card.dataset.counterNamespace || "ozzirr.github.io").trim();
     const key = (card.dataset.counterKey || "mylinks_profile").trim();
+    const sessionFlagKey = `visitor_counter:${namespace}:${key}`;
 
     const setStatus = (text) => {
       if (statusNode) {
@@ -310,20 +311,35 @@
       }
     };
 
+    if (countNode) {
+      countNode.textContent = "-- visits";
+    }
+
     try {
-      const url = `https://api.countapi.xyz/hit/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`;
+      const alreadyCounted = window.sessionStorage.getItem(sessionFlagKey) === "1";
+      const mode = alreadyCounted ? "get" : "hit";
+      const url = `https://api.countapi.xyz/${mode}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`;
       const response = await fetch(url, { cache: "no-store" });
       if (!response.ok) {
         throw new Error(`Counter request failed: ${response.status}`);
       }
       const payload = await response.json();
-      if (countNode && typeof payload.value === "number") {
+      if (typeof payload.value !== "number") {
+        throw new Error("Counter payload is invalid");
+      }
+      if (countNode) {
         const visits = new Intl.NumberFormat("en-US").format(payload.value);
         countNode.textContent = `${visits} visits`;
       }
-      setStatus("Updated live");
+      if (!alreadyCounted) {
+        window.sessionStorage.setItem(sessionFlagKey, "1");
+      }
+      setStatus(alreadyCounted ? "Live snapshot" : "Updated live");
     } catch {
-      setStatus("Snapshot mode");
+      if (countNode) {
+        countNode.textContent = "-- visits";
+      }
+      setStatus("Live unavailable");
     }
   };
 
