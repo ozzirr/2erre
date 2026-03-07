@@ -1,11 +1,57 @@
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const i18n = window.ProfileI18n || null;
+
+  const t = (key, fallback, variables = {}) => {
+    if (!i18n || typeof i18n.t !== "function") {
+      return fallback !== undefined ? fallback : key;
+    }
+    const value = i18n.t(key, variables);
+    if (typeof value !== "string") {
+      return fallback !== undefined ? fallback : key;
+    }
+    return value;
+  };
+
+  const getValue = (key, fallback = undefined) => {
+    if (!i18n || typeof i18n.getValue !== "function") {
+      return fallback;
+    }
+    const value = i18n.getValue(key);
+    return value === undefined ? fallback : value;
+  };
+
+  const getCurrentLanguage = () => {
+    if (!i18n || typeof i18n.getLanguage !== "function") {
+      return "en";
+    }
+    return i18n.getLanguage();
+  };
 
   if (reduceMotion) {
     document.body.classList.add("reduce-motion");
   }
 
   const revealElements = [...document.querySelectorAll("[data-reveal]")];
+
+  const roleKeyFromLabel = (label = "") => {
+    const normalized = label.trim().toLowerCase();
+    const map = {
+      "ai integration": "ai-integration",
+      "integrazione ai": "ai-integration",
+      "digital advisory": "digital-advisory",
+      "consulenza digitale": "digital-advisory",
+      "project management": "project-management",
+      "gestione progetti": "project-management",
+      hospitality: "hospitality",
+      ospitalita: "hospitality",
+      "ospitalità": "hospitality"
+    };
+    if (map[normalized]) {
+      return map[normalized];
+    }
+    return normalized.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  };
 
   const showElement = (element) => {
     element.classList.add("is-visible");
@@ -33,81 +79,106 @@
       },
       {
         threshold: 0.2,
-        rootMargin: "0px 0px -10% 0px",
+        rootMargin: "0px 0px -10% 0px"
       }
     );
 
     revealElements.forEach((element) => observer.observe(element));
   };
 
-  const initTypewriter = () => {
-    const target = document.querySelector("[data-typewriter]");
-    if (!target) {
+  const initRoleRotator = () => {
+    const rotator = document.querySelector("[data-role-rotator]");
+    if (!rotator) {
       return;
     }
 
-    const roles = (target.dataset.roles || "")
+    const textNode = rotator.querySelector(".role-rotator-text");
+    if (!textNode) {
+      return;
+    }
+
+    const roleKeys = (rotator.dataset.roleKeys || "")
       .split("|")
       .map((item) => item.trim())
       .filter(Boolean);
 
-    if (!roles.length) {
-      return;
-    }
-
-    if (reduceMotion) {
-      target.textContent = roles[0];
-      return;
-    }
-
+    let roles = [];
     let roleIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
     let timerId = null;
 
-    const typeSpeed = 72;
-    const deleteSpeed = 44;
-    const holdDelay = 1320;
-    const betweenDelay = 260;
-
-    const tick = () => {
-      const role = roles[roleIndex];
-
-      if (deleting) {
-        charIndex -= 1;
-        target.textContent = role.slice(0, charIndex);
-
-        if (charIndex <= 0) {
-          deleting = false;
-          roleIndex = (roleIndex + 1) % roles.length;
-          timerId = window.setTimeout(tick, betweenDelay);
-          return;
-        }
-
-        timerId = window.setTimeout(tick, deleteSpeed);
-        return;
+    const clearTimer = () => {
+      if (timerId !== null) {
+        window.clearTimeout(timerId);
+        timerId = null;
       }
-
-      charIndex += 1;
-      target.textContent = role.slice(0, charIndex);
-
-      if (charIndex >= role.length) {
-        deleting = true;
-        timerId = window.setTimeout(tick, holdDelay);
-        return;
-      }
-
-      timerId = window.setTimeout(tick, typeSpeed);
     };
 
-    target.textContent = "";
-    timerId = window.setTimeout(tick, 320);
-
-    window.addEventListener("beforeunload", () => {
-      if (timerId) {
-        window.clearTimeout(timerId);
+    const resolveRoles = () => {
+      const translated = getValue("hero.roles");
+      if (Array.isArray(translated) && translated.length) {
+        return translated.map((role) => String(role));
       }
-    });
+
+      if (roleKeys.length) {
+        return roleKeys.map((key) => key.replace(/-/g, " "));
+      }
+
+      const rawRoles = (rotator.dataset.roles || "")
+        .split("|")
+        .map((item) => item.trim())
+        .filter(Boolean);
+      return rawRoles;
+    };
+
+    const updateCurrentRole = () => {
+      const key = roleKeys[roleIndex] || roleKeyFromLabel(roles[roleIndex]);
+      rotator.dataset.currentRoleKey = key;
+      textNode.textContent = roles[roleIndex] || "";
+    };
+
+    const startRotation = () => {
+      clearTimer();
+      roles = resolveRoles();
+      roleIndex = 0;
+
+      if (!roles.length) {
+        return;
+      }
+
+      const maxLength = roles.reduce((max, role) => Math.max(max, role.length), 0);
+      rotator.style.setProperty("--role-width", `${maxLength + 2}ch`);
+      updateCurrentRole();
+
+      if (reduceMotion) {
+        return;
+      }
+
+      const outDuration = 260;
+      const holdDuration = 1800;
+
+      const swapRole = () => {
+        textNode.classList.add("is-out");
+
+        timerId = window.setTimeout(() => {
+          roleIndex = (roleIndex + 1) % roles.length;
+          updateCurrentRole();
+          textNode.classList.remove("is-out");
+          textNode.classList.add("is-in");
+
+          window.setTimeout(() => {
+            textNode.classList.remove("is-in");
+          }, 220);
+
+          timerId = window.setTimeout(swapRole, holdDuration);
+        }, outDuration);
+      };
+
+      timerId = window.setTimeout(swapRole, holdDuration);
+    };
+
+    startRotation();
+    window.addEventListener("i18n:change", startRotation);
+    window.addEventListener("beforeunload", clearTimer);
   };
 
   const initHeroParallax = () => {
@@ -123,7 +194,7 @@
       frameId = null;
       const mediaTop = heroMedia.getBoundingClientRect().top;
       const scrolled = Math.max(0, -mediaTop);
-      const shift = -Math.min(18, scrolled * 0.16);
+      const shift = -Math.min(11, scrolled * 0.1);
       heroImage.style.setProperty("--hero-shift", `${shift.toFixed(2)}px`);
     };
 
@@ -172,175 +243,155 @@
     });
   };
 
-  const formatDate = (value) => {
-    try {
-      return new Date(value).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      });
-    } catch {
-      return "Recently updated";
-    }
-  };
-
-  const formatTime = (value = Date.now()) => {
-    try {
-      return new Date(value).toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch {
-      return "--";
-    }
-  };
-
-  const initGithubActivity = async () => {
-    const shell = document.querySelector("[data-github-activity]");
-    if (!shell) {
+  const initCarousels = () => {
+    const carousels = [...document.querySelectorAll("[data-carousel]")];
+    if (!carousels.length) {
       return;
     }
 
-    const list = shell.querySelector("[data-github-list]");
-    const status = shell.querySelector("[data-github-status]");
-    const publicReposNode = shell.querySelector("[data-github-public]");
-    const syncNode = shell.querySelector("[data-github-sync]");
-    const username = (shell.dataset.githubUser || "").trim();
-    if (!list || !username) {
-      return;
-    }
-
-    const setStatus = (text) => {
-      if (status) {
-        status.textContent = text;
-      }
-    };
-
-    const setSync = (text) => {
-      if (syncNode) {
-        syncNode.textContent = text;
-      }
-    };
-
-    setSync(formatTime());
-
-    try {
-      // Public endpoint works on static hosting; can be replaced with authenticated proxy later.
-      const [reposResponse, userResponse] = await Promise.all([
-        fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=8`, {
-          headers: { Accept: "application/vnd.github+json" },
-        }),
-        fetch(`https://api.github.com/users/${username}`, {
-          headers: { Accept: "application/vnd.github+json" },
-        }),
-      ]);
-
-      if (!reposResponse.ok) {
-        throw new Error(`GitHub request failed: ${reposResponse.status}`);
-      }
-
-      const repos = await reposResponse.json();
-      if (!Array.isArray(repos) || repos.length === 0) {
+    carousels.forEach((carousel) => {
+      const track = carousel.querySelector("[data-carousel-track]");
+      const prevButton = carousel.querySelector("[data-carousel-prev]");
+      const nextButton = carousel.querySelector("[data-carousel-next]");
+      if (!track || !prevButton || !nextButton) {
         return;
       }
 
-      if (userResponse.ok) {
-        const profile = await userResponse.json();
-        if (publicReposNode && typeof profile.public_repos === "number") {
-          publicReposNode.textContent = String(profile.public_repos);
+      const getStep = () => {
+        const firstCard = track.querySelector(".link-card");
+        if (!firstCard) {
+          return Math.max(240, track.clientWidth * 0.8);
         }
-      }
 
-      const nonForkRepos = repos.filter((repo) => !repo.fork);
-      const featuredRepos = (nonForkRepos.length ? nonForkRepos : repos).slice(0, 2);
+        const styles = window.getComputedStyle(track);
+        const gapValue = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+        return firstCard.getBoundingClientRect().width + gapValue;
+      };
 
-      const fragment = document.createDocumentFragment();
-      featuredRepos.forEach((repo) => {
-        const card = document.createElement("a");
-        card.className = "github-card";
-        card.href = repo.html_url;
-        card.dataset.external = "true";
-        card.dataset.track = `github_repo_${repo.name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`;
+      const updateButtons = () => {
+        const maxScroll = track.scrollWidth - track.clientWidth - 2;
+        prevButton.disabled = track.scrollLeft <= 2;
+        nextButton.disabled = track.scrollLeft >= maxScroll;
+      };
 
-        const title = document.createElement("h3");
-        title.className = "github-name";
-        title.textContent = repo.name;
+      const scrollByStep = (direction) => {
+        track.scrollBy({
+          left: getStep() * direction,
+          behavior: reduceMotion ? "auto" : "smooth"
+        });
+      };
 
-        const description = document.createElement("p");
-        description.className = "github-desc";
-        description.textContent = repo.description || "Repository update in progress.";
-
-        const meta = document.createElement("p");
-        meta.className = "github-meta";
-
-        const language = document.createElement("span");
-        language.textContent = repo.language || "Multi-stack";
-
-        const updated = document.createElement("span");
-        updated.textContent = formatDate(repo.pushed_at || repo.updated_at);
-
-        meta.append(language, updated);
-        card.append(title, description, meta);
-        fragment.append(card);
-      });
-
-      list.replaceChildren(fragment);
-      initExternalLinks(list);
-      setStatus("Live from GitHub");
-      setSync(formatTime());
-    } catch {
-      setStatus("Curated snapshot");
-    }
+      prevButton.addEventListener("click", () => scrollByStep(-1));
+      nextButton.addEventListener("click", () => scrollByStep(1));
+      track.addEventListener("scroll", updateButtons, { passive: true });
+      window.addEventListener("resize", updateButtons);
+      updateButtons();
+    });
   };
 
-  const initVisitorCounter = async () => {
-    const card = document.querySelector("[data-visitor-counter]");
-    if (!card) {
+  const initFocusModal = () => {
+    const modal = document.querySelector("[data-focus-modal]");
+    if (!modal) {
       return;
     }
 
-    const countNode = card.querySelector("[data-visitor-count]");
-    const statusNode = card.querySelector("[data-visitor-status]");
-    const namespace = (card.dataset.counterNamespace || "ozzirr.github.io").trim();
-    const key = (card.dataset.counterKey || "mylinks_profile").trim();
-    const sessionFlagKey = `visitor_counter:${namespace}:${key}`;
+    const titleNode = modal.querySelector("[data-focus-title]");
+    const descriptionNode = modal.querySelector("[data-focus-description]");
+    const cta = modal.querySelector("[data-focus-cta]");
+    const closeTriggers = [...modal.querySelectorAll("[data-focus-close]")];
+    const focusItems = [...document.querySelectorAll("[data-focus-key]")];
+    const roleTrigger = document.querySelector("[data-role-modal-trigger]");
 
-    const setStatus = (text) => {
-      if (statusNode) {
-        statusNode.textContent = text;
-      }
+    if (!titleNode || !descriptionNode || !cta || (!focusItems.length && !roleTrigger)) {
+      return;
+    }
+
+    let lastTrigger = null;
+
+    const getRoleDetails = (key) => {
+      const safeKey = key || "ai-integration";
+      const fallbackTitle = safeKey.replace(/-/g, " ");
+      return {
+        title: t(`focusModal.roles.${safeKey}.title`, fallbackTitle),
+        description: t(`focusModal.roles.${safeKey}.description`, "")
+      };
     };
 
-    if (countNode) {
-      countNode.textContent = "-- visits";
+    const closeModal = ({ restoreFocus = true } = {}) => {
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+
+      const completeClose = () => {
+        modal.hidden = true;
+        if (restoreFocus && lastTrigger) {
+          lastTrigger.focus();
+        }
+      };
+
+      if (reduceMotion) {
+        completeClose();
+        return;
+      }
+
+      window.setTimeout(completeClose, 220);
+    };
+
+    const openModal = (key, trigger) => {
+      const payload = getRoleDetails(key);
+      titleNode.textContent = payload.title;
+      descriptionNode.textContent = payload.description;
+      lastTrigger = trigger;
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+
+      if (reduceMotion) {
+        modal.classList.add("is-open");
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        modal.classList.add("is-open");
+      });
+    };
+
+    focusItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        item.classList.add("is-opening");
+        window.setTimeout(() => item.classList.remove("is-opening"), 180);
+        openModal(item.dataset.focusKey, item);
+      });
+    });
+
+    if (roleTrigger) {
+      roleTrigger.addEventListener("click", () => {
+        roleTrigger.classList.add("is-opening");
+        window.setTimeout(() => roleTrigger.classList.remove("is-opening"), 180);
+        const currentKey = roleTrigger.dataset.currentRoleKey || "ai-integration";
+        openModal(currentKey, roleTrigger);
+      });
     }
 
-    try {
-      const alreadyCounted = window.sessionStorage.getItem(sessionFlagKey) === "1";
-      const mode = alreadyCounted ? "get" : "hit";
-      const url = `https://api.countapi.xyz/${mode}/${encodeURIComponent(namespace)}/${encodeURIComponent(key)}`;
-      const response = await fetch(url, { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`Counter request failed: ${response.status}`);
+    closeTriggers.forEach((node) => {
+      node.addEventListener("click", closeModal);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) {
+        closeModal();
       }
-      const payload = await response.json();
-      if (typeof payload.value !== "number") {
-        throw new Error("Counter payload is invalid");
+    });
+
+    cta.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeModal({ restoreFocus: false });
+      const target = document.getElementById("contact");
+      if (target) {
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start"
+        });
       }
-      if (countNode) {
-        const visits = new Intl.NumberFormat("en-US").format(payload.value);
-        countNode.textContent = `${visits} visits`;
-      }
-      if (!alreadyCounted) {
-        window.sessionStorage.setItem(sessionFlagKey, "1");
-      }
-      setStatus(alreadyCounted ? "Live snapshot" : "Updated live");
-    } catch {
-      if (countNode) {
-        countNode.textContent = "-- visits";
-      }
-      setStatus("Live unavailable");
-    }
+    });
   };
 
   const initContactForm = () => {
@@ -351,6 +402,7 @@
 
     const fields = [...form.querySelectorAll("input, select, textarea")];
     const status = form.querySelector("[data-form-status]");
+    const requestTypeField = form.querySelector("#requestType");
 
     const setStatus = (state, message) => {
       if (!status) {
@@ -387,7 +439,7 @@
 
       const allValid = fields.every((field) => validateField(field));
       if (!allValid) {
-        setStatus("error", "Please check the highlighted fields.");
+        setStatus("error", t("status.invalidContact", "Please check the highlighted fields."));
         return;
       }
 
@@ -395,21 +447,22 @@
       const values = Object.fromEntries(data.entries());
       const mailtoTarget = form.dataset.mailto || "mailto:ing.and.rizzo@gmail.com";
       const fullName = String(values.fullName || "").trim();
-      const requestType = String(values.requestType || "").trim();
+      const requestType = requestTypeField?.selectedOptions?.[0]?.textContent?.trim() || String(values.requestType || "").trim();
       const message = String(values.message || "").trim();
 
-      const subject = encodeURIComponent(`[Website Inquiry] ${requestType} - ${fullName}`);
+      const subjectPrefix = t("email.contact.subjectPrefix", "Website Inquiry");
+      const subject = encodeURIComponent(`[${subjectPrefix}] ${requestType} - ${fullName}`);
       const body = encodeURIComponent(
         [
-          `Name: ${fullName}`,
-          `Request type: ${requestType}`,
+          `${t("email.contact.labelName", "Name")}: ${fullName}`,
+          `${t("email.contact.labelRequestType", "Request type")}: ${requestType}`,
           "",
-          "Message:",
-          message,
+          `${t("email.contact.labelMessage", "Message")}:`,
+          message
         ].join("\n")
       );
 
-      setStatus("success", "Opening your email draft...");
+      setStatus("success", t("status.openingContact", "Opening your email draft..."));
 
       window.setTimeout(() => {
         window.location.href = `${mailtoTarget}?subject=${subject}&body=${body}`;
@@ -421,6 +474,401 @@
         field.setAttribute("aria-invalid", "false");
       });
     });
+  };
+
+  const initStayPage = () => {
+    const root = document.querySelector("[data-stay-page]");
+    if (!root) {
+      return null;
+    }
+
+    const stays = window.ProfileStays;
+    if (!stays || typeof stays !== "object") {
+      return null;
+    }
+
+    const stayKeys = Object.keys(stays);
+    if (!stayKeys.length) {
+      return null;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedPlace = String(params.get("place") || "").trim().toLowerCase();
+    const activePlace = Object.prototype.hasOwnProperty.call(stays, requestedPlace) ? requestedPlace : stayKeys[0];
+    const stay = stays[activePlace];
+    if (!stay) {
+      return null;
+    }
+
+    const titleNode = root.querySelector("[data-stay-title]");
+    const subtitleNode = root.querySelector("[data-stay-subtitle]");
+    const coverNode = root.querySelector("[data-stay-cover]");
+    const shortDescriptionNode = root.querySelector("[data-stay-short-description]");
+    const longDescriptionNode = root.querySelector("[data-stay-long-description]");
+    const locationBadge = root.querySelector("[data-stay-badge-location]");
+    const guestsBadge = root.querySelector("[data-stay-badge-guests]");
+    const airbnbLinks = [...root.querySelectorAll("[data-stay-airbnb], [data-stay-airbnb-inline], [data-stay-airbnb-sticky]")];
+    const amenitiesList = root.querySelector("[data-stay-amenities]");
+    const factsList = root.querySelector("[data-stay-facts]");
+    const idealList = root.querySelector("[data-stay-ideal]");
+    const gallerySection = root.querySelector("[data-stay-gallery-section]");
+    const notesSection = root.querySelector("[data-stay-notes-section]");
+    const notesList = root.querySelector("[data-stay-notes]");
+    const gallery = root.querySelector("[data-stay-gallery]");
+    const form = root.querySelector("[data-stay-booking-form]");
+    const formStatus = root.querySelector("[data-stay-form-status]");
+    const lightbox = document.querySelector("[data-stay-lightbox]");
+    const lightboxImage = lightbox ? lightbox.querySelector("[data-stay-lightbox-image]") : null;
+    const lightboxCaption = lightbox ? lightbox.querySelector("[data-stay-lightbox-caption]") : null;
+    const lightboxClose = lightbox ? [...lightbox.querySelectorAll("[data-stay-lightbox-close]")] : [];
+
+    const bookingEmail = stay.bookingEmail || "ing.and.rizzo@gmail.com";
+    const airbnbUrl = stay.airbnbUrl || "https://www.airbnb.com/";
+    const detailData = stay.details || {};
+
+    const resolveStayLocale = () => {
+      const language = getCurrentLanguage();
+      const localized = stay.i18n?.[language] || stay.i18n?.en || {};
+      return localized;
+    };
+
+    const hasAmenity = (key) => Array.isArray(stay.amenities) && stay.amenities.includes(key);
+
+    const renderStay = () => {
+      const localized = resolveStayLocale();
+      const displayTitle = localized.title || "";
+      const displaySubtitle = localized.subtitle || "";
+      const displayShortDescription = localized.shortDescription || "";
+      const displayLongDescription = localized.longDescription || "";
+      const displayLocation = localized.location || "";
+      const displayNotes = Array.isArray(localized.houseNotes) ? localized.houseNotes : [];
+
+      if (titleNode) {
+        titleNode.textContent = displayTitle;
+      }
+      if (subtitleNode) {
+        subtitleNode.textContent = displaySubtitle;
+      }
+      if (coverNode) {
+        coverNode.src = stay.cover || "";
+        coverNode.alt = displayTitle || t("stay.defaults.stayImage", "Stay image");
+      }
+      if (shortDescriptionNode) {
+        shortDescriptionNode.textContent = displayShortDescription;
+      }
+      if (longDescriptionNode) {
+        longDescriptionNode.textContent = displayLongDescription;
+      }
+      if (locationBadge) {
+        locationBadge.textContent = displayLocation || t("stay.facts.location", "Location");
+      }
+      if (guestsBadge) {
+        guestsBadge.textContent = t("stay.badges.guests", "{count} guests", { count: detailData.guests || 1 });
+      }
+      airbnbLinks.forEach((link) => {
+        link.href = airbnbUrl;
+      });
+
+      const facts = [
+        ["propertyType", t(`stay.propertyTypes.${detailData.propertyType}`, detailData.propertyType || "-")],
+        ["maxGuests", detailData.guests || "-"],
+        ["bedrooms", detailData.bedrooms || "-"],
+        ["beds", detailData.beds || "-"],
+        ["bathrooms", detailData.bathrooms || "-"],
+        ["wifi", hasAmenity("fastWifi") ? t("stay.factsValues.included", "Included") : t("stay.factsValues.onRequest", "On request")],
+        [
+          "workspace",
+          hasAmenity("dedicatedWorkspace")
+            ? t("stay.factsValues.included", "Included")
+            : t("stay.factsValues.optional", "Optional")
+        ],
+        ["parking", hasAmenity("privateParking") ? t("stay.factsValues.available", "Available") : t("stay.factsValues.nearby", "Nearby options")],
+        [
+          "airConditioning",
+          hasAmenity("airConditioning") ? t("stay.factsValues.included", "Included") : t("stay.factsValues.onRequest", "On request")
+        ],
+        ["beachDistance", detailData.beachDistance || "-"],
+        ["location", displayLocation || "-"],
+        ["registrationId", detailData.registrationCode || "-"]
+      ];
+
+      if (amenitiesList) {
+        amenitiesList.innerHTML = (stay.amenities || [])
+          .map((key) => `<li class="stay-amenity">${t(`stay.amenities.${key}`, key)}</li>`)
+          .join("");
+      }
+
+      if (factsList) {
+        factsList.innerHTML = facts
+          .map(([labelKey, value]) => `<div class="stay-fact"><dt>${t(`stay.facts.${labelKey}`, labelKey)}</dt><dd>${value}</dd></div>`)
+          .join("");
+      }
+
+      if (idealList) {
+        idealList.innerHTML = (stay.idealFor || [])
+          .map((key) => `<li class="stay-ideal-item">${t(`stay.ideal.${key}`, key)}</li>`)
+          .join("");
+        idealList.parentElement?.toggleAttribute("hidden", !idealList.innerHTML.trim());
+      }
+
+      if (notesSection && notesList) {
+        if (!displayNotes.length) {
+          notesSection.hidden = true;
+        } else {
+          notesSection.hidden = false;
+          notesList.innerHTML = displayNotes.map((item) => `<li>${item}</li>`).join("");
+        }
+      }
+
+      if (gallery) {
+        const images = (stay.gallery || []).filter(Boolean);
+        if (gallerySection) {
+          gallerySection.hidden = images.length === 0;
+        }
+        gallery.innerHTML = images
+          .map((imageSrc, index) => {
+            const sequence = index + 1;
+            return `
+              <button
+                type="button"
+                class="stay-gallery-item${index === 0 ? " is-featured" : ""}"
+                data-stay-gallery-open
+                data-image-src="${imageSrc}"
+                data-image-caption="${displayTitle} · ${sequence}"
+              >
+                <img src="${imageSrc}" alt="${displayTitle} ${sequence}" loading="lazy" />
+              </button>
+            `;
+          })
+          .join("");
+      }
+
+      if (i18n && typeof i18n.applyTranslations === "function") {
+        i18n.applyTranslations(root);
+      }
+
+      const pageTitle = t("meta.stayPageTitle", "{stayTitle} | Andre Rizzo", { stayTitle: displayTitle || "Stay" });
+      const pageDescription = t("meta.stayPageDescription", "{subtitle} {shortDescription}", {
+        subtitle: displaySubtitle,
+        shortDescription: displayShortDescription
+      });
+
+      document.title = pageTitle;
+      const descMeta = document.querySelector('meta[data-meta="description"]');
+      const ogTitle = document.querySelector('meta[data-meta="og:title"]');
+      const ogDescription = document.querySelector('meta[data-meta="og:description"]');
+      const ogImage = document.querySelector('meta[property="og:image"]');
+      const twitterTitle = document.querySelector('meta[data-meta="twitter:title"]');
+      const twitterDescription = document.querySelector('meta[data-meta="twitter:description"]');
+
+      if (descMeta) {
+        descMeta.setAttribute("content", pageDescription);
+      }
+      if (ogTitle) {
+        ogTitle.setAttribute("content", pageTitle);
+      }
+      if (ogDescription) {
+        ogDescription.setAttribute("content", pageDescription);
+      }
+      if (ogImage) {
+        ogImage.setAttribute("content", stay.cover || "");
+      }
+      if (twitterTitle) {
+        twitterTitle.setAttribute("content", pageTitle);
+      }
+      if (twitterDescription) {
+        twitterDescription.setAttribute("content", pageDescription);
+      }
+    };
+
+    if (gallery && lightbox && lightboxImage && lightboxCaption) {
+      const openImage = (source, caption) => {
+        lightboxImage.src = source;
+        lightboxImage.alt = caption;
+        lightboxCaption.textContent = caption;
+        lightbox.hidden = false;
+        document.body.style.overflow = "hidden";
+
+        if (reduceMotion) {
+          lightbox.classList.add("is-open");
+          return;
+        }
+        window.requestAnimationFrame(() => {
+          lightbox.classList.add("is-open");
+        });
+      };
+
+      const closeImage = () => {
+        lightbox.classList.remove("is-open");
+        document.body.style.overflow = "";
+
+        const completeClose = () => {
+          lightbox.hidden = true;
+          lightboxImage.src = "";
+          lightboxImage.alt = "";
+        };
+
+        if (reduceMotion) {
+          completeClose();
+          return;
+        }
+        window.setTimeout(completeClose, 180);
+      };
+
+      gallery.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) {
+          return;
+        }
+        const trigger = event.target.closest("[data-stay-gallery-open]");
+        if (!trigger) {
+          return;
+        }
+        openImage(
+          trigger.getAttribute("data-image-src") || "",
+          trigger.getAttribute("data-image-caption") || t("stay.defaults.stayImage", "Stay image")
+        );
+      });
+
+      lightboxClose.forEach((node) => {
+        node.addEventListener("click", closeImage);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !lightbox.hidden) {
+          closeImage();
+        }
+      });
+    }
+
+    if (form && formStatus) {
+      const checkInField = form.querySelector("#stayCheckIn");
+      const checkOutField = form.querySelector("#stayCheckOut");
+      const guestsField = form.querySelector("#stayGuests");
+      const fullNameField = form.querySelector("#stayFullName");
+      const emailField = form.querySelector("#stayEmail");
+      const messageField = form.querySelector("#stayMessage");
+      const fields = [checkInField, checkOutField, guestsField, fullNameField, emailField, messageField].filter(Boolean);
+
+      const setFormStatus = (state, message) => {
+        formStatus.hidden = false;
+        formStatus.dataset.state = state;
+        formStatus.textContent = message;
+      };
+
+      const markField = (field, isValid) => {
+        if (!field) {
+          return;
+        }
+        field.classList.toggle("field-error", !isValid);
+        field.setAttribute("aria-invalid", String(!isValid));
+      };
+
+      const validateDateOrder = () => {
+        if (!checkInField || !checkOutField || !checkInField.value || !checkOutField.value) {
+          return true;
+        }
+
+        const isValid = checkOutField.value > checkInField.value;
+        markField(checkInField, isValid);
+        markField(checkOutField, isValid);
+        return isValid;
+      };
+
+      const validateField = (field) => {
+        if (!field) {
+          return true;
+        }
+        const isValid = field.checkValidity();
+        markField(field, isValid);
+        return isValid;
+      };
+
+      if (guestsField) {
+        const maxGuests = Math.max(1, Number(detailData.guests) || 1);
+        const singular = t("stay.form.guestSingular", "guest");
+        const plural = t("stay.form.guestPlural", "guests");
+        guestsField.innerHTML = [
+          `<option value="" selected disabled>${t("stay.form.guestsPlaceholder", "Select guests")}</option>`,
+          ...Array.from({ length: maxGuests }, (_, idx) => {
+            const value = idx + 1;
+            return `<option value="${value}">${value} ${value > 1 ? plural : singular}</option>`;
+          })
+        ].join("");
+      }
+
+      if (checkInField) {
+        const today = new Date().toISOString().split("T")[0];
+        checkInField.min = today;
+        checkInField.addEventListener("change", () => {
+          if (checkOutField) {
+            checkOutField.min = checkInField.value || today;
+          }
+          validateDateOrder();
+        });
+      }
+
+      if (checkOutField) {
+        checkOutField.addEventListener("change", validateDateOrder);
+      }
+
+      fields.forEach((field) => {
+        field.addEventListener("blur", () => validateField(field));
+        field.addEventListener("input", () => {
+          if (field.classList.contains("field-error")) {
+            validateField(field);
+          }
+        });
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const validFields = fields.every((field) => validateField(field));
+        const validDates = validateDateOrder();
+
+        if (!validFields || !validDates) {
+          setFormStatus("error", t("status.invalidBooking", "Please check your booking details."));
+          return;
+        }
+
+        const localized = resolveStayLocale();
+        const values = Object.fromEntries(new FormData(form).entries());
+        const subject = encodeURIComponent(`${t("email.stay.subjectPrefix", "Booking request")} - ${localized.title}`);
+        const body = encodeURIComponent(
+          [
+            t("email.stay.greeting", "Hello,"),
+            t("email.stay.intro", "I would like to request availability for the following stay:"),
+            "",
+            `${t("email.stay.lineProperty", "Property")}: ${localized.title}`,
+            `${t("email.stay.lineCheckIn", "Check-in")}: ${values.checkIn}`,
+            `${t("email.stay.lineCheckOut", "Check-out")}: ${values.checkOut}`,
+            `${t("email.stay.lineGuests", "Guests")}: ${values.guests}`,
+            `${t("email.stay.lineName", "Name")}: ${values.fullName}`,
+            `${t("email.stay.lineEmail", "Email")}: ${values.email}`,
+            "",
+            `${t("email.stay.lineMessage", "Message")}:`,
+            String(values.message || "").trim() || "-",
+            "",
+            t("email.stay.closing", "Please let me know availability and next steps.")
+          ].join("\n")
+        );
+
+        setFormStatus("success", t("status.openingBooking", "Opening your booking email draft..."));
+        window.setTimeout(() => {
+          window.location.href = `mailto:${bookingEmail}?subject=${subject}&body=${body}`;
+        }, reduceMotion ? 0 : 150);
+      });
+    }
+
+    renderStay();
+    initExternalLinks(root);
+
+    const rerenderOnLanguageChange = () => {
+      renderStay();
+    };
+    window.addEventListener("i18n:change", rerenderOnLanguageChange);
+
+    return renderStay;
   };
 
   const initFooterYear = () => {
@@ -458,21 +906,29 @@
     });
   };
 
-  const init = () => {
+  const init = async () => {
+    if (i18n && typeof i18n.initializeI18n === "function") {
+      await i18n.initializeI18n();
+      i18n.applyTranslations();
+    }
+
     initReveal();
-    initTypewriter();
+    initRoleRotator();
     initHeroParallax();
     initExternalLinks();
-    initGithubActivity();
-    initVisitorCounter();
+    initCarousels();
+    initFocusModal();
     initContactForm();
+    initStayPage();
     initFooterYear();
     initTrackingStub();
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", () => {
+      void init();
+    });
   } else {
-    init();
+    void init();
   }
 })();
