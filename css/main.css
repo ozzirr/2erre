@@ -782,6 +782,7 @@ h1 {
 
 .section-advisory {
   padding-top: 2.7rem;
+  padding-bottom: 0.45rem;
 }
 
 .group-stack {
@@ -808,9 +809,7 @@ h1 {
 }
 
 .carousel-controls {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.52rem;
+  display: none;
 }
 
 .carousel-btn {
@@ -856,6 +855,10 @@ h1 {
   padding-bottom: 0.08rem;
 }
 
+.cards-carousel.is-looping {
+  scroll-snap-type: none;
+}
+
 .cards-carousel::-webkit-scrollbar {
   display: none;
 }
@@ -863,6 +866,10 @@ h1 {
 .cards-carousel .link-card {
   flex: 0 0 min(86%, 360px);
   scroll-snap-align: start;
+}
+
+.cards-carousel.is-looping .link-card {
+  scroll-snap-align: none;
 }
 
 .cards-grid {
@@ -1180,7 +1187,7 @@ h1 {
 }
 
 .section-availability {
-  padding-top: 3rem;
+  padding-top: 1.15rem;
 }
 
 .availability-card {
@@ -1189,6 +1196,7 @@ h1 {
   background: linear-gradient(160deg, rgba(29, 21, 31, 0.88), rgba(18, 14, 20, 0.95));
   padding: 1.25rem 1rem;
   text-align: center;
+  margin-top: 0;
 }
 
 .availability-card h2 {

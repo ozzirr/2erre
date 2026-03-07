@@ -253,9 +253,14 @@
       const track = carousel.querySelector("[data-carousel-track]");
       const prevButton = carousel.querySelector("[data-carousel-prev]");
       const nextButton = carousel.querySelector("[data-carousel-next]");
-      if (!track || !prevButton || !nextButton) {
+      if (!track) {
         return;
       }
+
+      const hasManualControls = Boolean(prevButton && nextButton);
+      const autoMode = carousel.dataset.carouselAuto === "true";
+      let autoplayFrame = null;
+      let resumeTimer = null;
 
       const getStep = () => {
         const firstCard = track.querySelector(".link-card");
@@ -269,6 +274,9 @@
       };
 
       const updateButtons = () => {
+        if (!hasManualControls) {
+          return;
+        }
         const maxScroll = track.scrollWidth - track.clientWidth - 2;
         prevButton.disabled = track.scrollLeft <= 2;
         nextButton.disabled = track.scrollLeft >= maxScroll;
@@ -281,11 +289,118 @@
         });
       };
 
-      prevButton.addEventListener("click", () => scrollByStep(-1));
-      nextButton.addEventListener("click", () => scrollByStep(1));
+      const stopAutoplay = () => {
+        if (autoplayFrame !== null) {
+          window.cancelAnimationFrame(autoplayFrame);
+          autoplayFrame = null;
+        }
+      };
+
+      const startAutoplay = () => {
+        if (!autoMode || reduceMotion || autoplayFrame !== null) {
+          return;
+        }
+
+        if (track.dataset.loopReady !== "true") {
+          const cards = [...track.children];
+          if (cards.length > 1) {
+            const fragment = document.createDocumentFragment();
+            cards.forEach((card) => {
+              const clone = card.cloneNode(true);
+              clone.setAttribute("aria-hidden", "true");
+              fragment.appendChild(clone);
+            });
+            track.appendChild(fragment);
+            track.dataset.loopReady = "true";
+            track.classList.add("is-looping");
+            initExternalLinks(track);
+          }
+        }
+
+        let previousTimestamp = 0;
+        const speedPxPerSecond = 26;
+
+        const tick = (timestamp) => {
+          if (!autoMode) {
+            autoplayFrame = null;
+            return;
+          }
+
+          if (!previousTimestamp) {
+            previousTimestamp = timestamp;
+          }
+
+          const deltaSeconds = (timestamp - previousTimestamp) / 1000;
+          previousTimestamp = timestamp;
+          track.scrollLeft += speedPxPerSecond * deltaSeconds;
+
+          const loopWidth = track.scrollWidth / 2;
+          if (loopWidth > 0 && track.scrollLeft >= loopWidth) {
+            track.scrollLeft -= loopWidth;
+          }
+
+          autoplayFrame = window.requestAnimationFrame(tick);
+        };
+
+        autoplayFrame = window.requestAnimationFrame(tick);
+      };
+
+      const scheduleResume = () => {
+        if (!autoMode || reduceMotion) {
+          return;
+        }
+        if (resumeTimer !== null) {
+          window.clearTimeout(resumeTimer);
+        }
+        resumeTimer = window.setTimeout(() => {
+          startAutoplay();
+        }, 2600);
+      };
+
+      if (hasManualControls) {
+        prevButton.addEventListener("click", () => {
+          stopAutoplay();
+          scrollByStep(-1);
+          scheduleResume();
+        });
+        nextButton.addEventListener("click", () => {
+          stopAutoplay();
+          scrollByStep(1);
+          scheduleResume();
+        });
+      }
+
+      track.addEventListener("mouseenter", stopAutoplay);
+      track.addEventListener("mouseleave", scheduleResume);
+      track.addEventListener("pointerdown", () => {
+        stopAutoplay();
+        scheduleResume();
+      });
+      track.addEventListener("touchstart", stopAutoplay, { passive: true });
+      track.addEventListener("wheel", () => {
+        stopAutoplay();
+        scheduleResume();
+      }, { passive: true });
+      track.addEventListener("focusin", stopAutoplay);
+      track.addEventListener("focusout", scheduleResume);
+
+      if (autoMode) {
+        track.addEventListener(
+          "scroll",
+          () => {
+            const loopWidth = track.scrollWidth / 2;
+            if (loopWidth > 0 && track.scrollLeft >= loopWidth) {
+              track.scrollLeft -= loopWidth;
+            }
+          },
+          { passive: true }
+        );
+      }
+
       track.addEventListener("scroll", updateButtons, { passive: true });
       window.addEventListener("resize", updateButtons);
       updateButtons();
+      startAutoplay();
     });
   };
 
