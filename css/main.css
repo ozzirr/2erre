@@ -1,23 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --bg-0: #03070f;
-  --bg-1: #060c18;
-  --bg-2: #091424;
+  --bg-0: #08070a;
+  --bg-1: #0f0c11;
+  --bg-2: #16121a;
   --page-bg:
-    radial-gradient(circle at 50% -16%, rgba(212, 157, 132, 0.1), transparent 38%),
-    radial-gradient(circle at 8% 8%, rgba(84, 63, 56, 0.28), transparent 33%),
+    radial-gradient(circle at 50% -16%, rgba(216, 168, 143, 0.12), transparent 38%),
+    radial-gradient(circle at 8% 8%, rgba(98, 72, 64, 0.24), transparent 33%),
     linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 56%, var(--bg-2) 100%);
-  --panel: rgba(5, 13, 24, 0.92);
-  --panel-soft: rgba(8, 18, 32, 0.86);
-  --panel-strong: rgba(8, 19, 35, 0.96);
-  --line: rgba(209, 154, 127, 0.68);
-  --line-soft: rgba(209, 154, 127, 0.36);
-  --text-main: #d9a68f;
-  --text-strong: #e7b9a4;
-  --text-soft: #b78a76;
-  --text-subtle: #8d6f62;
-  --text-dim: #725a52;
+  --panel: rgba(18, 14, 20, 0.92);
+  --panel-soft: rgba(22, 17, 26, 0.86);
+  --panel-strong: rgba(26, 19, 29, 0.96);
+  --line: rgba(206, 157, 131, 0.6);
+  --line-soft: rgba(206, 157, 131, 0.3);
+  --text-main: #d8b39f;
+  --text-strong: #edd1bf;
+  --text-soft: #b99582;
+  --text-subtle: #8e7367;
+  --text-dim: #6a5650;
   --success: #89dfba;
   --danger: #ff9f9f;
   --radius-xl: 36px;
@@ -69,7 +69,7 @@ a {
   max-width: 720px;
   margin: 0 auto;
   padding-bottom: 1.8rem;
-  background: linear-gradient(180deg, rgba(3, 10, 19, 0.74), rgba(3, 10, 19, 0.96));
+  background: linear-gradient(180deg, rgba(12, 9, 14, 0.74), rgba(12, 9, 14, 0.96));
 }
 
 .page-shell::before,
@@ -145,7 +145,7 @@ a {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(6, 10, 18, 0.1) 20%, rgba(3, 8, 14, 0.93) 100%),
+    linear-gradient(180deg, rgba(14, 11, 16, 0.1) 20%, rgba(10, 8, 12, 0.93) 100%),
     radial-gradient(circle at 70% 10%, rgba(224, 177, 154, 0.2), rgba(224, 177, 154, 0) 50%);
 }
 
@@ -154,7 +154,7 @@ a {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(3, 8, 14, 0) 56%, rgba(3, 8, 14, 1)),
+    linear-gradient(180deg, rgba(10, 8, 12, 0) 56%, rgba(10, 8, 12, 1)),
     url("../assets/textures/noise.svg");
   background-size: auto, 240px 240px;
   background-repeat: no-repeat, repeat;
@@ -242,7 +242,7 @@ h1 {
 .social-link:focus-visible {
   transform: translateY(-2px) scale(1.02);
   border-color: rgba(232, 189, 167, 0.96);
-  background: rgba(10, 20, 34, 0.92);
+  background: rgba(28, 20, 30, 0.92);
 }
 
 .section {
@@ -279,7 +279,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background:
-    linear-gradient(150deg, rgba(10, 20, 34, 0.94), rgba(5, 13, 24, 0.98)),
+    linear-gradient(150deg, rgba(28, 20, 30, 0.94), rgba(18, 14, 20, 0.98)),
     radial-gradient(circle at 92% 12%, rgba(209, 154, 127, 0.16), transparent 42%);
   box-shadow: var(--shadow-soft);
   text-align: center;
@@ -337,7 +337,7 @@ h1 {
   padding: 0.78rem 1.3rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(4, 12, 22, 0.78);
+  background: rgba(17, 13, 19, 0.78);
   color: var(--text-main);
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -351,7 +351,7 @@ h1 {
 .featured-cta:focus-visible {
   transform: translateY(-2px);
   border-color: rgba(231, 191, 170, 0.96);
-  background: rgba(9, 19, 33, 0.98);
+  background: rgba(26, 19, 29, 0.98);
 }
 
 .section-focus {
@@ -370,7 +370,7 @@ h1 {
   justify-content: center;
   border: 1px solid var(--line-soft);
   border-radius: 999px;
-  background: rgba(6, 16, 29, 0.62);
+  background: rgba(20, 15, 24, 0.62);
   color: var(--text-main);
   font-weight: 600;
   font-size: 0.96rem;
@@ -391,7 +391,7 @@ h1 {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius-m);
-  background: rgba(5, 13, 24, 0.74);
+  background: rgba(18, 14, 20, 0.74);
   padding: 0.95rem 5.8rem 0.98rem 0.98rem;
   min-height: 84px;
   display: grid;
@@ -409,7 +409,7 @@ h1 {
 .work-card.is-opening {
   transform: translateY(-2px);
   border-color: rgba(229, 187, 166, 0.92);
-  background: rgba(8, 18, 32, 0.9);
+  background: rgba(22, 17, 26, 0.9);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.34);
 }
 
@@ -441,19 +441,19 @@ h1 {
 }
 
 .work-card--balance .work-thumb {
-  background-image: linear-gradient(150deg, rgba(4, 12, 24, 0.2), rgba(4, 12, 24, 0.7)), url("../assets/projects/balance-cover.svg");
+  background-image: linear-gradient(150deg, rgba(15, 11, 17, 0.2), rgba(15, 11, 17, 0.7)), url("../assets/projects/balance-cover.svg");
 }
 
 .work-card--torrelapillo .work-thumb {
-  background-image: linear-gradient(150deg, rgba(4, 12, 24, 0.12), rgba(4, 12, 24, 0.6)), url("../assets/projects/torrelapillo-cover.svg");
+  background-image: linear-gradient(150deg, rgba(15, 11, 17, 0.12), rgba(15, 11, 17, 0.6)), url("../assets/projects/torrelapillo-cover.svg");
 }
 
 .work-card--generale .work-thumb {
-  background-image: linear-gradient(150deg, rgba(4, 12, 24, 0.12), rgba(4, 12, 24, 0.64)), url("../assets/projects/generaleelettrica-cover.svg");
+  background-image: linear-gradient(150deg, rgba(15, 11, 17, 0.12), rgba(15, 11, 17, 0.64)), url("../assets/projects/generaleelettrica-cover.svg");
 }
 
 .work-card--msporte .work-thumb {
-  background-image: linear-gradient(150deg, rgba(4, 12, 24, 0.16), rgba(4, 12, 24, 0.66)), url("../assets/projects/msporte-cover.svg");
+  background-image: linear-gradient(150deg, rgba(15, 11, 17, 0.16), rgba(15, 11, 17, 0.66)), url("../assets/projects/msporte-cover.svg");
 }
 
 .section-ai {
@@ -471,7 +471,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius-m);
   background:
-    linear-gradient(165deg, rgba(8, 17, 31, 0.93), rgba(5, 13, 24, 0.95)),
+    linear-gradient(165deg, rgba(22, 16, 25, 0.93), rgba(18, 14, 20, 0.95)),
     radial-gradient(circle at 95% 10%, rgba(188, 142, 120, 0.12), transparent 46%);
   padding: 0.92rem 0.94rem;
   min-height: 124px;
@@ -555,7 +555,7 @@ h1 {
   transform: translateY(-4px) scale(1.02);
   border-color: rgba(230, 189, 168, 0.94);
   background:
-    linear-gradient(165deg, rgba(10, 21, 37, 0.95), rgba(7, 15, 28, 0.96)),
+    linear-gradient(165deg, rgba(29, 21, 31, 0.95), rgba(21, 16, 25, 0.96)),
     radial-gradient(circle at 95% 10%, rgba(188, 142, 120, 0.14), transparent 46%);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
 }
@@ -595,7 +595,7 @@ h1 {
   justify-content: center;
   border: 1px solid var(--line);
   border-radius: var(--radius-m);
-  background: rgba(5, 13, 24, 0.78);
+  background: rgba(18, 14, 20, 0.78);
   transition:
     transform 220ms ease,
     border-color 220ms ease,
@@ -608,7 +608,7 @@ h1 {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(9, 22, 38, 0.38);
+  box-shadow: inset 0 0 0 1px rgba(22, 17, 26, 0.52);
   pointer-events: none;
 }
 
@@ -655,7 +655,7 @@ h1 {
 .link-card.is-opening {
   transform: translateY(-4px) scale(1.02);
   border-color: rgba(230, 189, 168, 0.92);
-  background: rgba(8, 18, 32, 0.94);
+  background: rgba(22, 17, 26, 0.94);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -666,7 +666,7 @@ h1 {
 .github-shell {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-l);
-  background: rgba(5, 13, 24, 0.86);
+  background: rgba(18, 14, 20, 0.86);
   padding: 1.05rem;
 }
 
@@ -713,7 +713,7 @@ h1 {
 .github-card {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-s);
-  background: rgba(7, 16, 29, 0.82);
+  background: rgba(20, 15, 24, 0.82);
   padding: 0.92rem 0.86rem;
   min-height: 124px;
   display: grid;
@@ -768,7 +768,7 @@ h1 {
 .github-card.is-opening {
   transform: translateY(-3px);
   border-color: rgba(227, 186, 165, 0.92);
-  background: rgba(10, 21, 36, 0.95);
+  background: rgba(29, 21, 31, 0.95);
 }
 
 .section-case-study {
@@ -781,7 +781,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background:
-    linear-gradient(160deg, rgba(9, 19, 34, 0.88), rgba(5, 13, 24, 0.95)),
+    linear-gradient(160deg, rgba(26, 19, 29, 0.88), rgba(18, 14, 20, 0.95)),
     radial-gradient(circle at 90% 10%, rgba(209, 154, 127, 0.14), transparent 40%);
   padding: 1.28rem 1.1rem;
   box-shadow: var(--shadow-soft);
@@ -837,7 +837,7 @@ h1 {
 .case-principle {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-s);
-  background: rgba(6, 16, 29, 0.76);
+  background: rgba(20, 15, 24, 0.76);
   padding: 0.86rem 0.82rem;
   display: grid;
   gap: 0.34rem;
@@ -882,7 +882,7 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0.7rem 1.16rem;
-  background: rgba(4, 12, 22, 0.8);
+  background: rgba(17, 13, 19, 0.8);
   color: var(--text-main);
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -896,7 +896,7 @@ h1 {
 .case-cta:focus-visible {
   transform: translateY(-2px);
   border-color: rgba(231, 191, 170, 0.95);
-  background: rgba(10, 20, 34, 0.96);
+  background: rgba(28, 20, 30, 0.96);
 }
 
 .section-connect {
@@ -910,7 +910,7 @@ h1 {
 .availability-card {
   border: 1px solid var(--line);
   border-radius: var(--radius-l);
-  background: linear-gradient(160deg, rgba(10, 21, 36, 0.88), rgba(5, 13, 24, 0.95));
+  background: linear-gradient(160deg, rgba(29, 21, 31, 0.88), rgba(18, 14, 20, 0.95));
   padding: 1.25rem 1rem;
   text-align: center;
 }
@@ -936,7 +936,7 @@ h1 {
   padding: 0.72rem 1.2rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(4, 12, 22, 0.8);
+  background: rgba(17, 13, 19, 0.8);
   color: var(--text-main);
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -950,7 +950,7 @@ h1 {
 .availability-cta:focus-visible {
   transform: translateY(-2px);
   border-color: rgba(233, 195, 174, 0.95);
-  background: rgba(10, 20, 34, 0.96);
+  background: rgba(28, 20, 30, 0.96);
 }
 
 .section-visitor {
@@ -960,7 +960,7 @@ h1 {
 .visitor-card {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-l);
-  background: rgba(5, 13, 24, 0.85);
+  background: rgba(18, 14, 20, 0.85);
   padding: 1.04rem 1rem;
   text-align: center;
 }
@@ -1108,7 +1108,7 @@ textarea:focus {
 .btn-primary {
   border: 1px solid var(--line);
   border-radius: var(--radius-s);
-  background: rgba(10, 21, 35, 0.9);
+  background: rgba(29, 21, 31, 0.9);
   color: var(--text-main);
   font: inherit;
   font-weight: 700;
@@ -1122,7 +1122,7 @@ textarea:focus {
 .btn-primary:focus-visible {
   transform: translateY(-1px);
   border-color: rgba(233, 194, 173, 0.96);
-  background: rgba(13, 25, 40, 1);
+  background: rgba(34, 25, 36, 1);
 }
 
 .form-status {
