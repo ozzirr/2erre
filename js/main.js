@@ -32,46 +32,6 @@
     document.body.classList.add("reduce-motion");
   }
 
-  let scrollLockY = 0;
-  let scrollLockDepth = 0;
-
-  const lockPageScroll = () => {
-    if (scrollLockDepth > 0) {
-      scrollLockDepth += 1;
-      return;
-    }
-
-    scrollLockY = window.scrollY || window.pageYOffset || 0;
-    scrollLockDepth = 1;
-    document.documentElement.classList.add("cube-scroll-locked");
-    document.body.classList.add("cube-scroll-locked");
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollLockY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
-  };
-
-  const unlockPageScroll = () => {
-    if (scrollLockDepth === 0) {
-      return;
-    }
-
-    scrollLockDepth -= 1;
-    if (scrollLockDepth > 0) {
-      return;
-    }
-
-    document.documentElement.classList.remove("cube-scroll-locked");
-    document.body.classList.remove("cube-scroll-locked");
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
-    document.body.style.width = "";
-    window.scrollTo(0, scrollLockY);
-  };
-
   const revealElements = [...document.querySelectorAll("[data-reveal]")];
 
   const roleKeyFromLabel = (label = "") => {
@@ -356,7 +316,6 @@
     const endDrag = () => {
       dragging = false;
       pointerId = null;
-      unlockPageScroll();
       releasePauseSoon();
     };
 
@@ -402,7 +361,6 @@
       lastX = event.clientX;
       lastY = event.clientY;
       pausedByHover = true;
-      lockPageScroll();
       cube.classList.add("is-dragging");
       scene.setPointerCapture(event.pointerId);
     });
@@ -428,6 +386,17 @@
       lastY = event.clientY;
       applyRotation();
     });
+
+    scene.addEventListener(
+      "touchmove",
+      (event) => {
+        if (!dragging || !event.cancelable) {
+          return;
+        }
+        event.preventDefault();
+      },
+      { passive: false }
+    );
 
     scene.addEventListener("pointerup", (event) => {
       if (event.pointerId !== pointerId) {
@@ -468,7 +437,6 @@
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId);
       }
-      unlockPageScroll();
     });
   };
 

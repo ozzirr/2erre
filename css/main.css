@@ -418,8 +418,14 @@ h1 {
 }
 
 .section-cube {
-  padding-top: 1.4rem;
-  padding-bottom: 3.1rem;
+  padding-top: 0.8rem;
+  padding-bottom: 2.1rem;
+}
+
+.main--cube-only {
+  min-height: calc(100vh - 8.5rem);
+  display: grid;
+  align-items: center;
 }
 
 .section-head--cube {
@@ -447,6 +453,7 @@ h1 {
   perspective: 1600px;
   perspective-origin: 50% 42%;
   isolation: isolate;
+  touch-action: none;
 }
 
 .project-cube {
@@ -804,24 +811,6 @@ h1 {
 
 .cube-face-logo-image--odora {
   max-width: 82%;
-}
-
-.cube-helper {
-  max-width: 28rem;
-  margin: 0;
-  color: var(--text-subtle);
-  font-size: 0.78rem;
-  line-height: 1.45;
-  text-align: center;
-}
-
-html.cube-scroll-locked,
-body.cube-scroll-locked {
-  overscroll-behavior: none;
-}
-
-body.cube-scroll-locked {
-  touch-action: none;
 }
 
 .featured-banner-stack {
@@ -2677,8 +2666,8 @@ body.reduce-motion [data-reveal] {
   }
 
   .section-cube {
-    padding-top: 1.7rem;
-    padding-bottom: 3.65rem;
+    padding-top: 1.15rem;
+    padding-bottom: 2.85rem;
   }
 
   .cube-scene {
