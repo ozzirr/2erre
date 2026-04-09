@@ -267,6 +267,8 @@
     let pauseUntil = 0;
     let pausedByFocus = false;
     let pausedByHover = false;
+    let ready = false;
+    let loadFallbackId = null;
 
     const faceImages = [...scene.querySelectorAll("img")];
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -277,6 +279,13 @@
     };
 
     const setReady = () => {
+      if (ready) {
+        return;
+      }
+      ready = true;
+      if (loadFallbackId !== null) {
+        window.clearTimeout(loadFallbackId);
+      }
       scene.classList.remove("is-loading");
       scene.setAttribute("aria-busy", "false");
       if (loading) {
@@ -286,6 +295,7 @@
 
     const waitForImage = (image) =>
       new Promise((resolve) => {
+        image.loading = "eager";
         const finish = () => {
           if (typeof image.decode === "function") {
             image.decode().catch(() => {}).finally(resolve);
@@ -351,6 +361,10 @@
     };
 
     applyRotation();
+
+    loadFallbackId = window.setTimeout(() => {
+      setReady();
+    }, 1800);
 
     Promise.all(faceImages.map(waitForImage)).finally(() => {
       window.requestAnimationFrame(() => {
