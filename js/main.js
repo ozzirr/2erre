@@ -508,7 +508,12 @@
     window.ProfileHub = window.ProfileHub || {};
     window.ProfileHub.cube = {
       rotateToFace,
-      resetToFace
+      resetToFace,
+      unpause(delay = 600) {
+        pausedByHover = false;
+        pausedByFocus = false;
+        pauseUntil = Math.min(pauseUntil, window.performance.now() + delay);
+      }
     };
     window.addEventListener("beforeunload", () => {
       if (rafId !== null) {
@@ -888,6 +893,10 @@
           return;
         }
         openCubeStage({ scroll: true, face: false });
+        const cubeApi = window.ProfileHub?.cube;
+        if (cubeApi?.unpause) {
+          cubeApi.unpause(800);
+        }
       });
     }
 

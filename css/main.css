@@ -585,9 +585,12 @@ body.is-cube-stage-closed .portfolio-main {
   transform: none;
   pointer-events: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  padding-top: 1rem;
 }
 
 body.is-cube-stage-closed .section-cube {
@@ -599,8 +602,12 @@ body.is-cube-stage-closed .section-cube {
 body.is-cube-stage-closed .cube-scene {
   -webkit-transform: scale(0.6) translate3d(0, 0, 0);
   transform: scale(0.6) translate3d(0, 0, 0);
-  margin: calc(var(--cube-size) * -0.2) 0;
+  margin-top: calc(var(--cube-size) * -0.2);
   cursor: pointer;
+}
+
+body.is-cube-stage-closed .cube-face-surface {
+  pointer-events: none;
 }
 
 body.is-cube-stage-closed .cube-helper,
@@ -608,20 +615,6 @@ body.is-cube-stage-closed .cube-loading {
   display: none;
 }
 
-.cube-hero-kicker {
-  display: none;
-}
-
-body.is-cube-stage-closed .cube-hero-kicker {
-  display: block;
-  text-align: center;
-  color: var(--text-soft);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
-}
 
 .section-head--cube {
   margin-bottom: 1.25rem;
