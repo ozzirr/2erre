@@ -15,6 +15,8 @@
     "hero": {
       "rolesSrOnly": "AI Integration, Digital Advisory, Project Management",
       "roleButtonAria": "Open role details",
+      "bioLead": "Two twelve 97. Developer, AI expert, Test Manager @ Intesa Sanpaolo. Founder of",
+      "bioConnector": "and",
       "roles": [
         "AI Integration",
         "Digital Advisory",
@@ -25,6 +27,19 @@
       "instagram": "Instagram",
       "linkedin": "LinkedIn",
       "telegram": "Telegram"
+    },
+    "snake": {
+      "kicker": "Mini game",
+      "scoreLabel": "Score",
+      "title": "Runner",
+      "helper": "Tap the screen to jump. Avoid the blocks.",
+      "ready": "Ready",
+      "running": "Running",
+      "gameOver": "Game over",
+      "start": "Start",
+      "restart": "Restart",
+      "canvasAria": "Runner game",
+      "tapHint": "Tap to jump"
     },
     "balance": {
       "cta": "Discover Balance"
@@ -72,7 +87,7 @@
       "intro": "The portfolio lives here: six faces, six cards, real projects.",
       "helper": "Drag or swipe to explore. Hover or focus to pause.",
       "profileTitle": "Andre Rizzo",
-      "profileCopy": "Computer engineer and a half. Two twelve. I make things with computers. Balance is everything.",
+      "profileCopy": "Due dodici 97. Developer, AI expert, Test Manager @ Intesa Sanpaolo. Founder di Balance App e Odora.it",
       "viewProject": "Open project",
       "balanceCopy": "Personal finance designed to feel clear, private and under control.",
       "odoraCopy": "Fragrance discovery, notes and price comparison in a cleaner product experience.",
@@ -298,6 +313,8 @@
     "hero": {
       "rolesSrOnly": "Integrazione AI, Consulenza Digitale, Project Management",
       "roleButtonAria": "Apri dettaglio ruolo",
+      "bioLead": "Due dodici 97. Developer, AI expert, Test Manager @ Intesa Sanpaolo. Founder di",
+      "bioConnector": "e",
       "roles": [
         "Integrazione AI",
         "Consulenza Digitale",
@@ -308,6 +325,19 @@
       "instagram": "Instagram",
       "linkedin": "LinkedIn",
       "telegram": "Telegram"
+    },
+    "snake": {
+      "kicker": "Mini game",
+      "scoreLabel": "Score",
+      "title": "Runner",
+      "helper": "Tocca lo schermo per saltare. Evita i blocchi.",
+      "ready": "Pronto",
+      "running": "In corsa",
+      "gameOver": "Game over",
+      "start": "Start",
+      "restart": "Restart",
+      "canvasAria": "Gioco Runner",
+      "tapHint": "Tap per saltare"
     },
     "balance": {
       "cta": "Scopri Balance"
@@ -355,7 +385,7 @@
       "intro": "Il portfolio è tutto qui: sei facce, sei card, progetti reali.",
       "helper": "Trascina o scorri per esplorare. Hover o focus per mettere in pausa.",
       "profileTitle": "Andre Rizzo",
-      "profileCopy": "Ingegnere informatico e mezzo. Due dodici. Faccio cose col computer. L'equilibrio è tutto.",
+      "profileCopy": "Due dodici 97. Developer, AI expert, Test Manager @ Intesa Sanpaolo. Founder di Balance App e Odora.it",
       "viewProject": "Apri progetto",
       "balanceCopy": "Finanza personale disegnata per essere chiara, privata e sotto controllo.",
       "odoraCopy": "Scoperta fragranze, note e confronto prezzi dentro un'esperienza prodotto più pulita.",

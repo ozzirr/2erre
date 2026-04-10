@@ -229,9 +229,15 @@
     let pausedByHover = false;
     let ready = false;
     let loadFallbackId = null;
+    let snapResetId = null;
 
     const faceImages = [...scene.querySelectorAll("img")];
     const wrapAngle = (value) => ((((value + 180) % 360) + 360) % 360) - 180;
+    const faceTargets = {
+      balance: { x: -18, y: 0 },
+      odora: { x: -18, y: -90 },
+      generale: { x: -18, y: 180 }
+    };
 
     faceImages.forEach((image) => {
       image.setAttribute("draggable", "false");
@@ -300,6 +306,28 @@
       pauseUntil = window.performance.now() + 2200;
     };
 
+    const rotateToFace = (faceName) => {
+      const target = faceTargets[faceName];
+      if (!target) {
+        return;
+      }
+
+      if (snapResetId !== null) {
+        window.clearTimeout(snapResetId);
+      }
+
+      pauseUntil = window.performance.now() + 4200;
+      rotateX = target.x;
+      rotateY = target.y;
+      cube.classList.add("is-snapping");
+      applyRotation();
+
+      snapResetId = window.setTimeout(() => {
+        cube.classList.remove("is-snapping");
+        snapResetId = null;
+      }, reduceMotion ? 0 : 900);
+    };
+
     const onFrame = (timestamp) => {
       if (!previousTimestamp) {
         previousTimestamp = timestamp;
@@ -359,12 +387,21 @@
         return;
       }
 
+      if (event.target instanceof Element && event.target.closest("[data-cube-interactive]")) {
+        return;
+      }
+
       dragging = true;
       moved = false;
       pointerId = event.pointerId;
       lastX = event.clientX;
       lastY = event.clientY;
       pausedByHover = true;
+      if (snapResetId !== null) {
+        window.clearTimeout(snapResetId);
+        snapResetId = null;
+      }
+      cube.classList.remove("is-snapping");
       cube.classList.add("is-dragging");
       scene.setPointerCapture(event.pointerId);
     });
@@ -441,10 +478,357 @@
     });
 
     rafId = window.requestAnimationFrame(onFrame);
+    window.ProfileHub = window.ProfileHub || {};
+    window.ProfileHub.cube = {
+      rotateToFace
+    };
     window.addEventListener("beforeunload", () => {
       if (rafId !== null) {
         window.cancelAnimationFrame(rafId);
       }
+      if (snapResetId !== null) {
+        window.clearTimeout(snapResetId);
+      }
+    });
+  };
+
+  const initCubeSnake = () => {
+    const root = document.querySelector("[data-snake-game]");
+    const canvas = root?.querySelector("[data-snake-canvas]");
+    const scoreNode = root?.querySelector("[data-snake-score]");
+    const statusNode = root?.querySelector("[data-snake-status]");
+    const actionButton = root?.querySelector("[data-snake-action]");
+
+    if (!root || !(canvas instanceof HTMLCanvasElement) || !scoreNode || !statusNode || !(actionButton instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const context = canvas.getContext("2d");
+    if (!context) {
+      return;
+    }
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const groundHeight = 38;
+    const groundY = height - groundHeight;
+    const gravity = 0.0009;
+    const jumpVelocity = -0.34;
+    const keyMap = {
+      ArrowUp: "jump",
+      w: "jump",
+      W: "jump",
+      " ": "jump",
+      Enter: "jump"
+    };
+
+    let runner = null;
+    let obstacles = [];
+    let score = 0;
+    let started = false;
+    let gameOver = false;
+    let frameId = null;
+    let lastTimestamp = 0;
+    let spawnCooldown = 0;
+    let speed = 0.16;
+    let horizonOffset = 0;
+
+    const drawRoundedRect = (x, y, w, h, radius, color) => {
+      context.fillStyle = color;
+      context.beginPath();
+      context.moveTo(x + radius, y);
+      context.arcTo(x + w, y, x + w, y + h, radius);
+      context.arcTo(x + w, y + h, x, y + h, radius);
+      context.arcTo(x, y + h, x, y, radius);
+      context.arcTo(x, y, x + w, y, radius);
+      context.closePath();
+      context.fill();
+    };
+
+    const drawBoard = () => {
+      context.clearRect(0, 0, width, height);
+
+      const sky = context.createLinearGradient(0, 0, 0, groundY);
+      sky.addColorStop(0, "#102616");
+      sky.addColorStop(1, "#0a140d");
+      context.fillStyle = sky;
+      context.fillRect(0, 0, width, groundY);
+
+      context.fillStyle = "#0c1f11";
+      context.fillRect(0, groundY, width, groundHeight);
+
+      context.strokeStyle = "rgba(188, 235, 168, 0.16)";
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo(0, groundY + 0.5);
+      context.lineTo(width, groundY + 0.5);
+      context.stroke();
+
+      context.strokeStyle = "rgba(188, 235, 168, 0.08)";
+      context.lineWidth = 1.4;
+      for (let x = -horizonOffset; x < width + 24; x += 24) {
+        context.beginPath();
+        context.moveTo(x, groundY + 9);
+        context.lineTo(x + 12, groundY + 9);
+        context.stroke();
+      }
+
+      obstacles.forEach((obstacle) => {
+        drawRoundedRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height, 6, "#b8f36c");
+      });
+
+      if (!runner) {
+        return;
+      }
+
+      drawRoundedRect(runner.x, runner.y, runner.width, runner.height, 7, "#7dff92");
+      drawRoundedRect(runner.x + runner.width - 6, runner.y + 4, 3, 3, 1.5, "#06200a");
+      drawRoundedRect(runner.x + 5, runner.y + runner.height, 5, 8, 2, "#7dff92");
+      drawRoundedRect(runner.x + runner.width - 10, runner.y + runner.height, 5, 8, 2, "#7dff92");
+    };
+
+    const getStatusLabel = () => {
+      if (gameOver) {
+        return t("snake.gameOver", "Game over");
+      }
+      if (started) {
+        return t("snake.running", "Running");
+      }
+      return t("snake.ready", "Ready");
+    };
+
+    const updateHud = () => {
+      scoreNode.textContent = String(score);
+      statusNode.textContent = getStatusLabel();
+      actionButton.textContent = t(started ? "snake.restart" : "snake.start", started ? "Restart" : "Start");
+    };
+
+    const spawnObstacle = () => {
+      const heightValue = 20 + Math.floor(Math.random() * 26);
+      const widthValue = 12 + Math.floor(Math.random() * 12);
+
+      obstacles.push({
+        x: width + 6,
+        y: groundY - heightValue,
+        width: widthValue,
+        height: heightValue,
+        counted: false
+      });
+    };
+
+    const resetState = () => {
+      runner = {
+        x: 34,
+        y: groundY - 24,
+        width: 18,
+        height: 24,
+        velocityY: 0,
+        jumping: false
+      };
+      obstacles = [];
+      score = 0;
+      gameOver = false;
+      started = false;
+      lastTimestamp = 0;
+      spawnCooldown = 850;
+      speed = 0.16;
+      horizonOffset = 0;
+      updateHud();
+      drawBoard();
+    };
+
+    const jump = () => {
+      if (!runner || runner.jumping) {
+        return;
+      }
+      runner.velocityY = jumpVelocity;
+      runner.jumping = true;
+    };
+
+    const triggerGameOver = () => {
+      started = false;
+      gameOver = true;
+      updateHud();
+      drawBoard();
+    };
+
+    const checkCollision = (obstacle) => {
+      if (!runner) {
+        return false;
+      }
+
+      return (
+        runner.x < obstacle.x + obstacle.width &&
+        runner.x + runner.width > obstacle.x &&
+        runner.y < obstacle.y + obstacle.height &&
+        runner.y + runner.height > obstacle.y
+      );
+    };
+
+    const step = (delta) => {
+      if (!runner) {
+        return;
+      }
+
+      runner.velocityY += gravity * delta;
+      runner.y += runner.velocityY * delta;
+
+      if (runner.y >= groundY - runner.height) {
+        runner.y = groundY - runner.height;
+        runner.velocityY = 0;
+        runner.jumping = false;
+      }
+
+      speed = Math.min(0.26, speed + delta * 0.0000035);
+      horizonOffset = (horizonOffset + delta * speed * 0.24) % 24;
+      spawnCooldown -= delta;
+
+      if (spawnCooldown <= 0) {
+        spawnObstacle();
+        spawnCooldown = 820 + Math.random() * 560 - Math.min(220, score * 8);
+      }
+
+      obstacles = obstacles.filter((obstacle) => obstacle.x + obstacle.width > -8);
+
+      for (const obstacle of obstacles) {
+        obstacle.x -= delta * speed;
+
+        if (!obstacle.counted && obstacle.x + obstacle.width < runner.x) {
+          obstacle.counted = true;
+          score += 1;
+        }
+
+        if (checkCollision(obstacle)) {
+          triggerGameOver();
+          return;
+        }
+      }
+
+      updateHud();
+      drawBoard();
+    };
+
+    const onFrame = (timestamp) => {
+      frameId = window.requestAnimationFrame(onFrame);
+
+      if (!started) {
+        lastTimestamp = timestamp;
+        return;
+      }
+
+      if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+      }
+
+      const delta = Math.min(32, timestamp - lastTimestamp || 16);
+      lastTimestamp = timestamp;
+      step(delta);
+    };
+
+    const restartGame = () => {
+      resetState();
+      started = true;
+      gameOver = false;
+      lastTimestamp = 0;
+      updateHud();
+      drawBoard();
+      canvas.focus({ preventScroll: true });
+    };
+
+    const handleTap = () => {
+      if (gameOver) {
+        restartGame();
+        return;
+      }
+
+      if (!started) {
+        restartGame();
+        return;
+      }
+
+      jump();
+    };
+
+    const stopCubeInteraction = (event) => {
+      event.stopPropagation();
+    };
+
+    root.addEventListener("pointerdown", stopCubeInteraction);
+    root.addEventListener("click", stopCubeInteraction);
+
+    actionButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      stopCubeInteraction(event);
+      restartGame();
+    });
+
+    canvas.addEventListener("keydown", (event) => {
+      const action = keyMap[event.key];
+      if (!action) {
+        return;
+      }
+
+      event.preventDefault();
+      handleTap();
+    });
+
+    canvas.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      stopCubeInteraction(event);
+      canvas.focus({ preventScroll: true });
+      handleTap();
+    });
+
+    window.addEventListener("i18n:change", updateHud);
+    window.addEventListener("beforeunload", () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    });
+
+    resetState();
+    frameId = window.requestAnimationFrame(onFrame);
+  };
+
+  const initHeroCubeLinks = () => {
+    const links = [...document.querySelectorAll("[data-cube-target]")];
+    if (!links.length) {
+      return;
+    }
+
+    const cubeSection = document.getElementById("project-cube");
+    let pendingRotationId = null;
+
+    links.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const face = link.getAttribute("data-cube-target");
+        const cubeApi = window.ProfileHub?.cube;
+        if (!face || !cubeApi || typeof cubeApi.rotateToFace !== "function") {
+          return;
+        }
+
+        cubeSection?.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "center"
+        });
+
+        if (pendingRotationId !== null) {
+          window.clearTimeout(pendingRotationId);
+        }
+
+        const rotate = () => {
+          cubeApi.rotateToFace(face);
+          pendingRotationId = null;
+        };
+
+        if (reduceMotion) {
+          rotate();
+          return;
+        }
+
+        pendingRotationId = window.setTimeout(rotate, 140);
+      });
     });
   };
 
@@ -1269,6 +1653,8 @@
     initRoleRotator();
     initHeroParallax();
     initProjectCube();
+    initCubeSnake();
+    initHeroCubeLinks();
     initExternalLinks();
     initCarousels();
     initFocusModal();

@@ -34,7 +34,79 @@
         <button type="button" class="lang-switch-btn" data-lang-option="en">EN</button>
       </div>
 
-      <main class="main main--cube-only">
+      <header class="hero" id="top">
+        <div class="container">
+          <section class="hero-panel" data-reveal style="--delay: 0.02s">
+            <div class="hero-media" data-reveal style="--delay: 0.08s">
+              <img
+                src="assets/andre-rizzo-beach-optimized.webp"
+                alt="Andre Rizzo al tramonto sul mare"
+                class="hero-image is-active"
+                style="--hero-focus: 34%;"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </div>
+
+            <div class="hero-content">
+              <h1 data-reveal style="--delay: 0.14s">Andre Rizzo</h1>
+              <p class="hero-bio" data-reveal style="--delay: 0.18s">
+                <span data-i18n="hero.bioLead">Due dodici 97. Developer, AI expert, Test Manager @ Intesa Sanpaolo. Founder di</span>
+                <a href="#project-cube" class="hero-inline-link" data-cube-target="balance" data-track="hero_bio_balance">Balance App</a>
+                <span data-i18n="hero.bioConnector">e</span>
+                <a href="#project-cube" class="hero-inline-link" data-cube-target="odora" data-track="hero_bio_odora">Odora.it</a>
+              </p>
+
+              <div class="social-row" data-reveal style="--delay: 0.24s">
+                <a
+                  href="https://instagram.com/ozzirr"
+                  class="social-link"
+                  aria-label="Instagram"
+                  data-i18n-aria-label="social.instagram"
+                  data-external="true"
+                  data-track="social_instagram"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9a4.5 4.5 0 0 1-4.5 4.5h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3zm0 1.8a2.7 2.7 0 0 0-2.7 2.7v9a2.7 2.7 0 0 0 2.7 2.7h9a2.7 2.7 0 0 0 2.7-2.7v-9a2.7 2.7 0 0 0-2.7-2.7h-9zm9.5 1.4a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 1.8a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/andrea-rizzo-ar"
+                  class="social-link"
+                  aria-label="LinkedIn"
+                  data-i18n-aria-label="social.linkedin"
+                  data-external="true"
+                  data-track="social_linkedin"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M6.9 8.6v8.8H4V8.6h2.9zM5.4 4a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zM20 12.5v4.9h-2.9v-4.3c0-1.1-.4-1.9-1.4-1.9-.8 0-1.2.5-1.4 1-.1.2-.1.5-.1.8v4.4H11V8.6h2.9v1.2c.4-.6 1.1-1.4 2.8-1.4 2 0 3.3 1.3 3.3 4.1z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://t.me/ozzirr"
+                  class="social-link"
+                  aria-label="Telegram"
+                  data-i18n-aria-label="social.telegram"
+                  data-external="true"
+                  data-track="social_telegram"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M20.5 3.6 2.9 10.4c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.3c.2.6.1.9.7.9.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.3 1.6-.8l2.8-13.4c.3-1.3-.5-1.9-1.5-1.5ZM8 12.9l10.2-6.4c.5-.3 1 0 .6.4L10.4 14l-.3 3.1-2.1-4.2Z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </header>
+
+      <main>
         <section class="section section-cube" id="project-cube">
           <div class="container">
             <div class="cube-layout" data-reveal>
@@ -45,54 +117,6 @@
                 </div>
                 <div class="project-cube" data-project-cube style="--cube-rx: -18deg; --cube-ry: 28deg;">
                   <article class="cube-face cube-face--front">
-                    <div class="cube-face-surface cube-face-surface--profile">
-                      <img
-                        src="assets/andre-rizzo-beach-optimized.webp"
-                        alt="Andre Rizzo"
-                        class="cube-profile-image"
-                        loading="eager"
-                        decoding="async"
-                      />
-                      <div class="cube-face-body cube-face-body--profile">
-                        <p class="cube-face-kicker">Andre Rizzo</p>
-                        <h3 class="cube-face-title" data-i18n="cube.profileTitle">Andre Rizzo</h3>
-                        <p class="cube-face-copy" data-i18n="cube.profileCopy">
-                          Ingegnere informatico e mezzo. Due dodici. Faccio cose col computer. L'equilibrio è tutto.
-                        </p>
-                        <div class="cube-social-row">
-                          <a
-                            href="https://instagram.com/ozzirr"
-                            class="cube-social-link"
-                            aria-label="Instagram"
-                            data-i18n-aria-label="social.instagram"
-                            data-external="true"
-                            data-track="cube_social_instagram"
-                            >Instagram</a
-                          >
-                          <a
-                            href="https://www.linkedin.com/in/andrea-rizzo-ar"
-                            class="cube-social-link"
-                            aria-label="LinkedIn"
-                            data-i18n-aria-label="social.linkedin"
-                            data-external="true"
-                            data-track="cube_social_linkedin"
-                            >LinkedIn</a
-                          >
-                          <a
-                            href="https://t.me/ozzirr"
-                            class="cube-social-link"
-                            aria-label="Telegram"
-                            data-i18n-aria-label="social.telegram"
-                            data-external="true"
-                            data-track="cube_social_telegram"
-                            >Telegram</a
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article class="cube-face cube-face--right">
                     <div class="cube-face-surface cube-face-surface--balance">
                       <div class="cube-face-media cube-face-media--balance" aria-hidden="true">
                         <img
@@ -108,7 +132,7 @@
                         <h3 class="cube-face-title">Balance</h3>
                         <p class="cube-face-copy" data-i18n="cube.balanceCopy">Personal finance designed to feel clear, private and under control.</p>
                         <a
-                          href="https://ozzirr.github.io/balance/index.html"
+                          href="https://ctrlbalance.com/?utm_source=mylinks"
                           class="cube-face-cta"
                           data-i18n="cube.viewProject"
                           data-external="true"
@@ -119,21 +143,21 @@
                     </div>
                   </article>
 
-                  <article class="cube-face cube-face--back">
+                  <article class="cube-face cube-face--right">
                     <div class="cube-face-surface cube-face-surface--logo cube-face-surface--odora">
                       <span class="cube-face-logo-badge cube-face-logo-badge--odora">
-                        <img src="assets/logos/logo_odora.png" alt="Odora" class="cube-face-logo-image cube-face-logo-image--odora" loading="eager" decoding="async" />
+                        <img src="assets/logos/logo_odora.png" alt="Odora.it" class="cube-face-logo-image cube-face-logo-image--odora" loading="eager" decoding="async" />
                       </span>
                       <div class="cube-face-body">
                         <p class="cube-face-kicker">DISCOVERY</p>
-                        <h3 class="cube-face-title">Odora</h3>
+                        <h3 class="cube-face-title">Odora.it</h3>
                         <p class="cube-face-copy" data-i18n="cube.odoraCopy">Fragrance discovery, notes and price comparison in a cleaner product experience.</p>
-                        <a href="https://odora.it" class="cube-face-cta" data-i18n="cube.viewProject" data-external="true" data-track="cube_odora">Open project</a>
+                        <a href="https://odora.it/?utm_source=mylinks" class="cube-face-cta" data-i18n="cube.viewProject" data-external="true" data-track="cube_odora">Open project</a>
                       </div>
                     </div>
                   </article>
 
-                  <article class="cube-face cube-face--left">
+                  <article class="cube-face cube-face--back">
                     <div class="cube-face-surface cube-face-surface--logo">
                       <span class="cube-face-logo-badge">
                         <img
@@ -149,7 +173,7 @@
                         <h3 class="cube-face-title">Generale Elettrica</h3>
                         <p class="cube-face-copy" data-i18n="cube.generaleCopy">Commerce experience connected with integrations and operational flows.</p>
                         <a
-                          href="https://generale-elettrica.com"
+                          href="https://generale-elettrica.com/?utm_source=mylinks"
                           class="cube-face-cta"
                           data-i18n="cube.viewProject"
                           data-external="true"
@@ -160,48 +184,63 @@
                     </div>
                   </article>
 
+                  <article class="cube-face cube-face--left">
+                    <div class="cube-face-surface cube-face-surface--empty cube-face-surface--coming-soon">
+                      <div class="cube-empty-card" aria-label="Progetto in arrivo">
+                        <div class="cube-empty-logo-skeleton" aria-hidden="true"></div>
+                        <div class="cube-empty-copy">
+                          <div class="cube-empty-title-skeleton" aria-hidden="true"></div>
+                          <div class="cube-empty-subtitle-skeleton" aria-hidden="true"></div>
+                          <span class="cube-empty-cta">In arrivo</span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
                   <article class="cube-face cube-face--top">
-                    <div class="cube-face-surface cube-face-surface--logo">
-                      <span class="cube-face-logo-badge">
-                        <img
-                          src="assets/logos/logo-ms-porte-optimized.webp"
-                          alt="MS Porte"
-                          class="cube-face-logo-image"
-                          loading="eager"
-                          decoding="async"
-                        />
-                      </span>
-                      <div class="cube-face-body">
-                        <p class="cube-face-kicker">WEB DESIGN</p>
-                        <h3 class="cube-face-title">MS Porte</h3>
-                        <p class="cube-face-copy" data-i18n="cube.msCopy">A sharper brand presence with a cleaner, conversion-ready website structure.</p>
-                        <a href="https://www.msporte.it" class="cube-face-cta" data-i18n="cube.viewProject" data-external="true" data-track="cube_ms_porte">Open project</a>
+                    <div class="cube-face-surface cube-face-surface--snake" data-cube-interactive data-snake-game>
+                      <div class="cube-snake-card">
+                        <div class="cube-snake-head">
+                          <p class="cube-face-kicker" data-i18n="snake.kicker">MINI GAME</p>
+                          <p class="cube-snake-score">
+                            <span data-i18n="snake.scoreLabel">Score</span>
+                            <span data-snake-score>0</span>
+                          </p>
+                        </div>
+
+                        <div class="cube-snake-stage">
+                          <canvas
+                            class="cube-snake-canvas"
+                            data-snake-canvas
+                            width="216"
+                            height="216"
+                            tabindex="0"
+                            aria-label="Runner game"
+                            data-i18n-aria-label="snake.canvasAria"
+                          ></canvas>
+                          <div class="cube-snake-status" data-snake-status>Ready</div>
+                        </div>
+
+                        <div class="cube-snake-meta">
+                          <h3 class="cube-face-title cube-snake-title" data-i18n="snake.title">Runner</h3>
+                          <p class="cube-face-copy cube-snake-copy" data-i18n="snake.helper">Tap the screen to jump. Avoid the blocks.</p>
+                        </div>
+
+                        <div class="cube-snake-actions">
+                          <button type="button" class="cube-snake-button cube-snake-button--primary" data-snake-action>Start</button>
+                          <p class="cube-snake-tap-hint" data-i18n="snake.tapHint">Tap to jump</p>
+                        </div>
                       </div>
                     </div>
                   </article>
 
                   <article class="cube-face cube-face--bottom">
-                    <div class="cube-face-surface cube-face-surface--logo">
-                      <span class="cube-face-logo-badge">
-                        <img
-                          src="assets/logos/logo-olio-arsieni-optimized.webp"
-                          alt="Olio Arsieni"
-                          class="cube-face-logo-image"
-                          loading="eager"
-                          decoding="async"
-                        />
-                      </span>
-                      <div class="cube-face-body">
-                        <p class="cube-face-kicker">BRAND SYSTEM</p>
-                        <h3 class="cube-face-title">Olio Arsieni</h3>
-                        <p class="cube-face-copy" data-i18n="cube.arsieniCopy">Website and digital identity shaped to feel premium, direct and memorable.</p>
-                        <a href="https://olioarsieni.it" class="cube-face-cta" data-i18n="cube.viewProject" data-external="true" data-track="cube_olio_arsieni">Open project</a>
-                      </div>
-                    </div>
+                    <div class="cube-face-surface cube-face-surface--empty" aria-hidden="true"></div>
                   </article>
                 </div>
               </div>
 
+              <p class="cube-helper" data-i18n="cube.helper">Drag or swipe to explore. Hover or focus to pause.</p>
             </div>
           </div>
         </section>
