@@ -394,10 +394,6 @@
     });
 
     scene.addEventListener("pointerdown", (event) => {
-      if (document.body.classList.contains("is-cube-stage-closed")) {
-        return;
-      }
-
       if (!event.isPrimary) {
         return;
       }
@@ -422,6 +418,7 @@
       }
       cube.classList.remove("is-snapping");
       cube.classList.add("is-dragging");
+      scene.classList.add("is-dragging");
       scene.setPointerCapture(event.pointerId);
     });
 
@@ -463,6 +460,7 @@
         return;
       }
       cube.classList.remove("is-dragging");
+      scene.classList.remove("is-dragging");
       pausedByHover = false;
       scene.releasePointerCapture(event.pointerId);
       endDrag();
@@ -473,6 +471,7 @@
         return;
       }
       cube.classList.remove("is-dragging");
+      scene.classList.remove("is-dragging");
       pausedByHover = false;
       endDrag();
     });
@@ -483,11 +482,8 @@
         if (!moved) {
           return;
         }
-        const target = event.target;
-        if (target instanceof Element && target.closest("a")) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
+        event.preventDefault();
+        event.stopPropagation();
       },
       true
     );
@@ -928,36 +924,15 @@
       return;
     }
 
-    let pendingRotationId = null;
-
     links.forEach((link) => {
       link.addEventListener("click", (event) => {
         event.preventDefault();
         const face = link.getAttribute("data-cube-target");
         const cubeApi = window.ProfileHub?.cube;
-        const stageApi = window.ProfileHub?.stage;
         if (!face || !cubeApi || typeof cubeApi.rotateToFace !== "function") {
           return;
         }
-
-        const wasClosed = stageApi && typeof stageApi.isOpen === "function" ? !stageApi.isOpen() : false;
-        stageApi?.openCubeStage({ scroll: true });
-
-        if (pendingRotationId !== null) {
-          window.clearTimeout(pendingRotationId);
-        }
-
-        const rotate = () => {
-          cubeApi.rotateToFace(face);
-          pendingRotationId = null;
-        };
-
-        if (reduceMotion) {
-          rotate();
-          return;
-        }
-
-        pendingRotationId = window.setTimeout(rotate, wasClosed ? 420 : 140);
+        cubeApi.rotateToFace(face);
       });
     });
   };
