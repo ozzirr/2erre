@@ -1178,6 +1178,149 @@ body.is-cube-stage-closed .section-cube {
   text-transform: uppercase;
 }
 
+.cube-face-surface--cta {
+  grid-template-rows: 1fr;
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+  background:
+    linear-gradient(165deg, rgba(24, 18, 30, 0.96), rgba(14, 12, 18, 0.98)),
+    radial-gradient(circle at 30% 20%, rgba(213, 162, 138, 0.14), transparent 40%);
+}
+
+.cube-cta-card {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.65rem;
+}
+
+.cube-cta-kicker {
+  color: var(--text-soft);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cube-cta-title {
+  color: var(--text-strong);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.cube-cta-copy {
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.cube-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+  padding: 0.55rem 1.1rem;
+  appearance: none;
+  border: 1px solid rgba(210, 163, 137, 0.36);
+  border-radius: 999px;
+  background: rgba(210, 163, 137, 0.12);
+  color: var(--text-strong);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+
+.cube-cta-button:hover,
+.cube-cta-button:focus-visible {
+  background: rgba(210, 163, 137, 0.22);
+  border-color: rgba(232, 189, 167, 0.52);
+  transform: translateY(-1px);
+}
+
+.cube-face-surface--contact {
+  grid-template-rows: 1fr;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background:
+    linear-gradient(165deg, rgba(24, 18, 30, 0.96), rgba(14, 12, 18, 0.98)),
+    radial-gradient(circle at 70% 80%, rgba(213, 162, 138, 0.1), transparent 40%);
+}
+
+.cube-contact-form {
+  width: 100%;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cube-contact-form .cube-face-kicker {
+  margin-bottom: 0.15rem;
+}
+
+.cube-contact-input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  appearance: none;
+  border: 1px solid rgba(210, 163, 137, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-strong);
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 200ms ease;
+}
+
+.cube-contact-input::placeholder {
+  color: var(--text-dim);
+}
+
+.cube-contact-input:focus {
+  border-color: rgba(232, 189, 167, 0.5);
+}
+
+.cube-contact-textarea {
+  resize: none;
+  min-height: 60px;
+}
+
+.cube-contact-submit {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  appearance: none;
+  border: 1px solid rgba(210, 163, 137, 0.32);
+  border-radius: 12px;
+  background: rgba(210, 163, 137, 0.14);
+  color: var(--text-strong);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.cube-contact-submit:hover,
+.cube-contact-submit:focus-visible {
+  background: rgba(210, 163, 137, 0.24);
+  border-color: rgba(232, 189, 167, 0.5);
+}
+
+.cube-contact-hint {
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+.cube-contact-hint[data-state="error"] {
+  color: var(--danger);
+}
+
 .cube-face-surface--logo {
   justify-items: center;
   align-items: center;

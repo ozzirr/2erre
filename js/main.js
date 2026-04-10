@@ -236,7 +236,9 @@
     const faceTargets = {
       balance: { x: -18, y: 0 },
       odora: { x: -18, y: -90 },
-      generale: { x: -18, y: 180 }
+      generale: { x: -18, y: 180 },
+      cta: { x: -18, y: 90 },
+      contact: { x: 90, y: 0 }
     };
 
     faceImages.forEach((image) => {
@@ -489,6 +491,14 @@
     scene.addEventListener("dragstart", (event) => {
       event.preventDefault();
     });
+
+    const goContactBtn = document.querySelector("[data-cube-go-contact]");
+    if (goContactBtn) {
+      goContactBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        rotateToFace("contact");
+      });
+    }
 
     rafId = window.requestAnimationFrame(onFrame);
     window.ProfileHub = window.ProfileHub || {};
