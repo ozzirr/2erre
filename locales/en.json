@@ -106,6 +106,23 @@
     "balanceCopy": "Product design, visual system, and app experience for a clearer personal finance journey.",
     "odoraCopy": "Discovery UX, catalog logic, and product browsing shaped for better choice and conversion.",
     "generaleCopy": "Commerce architecture, catalog clarity, and operational integrations for industrial sales.",
+    "projectDetails": {
+      "odora": {
+        "kicker": "Fragrance Portfolio",
+        "description": "Discovery UX, catalog logic and conversion-focused product browsing for fragrance lovers. A project focused on sensory storytelling through digital interfaces.",
+        "tags": ["Discovery UX", "Catalog System", "E-commerce"]
+      },
+      "balance": {
+        "kicker": "Fintech App",
+        "description": "Product design, visual system and app experience for a clearer personal finance journey. Helping users track net worth and spending with minimal friction.",
+        "tags": ["Product Design", "Mobile Web", "Visual Identity"]
+      },
+      "generale": {
+        "kicker": "Industrial Ecommerce",
+        "description": "Commerce architecture, catalog clarity and operational integrations for industrial sales. Bridging legacy systems with modern commerce flows.",
+        "tags": ["Architecture", "B2B Sales", "Integration"]
+      }
+    },
     "msCopy": "A sharper brand presence with a cleaner, conversion-ready website structure.",
     "arsieniCopy": "Website and digital identity shaped to feel premium, direct and memorable."
   },

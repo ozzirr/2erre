@@ -40,8 +40,14 @@
             <div class="cube-layout" data-reveal>
               <div class="cube-scene is-loading" data-cube-scene aria-busy="true">
                 <div class="cube-loading" data-cube-loading aria-hidden="true">
-                  <span class="cube-loading-spinner"></span>
-                  <span class="cube-loading-spinner cube-loading-spinner--delay"></span>
+                  <div class="cube-loading-logo">
+                    <svg viewBox="0 0 128 128" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="128" height="128" rx="26" fill="rgba(214, 172, 150, 0.05)" stroke="rgba(214, 172, 150, 0.2)"/>
+                        <text x="50%" y="58%" font-size="64" text-anchor="middle" fill="#d3a289" font-family="Arial, sans-serif" font-weight="bold">AR</text>
+                    </svg>
+                    <div class="cube-loading-wireframe"></div>
+                  </div>
+                  <span class="cube-loading-text">Initializing Engine</span>
                 </div>
                 <div class="project-cube" data-project-cube style="--cube-rx: -18deg; --cube-ry: 0deg;">
                   <article class="cube-face cube-face--front">
@@ -52,21 +58,21 @@
                         <p class="cube-cta-copy">Follow my work and stay in touch.</p>
                         <div class="cube-social-icons">
                           <a href="https://www.instagram.com/ozzirr" class="cube-social-icon-link" data-external="true" data-cube-interactive aria-label="Instagram">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
-                              <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.6"/>
-                              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.6">
+                              <rect x="2" y="2" width="20" height="20" rx="5.5"/>
+                              <circle cx="12" cy="12" r="4"/>
                               <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/>
                             </svg>
                           </a>
                           <a href="https://www.linkedin.com/in/ozzirr/" class="cube-social-icon-link" data-external="true" data-cube-interactive aria-label="LinkedIn">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                               <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
                               <rect x="2" y="9" width="4" height="12"/>
                               <circle cx="4" cy="4" r="2"/>
                             </svg>
                           </a>
                           <a href="https://github.com/ozzirr" class="cube-social-icon-link" data-external="true" data-cube-interactive aria-label="GitHub">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.093.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
                             </svg>
                           </a>
@@ -84,7 +90,7 @@
                         <p class="cube-face-kicker">DIGITAL PROJECT</p>
                         <h3 class="cube-face-title">Odora</h3>
                         <p class="cube-face-copy" data-i18n="cube.odoraCopy">Discovery UX, catalog logic and conversion-focused product browsing for fragrance lovers.</p>
-                        <a href="https://odora.it/?utm_source=mylinks" class="cube-face-cta" data-external="true" data-track="cube_odora" data-cube-interactive>Open</a>
+                        <button class="cube-face-cta" data-project-trigger="odora" data-cube-interactive>Details</button>
                       </div>
                     </div>
                   </article>
@@ -104,7 +110,7 @@
                         <p class="cube-face-kicker">DIGITAL PROJECT</p>
                         <h3 class="cube-face-title">Balance</h3>
                         <p class="cube-face-copy" data-i18n="cube.balanceCopy">Product design, visual system and app experience for a clearer personal finance journey.</p>
-                        <a href="https://ctrlbalance.com/?utm_source=mylinks" class="cube-face-cta" data-external="true" data-track="cube_balance" data-cube-interactive>Open</a>
+                        <button class="cube-face-cta" data-project-trigger="balance" data-cube-interactive>Details</button>
                       </div>
                     </div>
                   </article>
@@ -118,25 +124,18 @@
                         <p class="cube-face-kicker">DIGITAL PROJECT</p>
                         <h3 class="cube-face-title">Generale Elettrica</h3>
                         <p class="cube-face-copy" data-i18n="cube.generaleCopy">Commerce architecture, catalog clarity and operational integrations for industrial sales.</p>
-                        <a href="https://generale-elettrica.com/?utm_source=mylinks" class="cube-face-cta" data-external="true" data-track="cube_generale_elettrica" data-cube-interactive>Open</a>
+                        <button class="cube-face-cta" data-project-trigger="generale" data-cube-interactive>Details</button>
                       </div>
                     </div>
                   </article>
 
                   <article class="cube-face cube-face--top">
                     <div class="cube-face-surface cube-face-surface--game">
-                      <div class="lumina-game" data-lumina-game>
-                        <div class="lumina-header">
-                            <span class="lumina-title">LUMINA</span>
-                            <span class="lumina-score" data-lumina-score>00</span>
+                      <div class="runner-container" data-runner-game>
+                        <canvas class="runner-canvas" data-runner-canvas></canvas>
+                        <div class="runner-ui">
+                            <button class="runner-btn" data-runner-start>Start Runner</button>
                         </div>
-                        <div class="lumina-grid">
-                            <button class="lumina-pad lumina-pad--tl" data-pad="0" aria-label="Pad 1"></button>
-                            <button class="lumina-pad lumina-pad--tr" data-pad="1" aria-label="Pad 2"></button>
-                            <button class="lumina-pad lumina-pad--bl" data-pad="2" aria-label="Pad 3"></button>
-                            <button class="lumina-pad lumina-pad--br" data-pad="3" aria-label="Pad 4"></button>
-                        </div>
-                        <button class="lumina-start" data-lumina-start>START GAME</button>
                       </div>
                     </div>
                   </article>
@@ -168,6 +167,16 @@
           </div>
         </div>
       </footer>
+    </div>
+
+    <!-- Project Detail Overlay -->
+    <div class="project-overlay" id="project-detail-overlay" aria-hidden="true">
+        <div class="project-overlay-content">
+            <button class="project-overlay-close" aria-label="Close details">&times;</button>
+            <div id="project-detail-body">
+                <!-- Dynamic content -->
+            </div>
+        </div>
     </div>
   </body>
 </html>

@@ -211,309 +211,308 @@
     const scene = document.querySelector("[data-cube-scene]");
     const cube = document.querySelector("[data-project-cube]");
     const loading = document.querySelector("[data-cube-loading]");
-    if (!scene || !cube) {
-      return;
-    }
+    if (!scene || !cube) return;
 
-    let rotateX = -18;
-    let rotateY = 0;
+    // Cube State
+    let targetX = -18;
+    let targetY = 0;
+    let currentX = -18;
+    let currentY = 0;
+    let velocityX = 0;
+    let velocityY = 0;
+    
     let dragging = false;
-    let moved = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
     let pointerId = null;
-    let lastX = 0;
-    let lastY = 0;
-    let rafId = null;
-    let previousTimestamp = 0;
+    let moved = false;
     let pauseUntil = 0;
-    let pausedByFocus = false;
-    let pausedByHover = false;
     let ready = false;
-    let loadFallbackId = null;
-    let snapResetId = null;
 
-    const faceImages = [...scene.querySelectorAll("img")];
+    const lerp = (start, end, factor) => start + (end - start) * factor;
     const wrapAngle = (value) => ((((value + 180) % 360) + 360) % 360) - 180;
-    const isInteractiveTarget = (target) =>
-      target instanceof Element &&
-      Boolean(target.closest("a, button, input, textarea, select, summary, label, [data-cube-interactive]"));
+
     const faceTargets = {
-      balance: { x: -18, y: 0 },
+      connect: { x: -18, y: 0 },
       odora: { x: -18, y: -90 },
-      generale: { x: -18, y: 180 },
-      cta: { x: -18, y: 90 },
-      contact: { x: 90, y: 0 }
+      balance: { x: -18, y: 180 },
+      generale: { x: -18, y: 90 },
+      game: { x: -90, y: 0 },
+      bottom: { x: 90, y: 0 }
     };
 
-    faceImages.forEach((image) => {
-      image.setAttribute("draggable", "false");
+    // Project Overlay Logic
+    const overlay = document.getElementById("project-detail-overlay");
+    const overlayBody = document.getElementById("project-detail-body");
+    const closeOverlay = overlay.querySelector(".project-overlay-close");
+
+    const openProjectDetail = (id) => {
+      const data = getValue(`cube.projectDetails.${id}`);
+      if (!data) return;
+
+      const visitText = t("cube.viewProject", "Visit Project");
+      const url = id === "odora" ? "https://odora.it/?utm_source=mylinks" : 
+                  id === "balance" ? "https://ctrlbalance.com/?utm_source=mylinks" :
+                  "https://generale-elettrica.com/?utm_source=mylinks";
+
+      overlayBody.innerHTML = `
+        <div class="project-detail">
+            <p class="project-detail-kicker">${data.kicker}</p>
+            <h2 class="project-detail-title">${data.title || id.charAt(0).toUpperCase() + id.slice(1)}</h2>
+            <div class="project-detail-tags">
+                ${(data.tags || []).map(t => `<span class="project-detail-tag">${t}</span>`).join("")}
+            </div>
+            <p class="project-detail-copy">${data.description}</p>
+            <div class="project-detail-actions">
+                <a href="${url}" class="project-detail-cta" target="_blank">${visitText}</a>
+            </div>
+        </div>
+      `;
+
+      overlay.classList.add("is-active");
+      overlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeProjectDetail = () => {
+      overlay.classList.remove("is-active");
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    document.querySelectorAll("[data-project-trigger]").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openProjectDetail(btn.dataset.projectTrigger);
+      });
     });
 
-    const applyRotation = () => {
-      cube.style.setProperty("--cube-rx", `${rotateX.toFixed(2)}deg`);
-      cube.style.setProperty("--cube-ry", `${rotateY.toFixed(2)}deg`);
+    closeOverlay.addEventListener("click", closeProjectDetail);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeProjectDetail();
+    });
+
+    // Retro Runner Game Engine
+    const runnerContainer = document.querySelector("[data-runner-game]");
+    const canvas = document.querySelector("[data-runner-canvas]");
+    const startBtn = document.querySelector("[data-runner-start]");
+    const ctx = canvas.getContext("2d");
+
+    let gameState = "ready"; // ready, running, gameover
+    let score = 0;
+    let player = { x: 50, y: 150, w: 20, h: 30, dy: 0, jumpPower: -8, gravity: 0.4, isGrounded: false };
+    let obstacles = [];
+    let frame = 0;
+
+    const resetGame = () => {
+      score = 0;
+      player.y = canvas.height - player.h - 10;
+      player.dy = 0;
+      obstacles = [];
+      gameState = "running";
+      startBtn.style.display = "none";
     };
 
-    const setReady = () => {
-      if (ready) {
-        return;
-      }
-      ready = true;
-      if (loadFallbackId !== null) {
-        window.clearTimeout(loadFallbackId);
-      }
-      scene.classList.remove("is-loading");
-      scene.setAttribute("aria-busy", "false");
-      if (loading) {
-        loading.setAttribute("hidden", "");
-      }
+    const spawnObstacle = () => {
+      obstacles.push({ x: canvas.width, y: canvas.height - 30, w: 15, h: 20, speed: 3 + score * 0.1 });
     };
 
-    const waitForImage = (image) =>
-      new Promise((resolve) => {
-        image.loading = "eager";
-        const finish = () => {
-          if (typeof image.decode === "function") {
-            image.decode().catch(() => {}).finally(resolve);
-            return;
-          }
-          resolve();
-        };
+    const updateGame = () => {
+      if (gameState !== "running") return;
 
-        if (image.complete) {
-          if (image.naturalWidth > 0) {
-            finish();
-            return;
-          }
-          resolve();
-          return;
+      frame++;
+      if (frame % 80 === 0) spawnObstacle();
+
+      // Player physics
+      player.dy += player.gravity;
+      player.y += player.dy;
+
+      if (player.y > canvas.height - player.h - 10) {
+        player.y = canvas.height - player.h - 10;
+        player.dy = 0;
+        player.isGrounded = true;
+      }
+
+      // Obstacles
+      obstacles.forEach((obs, index) => {
+        obs.x -= obs.speed;
+        
+        // Collision
+        if (player.x < obs.x + obs.w && player.x + player.w > obs.x &&
+            player.y < obs.y + obs.h && player.y + player.h > obs.y) {
+          gameState = "gameover";
+          startBtn.textContent = "Restart";
+          startBtn.style.display = "block";
         }
 
-        const cleanup = () => {
-          image.removeEventListener("load", onLoad);
-          image.removeEventListener("error", onError);
-        };
+        if (obs.x + obs.w < 0) {
+          obstacles.splice(index, 1);
+          score++;
+        }
+      });
+    };
 
-        const onLoad = () => {
-          cleanup();
-          finish();
-        };
+    const drawGame = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const onError = () => {
-          cleanup();
-          resolve();
-        };
+      // Floor
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height - 10);
+      ctx.lineTo(canvas.width, canvas.height - 10);
+      ctx.stroke();
 
-        image.addEventListener("load", onLoad, { once: true });
-        image.addEventListener("error", onError, { once: true });
+      // Player (Retro Block)
+      ctx.fillStyle = "#d3a289";
+      ctx.fillRect(player.x, player.y, player.w, player.h);
+      ctx.strokeStyle = "#fff";
+      ctx.strokeRect(player.x, player.y, player.w, player.h);
+
+      // Obstacles
+      ctx.fillStyle = "#ff4444";
+      obstacles.forEach(obs => {
+        ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
       });
 
-    const releasePauseSoon = () => {
-      pauseUntil = window.performance.now() + 2200;
+      // UI
+      ctx.fillStyle = "#fff";
+      ctx.font = "10px Arial";
+      ctx.fillText(`SCORE: ${score}`, 10, 20);
+
+      if (gameState === "gameover") {
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+        ctx.fillStyle = "#fff";
+        ctx.font = "14px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("CRASHED", canvas.width/2, canvas.height/2);
+      }
     };
 
-    const rotateToFace = (faceName) => {
-      const target = faceTargets[faceName];
-      if (!target) {
-        return;
-      }
-
-      if (snapResetId !== null) {
-        window.clearTimeout(snapResetId);
-      }
-
-      pauseUntil = window.performance.now() + 4200;
-      rotateX = target.x;
-      rotateY = target.y;
-      cube.classList.add("is-snapping");
-      applyRotation();
-
-      snapResetId = window.setTimeout(() => {
-        cube.classList.remove("is-snapping");
-        snapResetId = null;
-      }, reduceMotion ? 0 : 900);
+    const gameLoop = () => {
+      updateGame();
+      drawGame();
+      requestAnimationFrame(gameLoop);
     };
 
-    const resetToFace = (faceName) => {
-      const target = faceTargets[faceName];
-      if (!target) {
-        return;
+    const handleJump = (e) => {
+      if (gameState === "running" && player.isGrounded) {
+        player.dy = player.jumpPower;
+        player.isGrounded = false;
+        if (e.cancelable) e.preventDefault();
       }
-      pauseUntil = window.performance.now() + 4200;
-      rotateX = target.x;
-      rotateY = target.y;
-      cube.classList.remove("is-snapping");
-      applyRotation();
+    };
+
+    startBtn.addEventListener("click", resetGame);
+    canvas.addEventListener("pointerdown", handleJump);
+
+    // Scaling canvas
+    const resizeCanvas = () => {
+      canvas.width = runnerContainer.clientWidth;
+      canvas.height = canvas.width * 0.6;
+    };
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    gameLoop();
+
+    // Rotation & Interaction
+    const applyRotation = () => {
+      cube.style.setProperty("--cube-rx", `${currentX.toFixed(2)}deg`);
+      cube.style.setProperty("--cube-ry", `${currentY.toFixed(2)}deg`);
+      
+      const faces = cube.querySelectorAll(".cube-face");
+      faces.forEach(face => {
+        const gx = ((currentY % 90) / 90) * 100;
+        const gy = ((currentX % 90) / 90) * 100;
+        face.style.setProperty("--gloss-x", `${gx}%`);
+        face.style.setProperty("--gloss-y", `${gy}%`);
+      });
     };
 
     const onFrame = (timestamp) => {
-      if (!previousTimestamp) {
-        previousTimestamp = timestamp;
+      const isOpening = document.body.classList.contains("is-cube-stage-opening");
+
+      if (dragging) {
+        currentX = lerp(currentX, targetX, 0.15);
+        currentY = lerp(currentY, targetY, 0.15);
+      } else {
+        const shouldAutoRotate = !reduceMotion && timestamp > pauseUntil && !isOpening;
+        if (shouldAutoRotate) {
+          targetY = wrapAngle(targetY + 0.1);
+        }
+        
+        velocityX *= 0.95;
+        velocityY *= 0.95;
+        targetX += velocityY;
+        targetY += velocityX;
+
+        currentX = lerp(currentX, targetX, 0.1);
+        currentY = lerp(currentY, targetY, 0.1);
       }
 
-      const delta = timestamp - previousTimestamp;
-      previousTimestamp = timestamp;
-
-      const isClosed = document.body.classList.contains("is-cube-stage-closed");
-      const shouldAutoRotate = !reduceMotion && !dragging && (isClosed || (!pausedByFocus && !pausedByHover)) && timestamp > pauseUntil;
-      if (shouldAutoRotate) {
-        rotateY = wrapAngle(rotateY + delta * 0.016);
-        applyRotation();
-      }
-
-      rafId = window.requestAnimationFrame(onFrame);
+      applyRotation();
+      requestAnimationFrame(onFrame);
     };
 
-    const endDrag = () => {
-      dragging = false;
-      pointerId = null;
-      releasePauseSoon();
-    };
-
-    applyRotation();
-
-    loadFallbackId = window.setTimeout(() => {
-      setReady();
-    }, 1800);
-
-    Promise.all(faceImages.map(waitForImage)).finally(() => {
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(setReady);
-      });
-    });
-
-    scene.addEventListener("mouseenter", () => {
-      pausedByHover = true;
-    });
-    scene.addEventListener("mouseleave", () => {
-      pausedByHover = false;
-      releasePauseSoon();
-    });
-    scene.addEventListener("focusin", () => {
-      pausedByFocus = true;
-    });
-    scene.addEventListener("focusout", () => {
-      pausedByFocus = false;
-      releasePauseSoon();
-    });
-
-    scene.addEventListener("pointerdown", (event) => {
-      if (!event.isPrimary) {
-        return;
-      }
-
-      if (event.pointerType === "mouse" && event.button !== 0) {
-        return;
-      }
-
-      if (isInteractiveTarget(event.target)) {
-        return;
-      }
-
+    scene.addEventListener("pointerdown", (e) => {
+      if (isInteractiveTarget(e.target)) return;
       dragging = true;
       moved = false;
-      pointerId = event.pointerId;
-      lastX = event.clientX;
-      lastY = event.clientY;
-      pausedByHover = true;
-      if (snapResetId !== null) {
-        window.clearTimeout(snapResetId);
-        snapResetId = null;
-      }
-      cube.classList.remove("is-snapping");
+      pointerId = e.pointerId;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      velocityX = 0;
+      velocityY = 0;
       cube.classList.add("is-dragging");
-      scene.classList.add("is-dragging");
-      scene.setPointerCapture(event.pointerId);
+      scene.setPointerCapture(e.pointerId);
     });
 
-    scene.addEventListener("pointermove", (event) => {
-      if (!dragging || event.pointerId !== pointerId) {
-        return;
-      }
-
-      const deltaX = event.clientX - lastX;
-      const deltaY = event.clientY - lastY;
-      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
-        moved = true;
-      }
-
-      if (event.cancelable) {
-        event.preventDefault();
-      }
-
-      rotateY = wrapAngle(rotateY + deltaX * 0.42);
-      rotateX = wrapAngle(rotateX - deltaY * 0.32);
-      lastX = event.clientX;
-      lastY = event.clientY;
-      applyRotation();
+    scene.addEventListener("pointermove", (e) => {
+      if (!dragging || e.pointerId !== pointerId) return;
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      velocityX = dx * 0.15;
+      velocityY = -dy * 0.15;
+      targetY += dx * 0.4;
+      targetX -= dy * 0.4;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
     });
 
-    scene.addEventListener(
-      "touchmove",
-      (event) => {
-        if (!dragging || !event.cancelable) {
-          return;
-        }
-        event.preventDefault();
-      },
-      { passive: false }
-    );
-
-    scene.addEventListener("pointerup", (event) => {
-      if (event.pointerId !== pointerId) {
-        return;
-      }
+    scene.addEventListener("pointerup", (e) => {
+      if (e.pointerId !== pointerId) return;
+      dragging = false;
       cube.classList.remove("is-dragging");
-      scene.classList.remove("is-dragging");
-      pausedByHover = false;
-      scene.releasePointerCapture(event.pointerId);
-      endDrag();
+      scene.releasePointerCapture(e.pointerId);
+      pauseUntil = performance.now() + 1500;
     });
 
-    scene.addEventListener("pointercancel", (event) => {
-      if (event.pointerId !== pointerId) {
-        return;
-      }
-      cube.classList.remove("is-dragging");
-      scene.classList.remove("is-dragging");
-      pausedByHover = false;
-      endDrag();
-    });
+    const isInteractiveTarget = (target) =>
+      target instanceof Element &&
+      Boolean(target.closest("a, button, input, [data-cube-interactive]"));
 
-    scene.addEventListener(
-      "click",
-      (event) => {
-        if (!moved) {
-          return;
-        }
-        event.preventDefault();
-        event.stopPropagation();
-      },
-      true
-    );
-
-    scene.addEventListener("dragstart", (event) => {
-      event.preventDefault();
-    });
-
-    rafId = window.requestAnimationFrame(onFrame);
-    window.ProfileHub = window.ProfileHub || {};
-    window.ProfileHub.cube = {
-      rotateToFace,
-      resetToFace,
-      unpause(delay = 600) {
-        pausedByHover = false;
-        pausedByFocus = false;
-        pauseUntil = Math.min(pauseUntil, window.performance.now() + delay);
-      }
+    const rotateToFace = (faceName) => {
+      const t = faceTargets[faceName];
+      if (!t) return;
+      targetX = t.x;
+      targetY = t.y;
+      pauseUntil = performance.now() + 3000;
     };
-    window.addEventListener("beforeunload", () => {
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
-      if (snapResetId !== null) {
-        window.clearTimeout(snapResetId);
-      }
-    });
+
+    // Init Logic
+    requestAnimationFrame(onFrame);
+    
+    // Remove loading state with a professional transition
+    setTimeout(() => {
+        scene.classList.remove("is-loading");
+        setTimeout(() => {
+            if (loading) loading.style.display = "none";
+        }, 600);
+    }, 1500);
+
+    window.ProfileHub = window.ProfileHub || {};
+    window.ProfileHub.cube = { rotateToFace };
   };
 
   const initCubeStage = () => {
@@ -522,77 +521,35 @@
     const cubeSection = document.getElementById("project-cube");
     const cubeScene = document.querySelector("[data-cube-scene]");
 
-    if (!body || !cubeSection) {
-      return;
-    }
-
-    let openingResetId = null;
-
-    const isOpen = () => body.classList.contains("is-cube-stage-open");
+    if (!body || !cubeSection) return;
 
     const openCubeStage = ({ scroll = true, face = null } = {}) => {
-      const alreadyOpen = isOpen();
+      body.classList.remove("is-cube-stage-closed");
+      body.classList.add("is-cube-stage-open");
+      body.classList.add("is-cube-stage-opening");
 
-      if (!alreadyOpen) {
-        body.classList.remove("is-cube-stage-closed");
-        body.classList.add("is-cube-stage-opening");
-        window.requestAnimationFrame(() => {
-          body.classList.add("is-cube-stage-open");
-        });
+      setTimeout(() => {
+        body.classList.remove("is-cube-stage-opening");
+      }, 1000);
 
-        if (openingResetId !== null) {
-          window.clearTimeout(openingResetId);
-        }
-
-        openingResetId = window.setTimeout(() => {
-          body.classList.remove("is-cube-stage-opening");
-          openingResetId = null;
-        }, reduceMotion ? 0 : 820);
-
-        if (face !== false) {
-          const targetFace = face || "balance";
-          const cubeApi = window.ProfileHub?.cube;
-          if (cubeApi && typeof cubeApi.resetToFace === "function") {
-            cubeApi.resetToFace(targetFace);
-          }
-        }
+      if (face && window.ProfileHub && window.ProfileHub.cube) {
+        window.ProfileHub.cube.rotateToFace(face);
       }
 
       if (scroll) {
-        const delay = alreadyOpen ? 0 : reduceMotion ? 0 : 100;
-        window.setTimeout(() => {
-          window.scrollTo({
-            top: 0,
-            behavior: reduceMotion ? "auto" : "smooth"
-          });
-        }, delay);
+        cubeSection.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-
-      return { alreadyOpen };
     };
 
     const closeCubeStage = () => {
-      if (!isOpen()) {
-        return;
-      }
-      body.classList.remove("is-cube-stage-open", "is-cube-stage-opening");
+      body.classList.remove("is-cube-stage-open");
       body.classList.add("is-cube-stage-closed");
-      window.scrollTo({
-        top: 0,
-        behavior: reduceMotion ? "auto" : "smooth"
-      });
     };
 
     if (cubeScene) {
       cubeScene.addEventListener("click", () => {
-        if (!body.classList.contains("is-cube-stage-closed")) {
-          return;
-        }
-        openCubeStage({ scroll: true, face: false });
-        const cubeApi = window.ProfileHub?.cube;
-        if (cubeApi?.unpause) {
-          cubeApi.unpause(800);
-        }
+        if (!body.classList.contains("is-cube-stage-closed")) return;
+        openCubeStage({ scroll: true, face: "balance" });
       });
     }
 
@@ -601,21 +558,7 @@
     }
 
     window.ProfileHub = window.ProfileHub || {};
-    window.ProfileHub.stage = {
-      isOpen,
-      openCubeStage,
-      closeCubeStage
-    };
-
-    if (window.location.hash === "#project-cube") {
-      openCubeStage({ scroll: false });
-    }
-
-    window.addEventListener("beforeunload", () => {
-      if (openingResetId !== null) {
-        window.clearTimeout(openingResetId);
-      }
-    });
+    window.ProfileHub.showCube = openCubeStage;
   };
 
   const initHeroCubeLinks = () => {
