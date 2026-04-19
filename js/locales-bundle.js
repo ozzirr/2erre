@@ -49,6 +49,7 @@
     "homeFlow": {
       "marquee": "ODORA • BALANCE • AI SYSTEMS • QA • PRODUCT THINKING • DIGITAL ADVISORY • RELEASE FLOW • MYLINKS",
       "scrollCta": "Go below the cube",
+      "backToCubeCta": "Back to the cube",
       "kicker": "Digital profile",
       "title": "Andre Rizzo",
       "intro": "02/12/97. Test & Release Manager, AI enthusiastic and builder with a growing passion for vibe coding. Half computer engineer. I do things with computers. Balance is everything.",
@@ -520,6 +521,7 @@
     "homeFlow": {
       "marquee": "ODORA • BALANCE • AI SYSTEMS • QA • PRODUCT THINKING • DIGITAL ADVISORY • RELEASE FLOW • MYLINKS",
       "scrollCta": "Scendi sotto il cubo",
+      "backToCubeCta": "Torna al cubo",
       "kicker": "Profilo digitale",
       "title": "Andre Rizzo",
       "intro": "02/12/97. Test & Release Manager, AI enthusiastic e builder con una crescente passione per il vibe coding. Ingegnere informatico e mezzo. Faccio cose col computer. L'equilibrio e' tutto.",

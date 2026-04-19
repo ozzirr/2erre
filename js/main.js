@@ -359,6 +359,7 @@
     let props = [];
     let particles = [];
     let stars = [];
+    let clouds = [];
     let deathFlash = 0;
     let deathFlashColor = "#ffffff";
     let nextMilestone = 0;
@@ -397,6 +398,20 @@
           size: Math.random() * 1.4 + 0.4,
           twinkle: Math.random() * Math.PI * 2,
           speed: Math.random() * 0.3 + 0.08
+        });
+      }
+    };
+
+    const initClouds = () => {
+      clouds = [];
+      for (let i = 0; i < 6; i += 1) {
+        clouds.push({
+          x: Math.random() * world.width,
+          y: 14 + Math.random() * 42,
+          width: 34 + Math.random() * 44,
+          height: 9 + Math.random() * 7,
+          depth: Math.random() > 0.5 ? "far" : "near",
+          alpha: 0.16 + Math.random() * 0.24
         });
       }
     };
@@ -619,6 +634,7 @@
       particles = [];
       spawnCursor = world.width + 28;
       initStars();
+      initClouds();
 
       props.push(
         { x: 72, kind: "sign", layer: "far", label: "MYLINKS", wobble: 0.4 },
@@ -690,6 +706,9 @@
       player.doubleJumpFlash = 0;
       const stage = root.querySelector(".cube-arcade-stage");
       if (stage) stage.classList.add("is-running");
+      document.body.classList.add("is-arcade-running");
+      window.ProfileHub?.cube?.rotateToFace?.("game");
+      window.ProfileHub?.cube?.setInteractive?.(false);
       seedWorld();
       showMessage(getStage().intro[getLanguage()], 1400);
       updateHud();
@@ -722,7 +741,11 @@
         stageEl.classList.add("is-shaking");
         stageEl.classList.remove("is-running");
         stageEl.addEventListener("animationend", () => stageEl.classList.remove("is-shaking"), { once: true });
+      } else if (stageEl) {
+        stageEl.classList.remove("is-running");
       }
+      document.body.classList.remove("is-arcade-running");
+      window.ProfileHub?.cube?.setInteractive?.(true);
       updateHud();
     };
 
@@ -768,6 +791,16 @@
       props.forEach((prop) => {
         prop.x -= travel * (prop.layer === "far" ? 0.34 : 0.58);
         prop.wobble += delta * 0.025;
+      });
+
+      clouds.forEach((cloud) => {
+        cloud.x -= travel * (cloud.depth === "far" ? 0.12 : 0.22);
+        if (cloud.x + cloud.width < -8) {
+          cloud.x = world.width + Math.random() * 60;
+          cloud.y = 14 + Math.random() * 42;
+          cloud.width = 34 + Math.random() * 44;
+          cloud.height = 9 + Math.random() * 7;
+        }
       });
 
       particles.forEach((particle) => {
@@ -980,6 +1013,51 @@
       vignette.addColorStop(1, "rgba(0,0,0,0.32)");
       context.fillStyle = vignette;
       context.fillRect(0, 0, world.width, world.height);
+    };
+
+    const drawClouds = (stage) => {
+      clouds.forEach((cloud) => {
+        context.save();
+        context.globalAlpha = cloud.alpha * (cloud.depth === "far" ? 0.7 : 1);
+        context.fillStyle = stage.accentSoft;
+        const r = cloud.height * 0.6;
+        const cx = cloud.x;
+        const cy = cloud.y;
+        context.beginPath();
+        context.arc(cx + r, cy, r, 0, Math.PI * 2);
+        context.arc(cx + cloud.width * 0.42, cy - cloud.height * 0.25, r * 1.12, 0, Math.PI * 2);
+        context.arc(cx + cloud.width * 0.72, cy, r * 0.92, 0, Math.PI * 2);
+        context.arc(cx + cloud.width - r, cy + cloud.height * 0.18, r * 0.78, 0, Math.PI * 2);
+        context.fill();
+        context.restore();
+      });
+    };
+
+    const drawHorizonGlow = (stage) => {
+      const glow = context.createLinearGradient(0, world.groundY - 48, 0, world.groundY);
+      glow.addColorStop(0, "rgba(0,0,0,0)");
+      glow.addColorStop(1, stage.accent);
+      context.save();
+      context.globalAlpha = 0.18;
+      context.fillStyle = glow;
+      context.fillRect(0, world.groundY - 48, world.width, 48);
+      context.restore();
+    };
+
+    const drawPlayerShadow = () => {
+      const groundTop = world.groundY;
+      const airHeight = clamp((groundTop - (player.y + player.height)) / 60, 0, 1);
+      const scaleX = 1 - airHeight * 0.55;
+      const alpha = 0.38 * (1 - airHeight * 0.6);
+      if (alpha < 0.02) return;
+      const cx = player.x + player.width / 2;
+      context.save();
+      context.globalAlpha = alpha;
+      context.fillStyle = "#05030a";
+      context.beginPath();
+      context.ellipse(cx, groundTop - 1, (player.width * 0.58) * scaleX, 2.4, 0, 0, Math.PI * 2);
+      context.fill();
+      context.restore();
     };
 
     const drawSkyline = (stage) => {
@@ -1210,10 +1288,13 @@
       }
       context.restore();
 
+      drawClouds(stage);
       drawSkyline(stage);
+      drawHorizonGlow(stage);
       props.forEach(drawProp);
       drawGround(stage);
       blocks.forEach(drawBlock);
+      drawPlayerShadow();
       collectibles.forEach(drawCollectible);
       enemies.forEach(drawEnemy);
       drawPlayer();
@@ -1367,6 +1448,7 @@
     let cinematicSpinX = 0;
     let cinematicDriftY = 0;
     let descendSequence = null;
+    let interactive = true;
 
     const lerp = (start, end, factor) => start + (end - start) * factor;
     const wrapAngle = (value) => ((((value + 180) % 360) + 360) % 360) - 180;
@@ -1390,24 +1472,6 @@
         snapTimerId = null;
       }, 880);
     };
-    const normalizeOrientation = (x, y) => {
-      let normalizedX = wrapAngle(x);
-      let normalizedY = wrapAngle(y);
-
-      if (normalizedX > 90) {
-        normalizedX = 180 - normalizedX;
-        normalizedY = wrapAngle(normalizedY + 180);
-      } else if (normalizedX < -90) {
-        normalizedX = -180 - normalizedX;
-        normalizedY = wrapAngle(normalizedY + 180);
-      }
-
-      return {
-        x: normalizedX,
-        y: normalizedY
-      };
-    };
-
     const faceTargets = {
       connect: { x: -18, y: 0 },
       odora: { x: -18, y: -90 },
@@ -1415,6 +1479,24 @@
       generale: { x: -18, y: 90 },
       game: { x: -90, y: 0 },
       bottom: { x: 90, y: 0 }
+    };
+
+    const snapToNearestFace = () => {
+      const nx = wrapAngle(targetX);
+      const ny = wrapAngle(targetY);
+      let best = null;
+      let bestScore = Infinity;
+      for (const key of Object.keys(faceTargets)) {
+        const t = faceTargets[key];
+        const dx = Math.abs(wrapAngle(nx - t.x));
+        const dy = Math.abs(wrapAngle(ny - t.y));
+        const score = dx + dy;
+        if (score < bestScore) {
+          bestScore = score;
+          best = t;
+        }
+      }
+      return best;
     };
 
     const projectRoutes = {
@@ -1518,19 +1600,19 @@
         currentX = lerp(currentX, targetX, 0.18);
         currentY = lerp(currentY, targetY, 0.18);
       } else {
-        if (timestamp >= autoFlipAt) {
-          const corrected = normalizeOrientation(targetX, targetY);
-          const shouldFlip =
-            Math.abs(corrected.x - targetX) > 0.1 ||
-            Math.abs(corrected.y - targetY) > 0.1;
-
-          if (shouldFlip) {
-            targetX = corrected.x;
-            targetY = corrected.y;
-            triggerSnapState();
-            saveCubeState();
+        if (interactive && timestamp >= autoFlipAt) {
+          const nearest = snapToNearestFace();
+          if (nearest) {
+            const shouldSnap =
+              Math.abs(wrapAngle(nearest.x - targetX)) > 0.1 ||
+              Math.abs(wrapAngle(nearest.y - targetY)) > 0.1;
+            if (shouldSnap) {
+              targetX = nearest.x;
+              targetY = nearest.y;
+              triggerSnapState();
+              saveCubeState();
+            }
           }
-
           autoFlipAt = Number.POSITIVE_INFINITY;
         }
 
@@ -1544,6 +1626,7 @@
 
     scene.addEventListener("pointerdown", (e) => {
       if (descendSequence) return;
+      if (!interactive) return;
       if (isInteractiveTarget(e.target)) return;
       dragging = true;
       moved = false;
@@ -1593,8 +1676,27 @@
     };
 
     const setAmbientTilt = ({ x = 0, y = 0 } = {}) => {
+      if (!interactive) {
+        ambientTiltX = 0;
+        ambientTiltY = 0;
+        return;
+      }
       ambientTiltX = x;
       ambientTiltY = y;
+    };
+
+    const setInteractive = (enabled) => {
+      interactive = Boolean(enabled);
+      if (!interactive) {
+        dragging = false;
+        cube.classList.remove("is-dragging");
+        autoFlipAt = Number.POSITIVE_INFINITY;
+        ambientTiltX = 0;
+        ambientTiltY = 0;
+        scene.classList.add("is-locked");
+      } else {
+        scene.classList.remove("is-locked");
+      }
     };
 
     const playDescendSequence = ({ onBoost, onComplete } = {}) => {
@@ -1645,7 +1747,7 @@
     }, 1500);
 
     window.ProfileHub = window.ProfileHub || {};
-    window.ProfileHub.cube = { rotateToFace, setAmbientTilt, playDescendSequence, saveState: saveCubeState };
+    window.ProfileHub.cube = { rotateToFace, setAmbientTilt, playDescendSequence, saveState: saveCubeState, setInteractive };
   };
 
   const initHomeShowcase = () => {
@@ -1655,11 +1757,17 @@
     const storySection = document.getElementById("home-story");
     const cubeApi = window.ProfileHub?.cube;
     const clampProgress = (value) => Math.min(1, Math.max(0, value));
-    let scrollUnlocked = false;
+    const isHomePage = body.dataset.page === "home" && Boolean(cubeSection) && Boolean(storySection);
 
-    const unlockScroll = () => {
-      scrollUnlocked = true;
-      body.classList.remove("home-scroll-locked");
+    const setHomeView = (view) => {
+      if (!isHomePage) return;
+      if (view === "story") {
+        body.classList.remove("home-view-cube");
+        body.classList.add("home-view-story");
+      } else {
+        body.classList.remove("home-view-story");
+        body.classList.add("home-view-cube");
+      }
     };
 
     scrollTriggers.forEach((trigger) => {
@@ -1677,8 +1785,15 @@
           });
         };
 
-        if (scrollUnlocked || !cubeApi || typeof cubeApi.playDescendSequence !== "function") {
-          unlockScroll();
+        // Going back up to the cube: no descent, just snap back.
+        if (targetId === "project-cube") {
+          setHomeView("cube");
+          performScroll();
+          return;
+        }
+
+        if (!cubeApi || typeof cubeApi.playDescendSequence !== "function") {
+          setHomeView("story");
           performScroll();
           return;
         }
@@ -1688,7 +1803,7 @@
 
         const played = cubeApi.playDescendSequence({
           onBoost: () => {
-            unlockScroll();
+            setHomeView("story");
             performScroll();
           },
           onComplete: () => {
@@ -1700,17 +1815,18 @@
         if (!played) {
           body.classList.remove("home-scroll-transitioning");
           trigger.disabled = false;
-          unlockScroll();
+          setHomeView("story");
           performScroll();
         }
       });
     });
 
-    if (body.dataset.page !== "home" || !cubeSection || !storySection || !cubeApi || typeof cubeApi.setAmbientTilt !== "function") {
+    if (!isHomePage || !cubeApi || typeof cubeApi.setAmbientTilt !== "function") {
       return;
     }
 
     body.classList.add("home-scroll-locked");
+    setHomeView("cube");
     window.scrollTo({ top: 0, behavior: "auto" });
 
     const preventLockedScroll = (event) => {
