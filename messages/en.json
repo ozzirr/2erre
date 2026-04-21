@@ -1,0 +1,337 @@
+{
+  "meta": {
+    "title": "2erre SRL — Digital partner for Italian businesses",
+    "description": "Software, web and mobile development, AI consulting and custom tools to grow your business."
+  },
+  "nav": {
+    "services": "Services",
+    "products": "Products",
+    "about": "About",
+    "blog": "Blog",
+    "tools": "Tools",
+    "contact": "Contact",
+    "cta": "Let's talk",
+    "login": "Log in",
+    "dashboard": "Dashboard",
+    "menu": "Menu",
+    "close": "Close",
+    "brand": "2erre"
+  },
+  "hero": {
+    "eyebrow": "2erre SRL · Digital partner",
+    "title": "The digital partner",
+    "titleAccent": "of your business.",
+    "subtitle": "We design, build and scale software, web and mobile products for Italian SMBs.",
+    "ctaPrimary": "Start now",
+    "ctaSecondary": "Explore services"
+  },
+  "services": {
+    "eyebrow": "Choose your path.",
+    "subtitle": "From consulting to product: we build with you or hand you the keys.",
+    "items": {
+      "consulting": {
+        "title": "Consulting & Strategy",
+        "tagline": "Analysis, roadmap, discovery.",
+        "body": "We map processes, identify bottlenecks and build a pragmatic technical roadmap for digital growth.",
+        "cta": "Let's talk"
+      },
+      "web": {
+        "title": "Web & Brand",
+        "tagline": "Sites, e-commerce, landing pages.",
+        "body": "Fast, SEO-ready, fully responsive sites on modern stacks (Next.js, Tailwind) designed to convert.",
+        "cta": "See work"
+      },
+      "apps": {
+        "title": "iOS & Android apps",
+        "tagline": "Native and cross-platform mobile.",
+        "body": "Native and React Native apps, from prototype to store release, with CI/CD, analytics and crash reporting.",
+        "cta": "Start the project"
+      },
+      "ai": {
+        "title": "AI & Automation",
+        "tagline": "Agents, RAG, integrations.",
+        "body": "We bring LLMs into your processes: WhatsApp/Slack agents, knowledge bases, automations with Make, n8n, Zapier.",
+        "cta": "Explore"
+      }
+    }
+  },
+  "products": {
+    "eyebrow": "Products ready to use.",
+    "subtitle": "Tools built by us — try free once.",
+    "items": {
+      "qr": {
+        "name": "QR Studio",
+        "tagline": "Pro QR code generator",
+        "body": "Dynamic QRs with analytics, branding and redirects. First QR free, then sign up.",
+        "cta": "Try now"
+      },
+      "calc": {
+        "name": "Quote estimator",
+        "tagline": "Estimate your project cost",
+        "body": "Website, app, MVP or custom service: real-time estimate based on scope and timing.",
+        "cta": "Try now"
+      },
+      "paycheck": {
+        "name": "Payroll calculator",
+        "tagline": "Net, gross, severance, tax wedge",
+        "body": "Simulator with up-to-date Italian tax rates, for employer and employee.",
+        "cta": "Try now"
+      }
+    }
+  },
+  "stats": {
+    "eyebrow": "Our impact.",
+    "items": {
+      "projects": {"value": "40+", "label": "Projects shipped"},
+      "clients": {"value": "25+", "label": "Active clients"},
+      "years": {"value": "6+", "label": "Years of experience"}
+    }
+  },
+  "cases": {
+    "eyebrow": "Some success stories.",
+    "subtitle": "How we helped Italian SMBs grow online.",
+    "tabs": {
+      "odora": "Odora",
+      "balance": "Balance",
+      "generale": "Generale Elettrica"
+    },
+    "challenge": "The challenge",
+    "solution": "Our solution",
+    "result": "Result",
+    "viewMore": "See more case studies",
+    "items": {
+      "odora": {
+        "challenge": "A complex fragrance catalog to navigate and stagnant conversion.",
+        "solution": "UX discovery, redesign of the choice flow and Shopify checkout optimization.",
+        "result": "+38%",
+        "resultLabel": "Conversion rate in 3 months"
+      },
+      "balance": {
+        "challenge": "Personal finance app to launch with tight timeline and coherent cross-platform design.",
+        "solution": "Product design, interactive prototypes, React Native build and gamified onboarding.",
+        "result": "12k",
+        "resultLabel": "Downloads in first 60 days"
+      },
+      "generale": {
+        "challenge": "Industrial operations based on paper and Excel misaligned across locations.",
+        "solution": "Custom web portal + automations integrated with ERP and warehouse.",
+        "result": "-60%",
+        "resultLabel": "Order handling time"
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your project.",
+    "subtitle": "Fill out the form and we'll get back within 24h for a discovery call.",
+    "fields": {
+      "name": "Full name",
+      "email": "Business email",
+      "phone": "Phone number",
+      "company": "Company name",
+      "role": "Your role",
+      "service": "Service you're interested in",
+      "message": "Describe the project",
+      "revenue": "Annual revenue",
+      "website": "Company website",
+      "size": "Company size",
+      "source": "How did you hear about us"
+    },
+    "submit": "Send request",
+    "sending": "Sending...",
+    "success": "Thanks! We'll get back within 24h.",
+    "error": "Error while sending. Try again or write to info@2erre.it.",
+    "required": "Required field"
+  },
+  "newsletter": {
+    "title": "Stay in the loop.",
+    "subtitle": "Monthly newsletter on AI, product and growth — no spam, promise.",
+    "placeholder": "your-email@example.com",
+    "cta": "Subscribe",
+    "success": "Subscription saved. Thanks!",
+    "error": "Subscription failed. Try again."
+  },
+  "footer": {
+    "tagline": "The digital partner of your business.",
+    "columns": {
+      "nav": "Navigate",
+      "legal": "Legal",
+      "social": "Social"
+    },
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms",
+      "cookies": "Cookie Policy"
+    },
+    "copyright": "© {year} 2erre SRL. All rights reserved."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Notes, case studies and deep-dives from the 2erre team.",
+    "readMore": "Read article",
+    "empty": "We're writing the first posts. Check back soon.",
+    "back": "← All posts",
+    "published": "Published on",
+    "readingTime": "{min} min read"
+  },
+  "tools": {
+    "title": "Tools",
+    "subtitle": "Free mini-apps to simplify your work.",
+    "qr": {
+      "title": "QR code generator",
+      "subtitle": "Create a QR in one click. First use is free.",
+      "placeholder": "Enter URL or text",
+      "generate": "Generate QR",
+      "download": "Download PNG",
+      "locked": "Sign up to create unlimited QRs.",
+      "signup": "Sign up free"
+    },
+    "paycheck": {
+      "title": "Net Salary Calculator (Italy)",
+      "subtitle": "From annual gross estimate your monthly net per Italian IRPEF rates.",
+      "fields": {
+        "gross": "Annual gross salary (RAL)",
+        "months": "Pay periods",
+        "region": "Region",
+        "dependents": "Dependent children",
+        "spouse": "Dependent spouse"
+      },
+      "months13": "13 monthly",
+      "months14": "14 monthly",
+      "results": {
+        "title": "Your estimate",
+        "net": "Monthly net",
+        "netAnnual": "Annual net",
+        "tax": "Annual IRPEF",
+        "social": "INPS contributions (~9.19%)",
+        "employer": "Employer cost (estimated)"
+      },
+      "disclaimer": "Indicative simulation based on Italian IRPEF brackets 2024 and average rates. Not a substitute for a real payslip. For your specific case consult a labor advisor.",
+      "cta": "Calculate",
+      "save": "Receive the report by email",
+      "saveCta": "Send it to me",
+      "saveOk": "Report sent. Thanks!",
+      "saveErr": "Failed to send. Try again."
+    },
+    "quote": {
+      "title": "Project Quote Estimator",
+      "subtitle": "Answer 4 questions and get an indicative estimate for your digital project.",
+      "fields": {
+        "type": "What do you need?",
+        "complexity": "How complex?",
+        "urgency": "How urgent?",
+        "integrations": "Required integrations"
+      },
+      "type": {
+        "landing": "Landing page",
+        "website": "Showcase website",
+        "ecommerce": "E-commerce",
+        "webapp": "Web app / SaaS",
+        "mobile": "Mobile app",
+        "ai": "AI agent / automation"
+      },
+      "complexity": {
+        "simple": "Simple (templated)",
+        "medium": "Medium (custom design)",
+        "complex": "Complex (custom full-stack)"
+      },
+      "urgency": {
+        "relaxed": "Flexible (3+ months)",
+        "normal": "Standard (6-10 weeks)",
+        "rush": "Urgent (< 4 weeks)"
+      },
+      "integrations": {
+        "none": "None",
+        "few": "1-2 (payments, CRM)",
+        "many": "3+ (ERP, third-party APIs)"
+      },
+      "results": {
+        "title": "Indicative estimate",
+        "range": "Price range",
+        "duration": "Estimated duration",
+        "weeks": "{w} weeks",
+        "includes": "Includes: discovery, design, development, test, release.",
+        "disclaimer": "Ballpark estimate. Final quote depends on scope, stack and constraints. Book a free call with us."
+      },
+      "cta": "Calculate estimate",
+      "next": "Request detailed quote →"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "subtitle": "Welcome back to 2erre.",
+      "submit": "Enter",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up",
+      "forgot": "Forgot your password?"
+    },
+    "reset": {
+      "title": "Reset password",
+      "subtitle": "We'll email you a link to set a new password.",
+      "submit": "Send link",
+      "back": "← Back to login",
+      "sent": "Check your inbox: we sent you the reset link."
+    },
+    "update": {
+      "title": "Choose a new password",
+      "subtitle": "Enter your new password below.",
+      "submit": "Update password",
+      "ok": "Password updated. Redirecting…",
+      "expired": "Invalid or expired link. Request a new one."
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Access all free 2erre tools.",
+      "submit": "Sign up",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "unconfigured": "Authentication not configured. Set Supabase env vars in .env.local."
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "2erre SRL — digital, pragmatic, Italian.",
+    "body": "We're an Italian software house specialized in digital products for SMBs. Born at the intersection of engineering and design, with the goal of building useful, fast and sustainable things.",
+    "valuesTitle": "How we work",
+    "values": {
+      "v1": {"title": "Pragmatic", "body": "Clear scope, short milestones, zero over-engineering."},
+      "v2": {"title": "Transparent", "body": "Your code, honest estimates, weekly reports."},
+      "v3": {"title": "Durable", "body": "Standard stack, zero lock-in, long-term maintainability."}
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your 2erre tools.",
+    "welcome": "Hi, {email}",
+    "tools": "Available tools",
+    "signout": "Sign out",
+    "notLogged": "You must sign in to see the dashboard.",
+    "login": "Go to login",
+    "editAccount": "Edit account →"
+  },
+  "account": {
+    "title": "Your account",
+    "subtitle": "Manage your details and password.",
+    "back": "← Dashboard",
+    "profile": "Profile",
+    "fields": {
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone"
+    },
+    "save": "Save changes",
+    "saved": "Changes saved.",
+    "savedEmail": "We sent a confirmation email to the new address.",
+    "password": "Password",
+    "passwordHint": "Pick a password of at least 8 characters.",
+    "newPassword": "New password",
+    "updatePassword": "Update password",
+    "passwordUpdated": "Password updated."
+  }
+}

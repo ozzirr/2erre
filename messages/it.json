@@ -1,0 +1,337 @@
+{
+  "meta": {
+    "title": "2erre SRL — Partner digitale per le imprese italiane",
+    "description": "Sviluppo software, web e mobile, consulenza AI e strumenti su misura per far crescere la tua azienda."
+  },
+  "nav": {
+    "services": "Servizi",
+    "products": "Prodotti",
+    "about": "Chi siamo",
+    "blog": "Blog",
+    "tools": "Strumenti",
+    "contact": "Contattaci",
+    "cta": "Parliamone",
+    "login": "Accedi",
+    "dashboard": "Dashboard",
+    "menu": "Menu",
+    "close": "Chiudi",
+    "brand": "2erre"
+  },
+  "hero": {
+    "eyebrow": "2erre SRL · Partner digitale",
+    "title": "Il partner digitale",
+    "titleAccent": "della tua impresa.",
+    "subtitle": "Progettiamo, sviluppiamo e facciamo crescere software, web e mobile per PMI italiane.",
+    "ctaPrimary": "Inizia ora",
+    "ctaSecondary": "Scopri i servizi"
+  },
+  "services": {
+    "eyebrow": "Scegli il tuo percorso.",
+    "subtitle": "Dalla consulenza al prodotto: costruiamo con te o ti diamo chiavi in mano.",
+    "items": {
+      "consulting": {
+        "title": "Consulenza & Strategy",
+        "tagline": "Analisi, roadmap, discovery.",
+        "body": "Mappiamo i processi, identifichiamo i colli di bottiglia e costruiamo una roadmap tecnica pragmatica per la crescita digitale.",
+        "cta": "Parliamone"
+      },
+      "web": {
+        "title": "Web & Brand",
+        "tagline": "Siti, e-commerce, landing.",
+        "body": "Siti performanti, SEO-ready e full-responsive con stack moderni (Next.js, Tailwind) pensati per convertire.",
+        "cta": "Vedi lavori"
+      },
+      "apps": {
+        "title": "App iOS & Android",
+        "tagline": "Mobile native e cross-platform.",
+        "body": "App native e React Native, dal prototipo al rilascio sugli store, con CI/CD, analytics e crash reporting.",
+        "cta": "Avvia il progetto"
+      },
+      "ai": {
+        "title": "AI & Automazione",
+        "tagline": "Agenti, RAG, integrazioni.",
+        "body": "Integriamo LLM nei tuoi processi: agenti su WhatsApp/Slack, knowledge base, automazioni con Make, n8n, Zapier.",
+        "cta": "Esplora"
+      }
+    }
+  },
+  "products": {
+    "eyebrow": "Prodotti pronti all'uso.",
+    "subtitle": "Strumenti costruiti da noi, provali gratis una volta.",
+    "items": {
+      "qr": {
+        "name": "QR Studio",
+        "tagline": "Generatore QR Code pro",
+        "body": "QR dinamici con analytics, branding e redirect. Primo QR gratis, poi registrati.",
+        "cta": "Prova ora"
+      },
+      "calc": {
+        "name": "Preventivatore",
+        "tagline": "Calcola il costo del tuo progetto",
+        "body": "Sito, app, MVP o servizio custom: stima in tempo reale in base a scope e tempistiche.",
+        "cta": "Prova ora"
+      },
+      "paycheck": {
+        "name": "Calcolo Stipendio",
+        "tagline": "Netto, lordo, TFR, cuneo fiscale",
+        "body": "Simulatore con le aliquote italiane aggiornate, per azienda e dipendente.",
+        "cta": "Prova ora"
+      }
+    }
+  },
+  "stats": {
+    "eyebrow": "Il nostro impatto.",
+    "items": {
+      "projects": {"value": "40+", "label": "Progetti rilasciati"},
+      "clients": {"value": "25+", "label": "Clienti attivi"},
+      "years": {"value": "6+", "label": "Anni di esperienza"}
+    }
+  },
+  "cases": {
+    "eyebrow": "Alcune storie di successo.",
+    "subtitle": "Come abbiamo aiutato PMI italiane a crescere online.",
+    "tabs": {
+      "odora": "Odora",
+      "balance": "Balance",
+      "generale": "Generale Elettrica"
+    },
+    "challenge": "La sfida",
+    "solution": "La nostra soluzione",
+    "result": "Risultato",
+    "viewMore": "Vedi altri casi studio",
+    "items": {
+      "odora": {
+        "challenge": "Un catalogo fragranze complesso da navigare e una conversion che non decollava.",
+        "solution": "Discovery UX, redesign del flusso di scelta e ottimizzazione del checkout su Shopify.",
+        "result": "+38%",
+        "resultLabel": "Conversion rate in 3 mesi"
+      },
+      "balance": {
+        "challenge": "App di finanza personale da lanciare con timeline stretta e design coerente cross-platform.",
+        "solution": "Product design, prototipi interattivi, build React Native e onboarding gamificato.",
+        "result": "12k",
+        "resultLabel": "Download nei primi 60 giorni"
+      },
+      "generale": {
+        "challenge": "Operations industriali basate su carta e fogli Excel disallineati tra sedi.",
+        "solution": "Portale web custom + automazioni di integrazione con gestionale e magazzino.",
+        "result": "-60%",
+        "resultLabel": "Tempo di gestione ordini"
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Contattaci",
+    "title": "Parliamo del tuo progetto.",
+    "subtitle": "Compila il form e ti ricontattiamo entro 24h per una call conoscitiva.",
+    "fields": {
+      "name": "Nome e Cognome",
+      "email": "Email aziendale",
+      "phone": "Numero di telefono",
+      "company": "Nome azienda",
+      "role": "Ruolo della tua azienda",
+      "service": "A quale servizio sei interessato",
+      "message": "Descrivici il progetto",
+      "revenue": "Fatturato annuale",
+      "website": "Sito web aziendale",
+      "size": "Dimensioni dell'azienda",
+      "source": "Come hai sentito parlare di noi"
+    },
+    "submit": "Invia richiesta",
+    "sending": "Invio in corso...",
+    "success": "Grazie! Ti ricontatteremo entro 24h.",
+    "error": "Errore durante l'invio. Riprova o scrivici a info@2erre.it.",
+    "required": "Campo obbligatorio"
+  },
+  "newsletter": {
+    "title": "Resta aggiornato.",
+    "subtitle": "Una newsletter mensile su AI, prodotto e growth — niente spam, ti promettiamo.",
+    "placeholder": "la-tua-email@esempio.it",
+    "cta": "Iscrivimi",
+    "success": "Iscrizione registrata. Grazie!",
+    "error": "Iscrizione fallita. Riprova."
+  },
+  "footer": {
+    "tagline": "Il partner digitale della tua impresa.",
+    "columns": {
+      "nav": "Naviga",
+      "legal": "Legale",
+      "social": "Social"
+    },
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Termini",
+      "cookies": "Cookie Policy"
+    },
+    "copyright": "© {year} 2erre SRL. Tutti i diritti riservati."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Note, case study e approfondimenti dal team 2erre.",
+    "readMore": "Leggi l'articolo",
+    "empty": "Stiamo scrivendo i primi articoli. Torna presto.",
+    "back": "← Tutti gli articoli",
+    "published": "Pubblicato il",
+    "readingTime": "{min} min di lettura"
+  },
+  "tools": {
+    "title": "Strumenti",
+    "subtitle": "Mini-app gratuite per semplificare il tuo lavoro.",
+    "qr": {
+      "title": "Generatore QR Code",
+      "subtitle": "Crea un QR in un click. Primo utilizzo gratuito.",
+      "placeholder": "Inserisci URL o testo",
+      "generate": "Genera QR",
+      "download": "Scarica PNG",
+      "locked": "Registrati per crearne di illimitati.",
+      "signup": "Registrati gratis"
+    },
+    "paycheck": {
+      "title": "Calcolo Stipendio Netto",
+      "subtitle": "Dal lordo annuale stima il netto mensile secondo le aliquote IRPEF italiane.",
+      "fields": {
+        "gross": "Reddito lordo annuo (RAL)",
+        "months": "Mensilità",
+        "region": "Regione",
+        "dependents": "Figli a carico",
+        "spouse": "Coniuge a carico"
+      },
+      "months13": "13 mensilità",
+      "months14": "14 mensilità",
+      "results": {
+        "title": "Il tuo calcolo",
+        "net": "Netto mensile",
+        "netAnnual": "Netto annuo",
+        "tax": "IRPEF annua",
+        "social": "Contributi INPS (~9,19%)",
+        "employer": "Costo azienda (stimato)"
+      },
+      "disclaimer": "Simulazione indicativa basata sugli scaglioni IRPEF 2024 e aliquote medie. Non sostituisce una busta paga reale. Per il tuo caso specifico consulta un consulente del lavoro.",
+      "cta": "Calcola",
+      "save": "Ricevi il report via email",
+      "saveCta": "Inviamelo",
+      "saveOk": "Report inviato. Grazie!",
+      "saveErr": "Invio fallito. Riprova."
+    },
+    "quote": {
+      "title": "Preventivatore Progetto",
+      "subtitle": "Rispondi a 4 domande per ricevere una stima indicativa del tuo progetto digitale.",
+      "fields": {
+        "type": "Cosa ti serve?",
+        "complexity": "Quanto è complesso?",
+        "urgency": "Quanto è urgente?",
+        "integrations": "Integrazioni richieste"
+      },
+      "type": {
+        "landing": "Landing page",
+        "website": "Sito vetrina",
+        "ecommerce": "E-commerce",
+        "webapp": "Web app / SaaS",
+        "mobile": "App mobile",
+        "ai": "Agente AI / automazione"
+      },
+      "complexity": {
+        "simple": "Semplice (templatizzato)",
+        "medium": "Media (custom design)",
+        "complex": "Complessa (custom full-stack)"
+      },
+      "urgency": {
+        "relaxed": "Flessibile (3+ mesi)",
+        "normal": "Standard (6-10 settimane)",
+        "rush": "Urgente (< 4 settimane)"
+      },
+      "integrations": {
+        "none": "Nessuna",
+        "few": "1-2 (pagamenti, CRM)",
+        "many": "3+ (gestionale, ERP, API terze)"
+      },
+      "results": {
+        "title": "Stima indicativa",
+        "range": "Range prezzo",
+        "duration": "Durata stimata",
+        "weeks": "{w} settimane",
+        "includes": "Incluso: discovery, design, sviluppo, test, rilascio.",
+        "disclaimer": "Stima di massima. La quotazione finale dipende da scope, stack e vincoli. Ti scriviamo per una call gratuita."
+      },
+      "cta": "Calcola stima",
+      "next": "Richiedi preventivo dettagliato →"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Accedi",
+      "subtitle": "Bentornato in 2erre.",
+      "submit": "Entra",
+      "noAccount": "Non hai un account?",
+      "signupLink": "Registrati",
+      "forgot": "Password dimenticata?"
+    },
+    "reset": {
+      "title": "Reimposta password",
+      "subtitle": "Ti invieremo un link via email per scegliere una nuova password.",
+      "submit": "Invia link",
+      "back": "← Torna al login",
+      "sent": "Controlla la tua casella email: ti abbiamo inviato il link."
+    },
+    "update": {
+      "title": "Scegli una nuova password",
+      "subtitle": "Inserisci la tua nuova password.",
+      "submit": "Aggiorna password",
+      "ok": "Password aggiornata. Reindirizzamento…",
+      "expired": "Link non valido o scaduto. Richiedi un nuovo link."
+    },
+    "signup": {
+      "title": "Crea il tuo account",
+      "subtitle": "Accedi a tutti gli strumenti gratuiti 2erre.",
+      "submit": "Registrati",
+      "hasAccount": "Hai già un account?",
+      "loginLink": "Accedi"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "unconfigured": "Autenticazione non configurata. Imposta le variabili Supabase in .env.local."
+  },
+  "about": {
+    "eyebrow": "Chi siamo",
+    "title": "2erre SRL — digitale, pratico, italiano.",
+    "body": "Siamo una software house italiana specializzata in prodotti digitali per le PMI. Nasciamo dall'incontro tra ingegneria e design, con l'obiettivo di costruire cose utili, veloci e sostenibili.",
+    "valuesTitle": "Come lavoriamo",
+    "values": {
+      "v1": {"title": "Pragmatici", "body": "Scope chiaro, milestone brevi, nessun over-engineering."},
+      "v2": {"title": "Trasparenti", "body": "Codice tuo, stime oneste, report settimanali."},
+      "v3": {"title": "Duraturi", "body": "Stack standard, zero lock-in, manutenibilità a lungo termine."}
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "I tuoi strumenti 2erre.",
+    "welcome": "Ciao, {email}",
+    "tools": "Strumenti disponibili",
+    "signout": "Esci",
+    "notLogged": "Devi accedere per vedere la dashboard.",
+    "login": "Vai al login",
+    "editAccount": "Modifica account →"
+  },
+  "account": {
+    "title": "Il tuo account",
+    "subtitle": "Gestisci i tuoi dati e la password.",
+    "back": "← Dashboard",
+    "profile": "Profilo",
+    "fields": {
+      "email": "Email",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "phone": "Telefono"
+    },
+    "save": "Salva modifiche",
+    "saved": "Modifiche salvate.",
+    "savedEmail": "Abbiamo inviato una mail di conferma al nuovo indirizzo.",
+    "password": "Password",
+    "passwordHint": "Scegli una password di almeno 8 caratteri.",
+    "newPassword": "Nuova password",
+    "updatePassword": "Aggiorna password",
+    "passwordUpdated": "Password aggiornata."
+  }
+}
