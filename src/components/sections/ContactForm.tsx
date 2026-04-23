@@ -10,7 +10,13 @@ export default function ContactForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setState('sending');
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    const formData = new FormData(e.currentTarget);
+    const phonePrefix = String(formData.get('phonePrefix') ?? '').trim();
+    const phoneLocal = String(formData.get('phoneLocal') ?? '').trim();
+    formData.delete('phonePrefix');
+    formData.delete('phoneLocal');
+    formData.set('phone', [phonePrefix, phoneLocal].filter(Boolean).join(' '));
+    const data = Object.fromEntries(formData.entries());
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: {'content-type': 'application/json'},
@@ -35,22 +41,11 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit} className="mt-10 grid gap-5 md:grid-cols-2">
             <Field name="name" label={t('fields.name')} required />
             <Field name="email" type="email" label={t('fields.email')} required />
-            <Field name="phone" label={t('fields.phone')} />
-            <Field name="company" label={t('fields.company')} required />
-            <Field name="role" label={t('fields.role')} />
-            <Field name="website" label={t('fields.website')} />
+            <PhoneField label={t('fields.phone')} />
+            <Field name="company" label={t('fields.company')} placeholder={t('fields.companyPlaceholder')} required />
             <Select name="service" label={t('fields.service')} options={[
               'Consulenza', 'Web & Brand', 'App iOS/Android', 'AI & Automazione'
             ]} required />
-            <Select name="size" label={t('fields.size')} options={[
-              '1-10', '11-50', '51-200', '200+'
-            ]} />
-            <Select name="revenue" label={t('fields.revenue')} options={[
-              '< 1M', '1-5M', '5-20M', '> 20M'
-            ]} />
-            <Select name="source" label={t('fields.source')} options={[
-              'LinkedIn', 'Google', 'Passaparola', 'Altro'
-            ]} />
             <div className="md:col-span-2">
               <label className="label">{t('fields.message')} *</label>
               <textarea name="message" required rows={5} className="field resize-none" />
@@ -76,13 +71,72 @@ export default function ContactForm() {
   );
 }
 
-function Field({name, label, type = 'text', required}: {name: string; label: string; type?: string; required?: boolean}) {
+function Field({name, label, type = 'text', placeholder, required}: {name: string; label: string; type?: string; placeholder?: string; required?: boolean}) {
   return (
     <div>
       <label className="label">{label}{required && ' *'}</label>
-      <input name={name} type={type} required={required} className="field" />
+      <input
+        name={name}
+        type={type}
+        required={required}
+        className="field"
+        autoComplete={name}
+        placeholder={placeholder}
+      />
     </div>
   );
+}
+
+function PhoneField({label}: {label: string}) {
+  const [phonePrefix, setPhonePrefix] = useState('+39');
+  const flag = getFlagForPrefix(phonePrefix);
+
+  return (
+    <div>
+      <label className="label">{label}</label>
+      <div className="field flex items-center gap-3 px-3">
+        <div className="flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line-strong)] bg-[var(--color-ink-1)] px-3 py-1.5 text-sm text-[var(--color-text-strong)]">
+          <span aria-hidden>{flag}</span>
+          <input
+            name="phonePrefix"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel-country-code"
+            value={phonePrefix}
+            onChange={(e) => setPhonePrefix(e.target.value)}
+            aria-label={`${label} prefix`}
+            className="w-14 bg-transparent text-sm text-[var(--color-text-strong)] focus:outline-none"
+          />
+        </div>
+        <input
+          name="phoneLocal"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          placeholder="333 123 4567"
+          className="min-w-0 flex-1 bg-transparent text-[0.9375rem] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:outline-none"
+        />
+      </div>
+    </div>
+  );
+}
+
+function getFlagForPrefix(prefix: string) {
+  const normalized = prefix.replace(/\s+/g, '');
+
+  if (normalized.startsWith('+39')) return '🇮🇹';
+  if (normalized.startsWith('+1')) return '🇺🇸';
+  if (normalized.startsWith('+33')) return '🇫🇷';
+  if (normalized.startsWith('+34')) return '🇪🇸';
+  if (normalized.startsWith('+44')) return '🇬🇧';
+  if (normalized.startsWith('+49')) return '🇩🇪';
+  if (normalized.startsWith('+351')) return '🇵🇹';
+  if (normalized.startsWith('+41')) return '🇨🇭';
+  if (normalized.startsWith('+31')) return '🇳🇱';
+  if (normalized.startsWith('+32')) return '🇧🇪';
+  if (normalized.startsWith('+43')) return '🇦🇹';
+
+  return '🌍';
 }
 
 function Select({name, label, options, required}: {name: string; label: string; options: string[]; required?: boolean}) {

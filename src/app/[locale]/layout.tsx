@@ -8,6 +8,7 @@ import {Suspense} from 'react';
 import PillNav from '@/components/PillNav';
 import Footer from '@/components/Footer';
 import AuthModal from '@/components/AuthModal';
+import CustomCursor from '@/components/CustomCursor';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -39,6 +40,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale}>
+      <CustomCursor />
       <Suspense fallback={null}>
         <PillNav />
       </Suspense>

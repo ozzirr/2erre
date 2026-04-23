@@ -3,13 +3,12 @@
 import {useEffect, useState, useCallback} from 'react';
 import {useSearchParams, useRouter, usePathname} from 'next/navigation';
 import {useTranslations} from 'next-intl';
+import {Link} from '@/i18n/navigation';
 import {getBrowserClient} from '@/lib/supabase';
 
 type Mode = 'login' | 'signup';
 
 export default function AuthModal() {
-  const t = useTranslations('auth');
-  const tNav = useTranslations('nav');
   const search = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -18,9 +17,6 @@ export default function AuthModal() {
   const mode: Mode | null =
     raw === 'login' || raw === 'signup' ? raw : null;
   const open = mode !== null;
-
-  const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err' | 'unconfigured'>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
 
   const close = useCallback(() => {
     const params = new URLSearchParams(search.toString());
@@ -53,37 +49,6 @@ export default function AuthModal() {
     };
   }, [open, close]);
 
-  useEffect(() => {
-    setState('idle');
-    setErrorMsg('');
-  }, [mode]);
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!mode) return;
-    const fd = new FormData(e.currentTarget);
-    const email = String(fd.get('email') ?? '');
-    const password = String(fd.get('password') ?? '');
-    setState('sending');
-    const supabase = await getBrowserClient();
-    if (!supabase) {
-      setState('unconfigured');
-      return;
-    }
-    const {error} =
-      mode === 'login'
-        ? await supabase.auth.signInWithPassword({email, password})
-        : await supabase.auth.signUp({email, password});
-    if (error) {
-      setErrorMsg(error.message);
-      setState('err');
-    } else {
-      setState('ok');
-      close();
-      router.refresh();
-    }
-  }
-
   if (!open || !mode) return null;
 
   return (
@@ -98,7 +63,77 @@ export default function AuthModal() {
         aria-hidden
       />
 
-      <div className="relative card w-full max-w-md p-8 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]">
+      <AuthModalCard key={mode} mode={mode} close={close} switchMode={switchMode} />
+    </div>
+  );
+}
+
+function AuthModalCard({
+  mode,
+  close,
+  switchMode
+}: {
+  mode: Mode;
+  close: () => void;
+  switchMode: (next: Mode) => void;
+}) {
+  const t = useTranslations('auth');
+  const tNav = useTranslations('nav');
+  const router = useRouter();
+  const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err' | 'unconfigured'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const email = String(fd.get('email') ?? '');
+    const password = String(fd.get('password') ?? '');
+    setState('sending');
+    setErrorMsg('');
+
+    const supabase = await getBrowserClient();
+    if (!supabase) {
+      setState('unconfigured');
+      return;
+    }
+
+    const {data, error} =
+      mode === 'login'
+        ? await supabase.auth.signInWithPassword({email, password})
+        : await supabase.auth.signUp({email, password});
+
+    if (error) {
+      setErrorMsg(error.message);
+      setState('err');
+      return;
+    }
+
+    if (mode === 'login') {
+      if (!data.session || !data.user) {
+        setErrorMsg(t('login.failed'));
+        setState('err');
+        return;
+      }
+
+      setState('ok');
+      close();
+      router.refresh();
+      return;
+    }
+
+    if (data.session && data.user) {
+      setState('ok');
+      close();
+      router.refresh();
+      return;
+    }
+
+    setState('idle');
+    setErrorMsg(t('signup.checkEmail'));
+  }
+
+  return (
+    <div className="relative card w-full max-w-md p-8 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]">
         <button
           type="button"
           onClick={close}
@@ -136,12 +171,12 @@ export default function AuthModal() {
           </button>
           {mode === 'login' && (
             <div className="text-right">
-              <a
+              <Link
                 href="/auth/reset"
                 className="text-xs text-[var(--color-text-soft)] hover:text-[var(--color-accent)]"
               >
                 {t('login.forgot')}
-              </a>
+              </Link>
             </div>
           )}
         </form>
@@ -151,6 +186,9 @@ export default function AuthModal() {
         )}
         {state === 'err' && (
           <p className="mt-4 text-sm text-[var(--color-danger)]">{errorMsg}</p>
+        )}
+        {state === 'idle' && errorMsg && (
+          <p className="mt-4 text-sm text-[var(--color-accent)]">{errorMsg}</p>
         )}
 
         <div className="mt-6 pt-6 border-t border-[var(--color-line)] text-sm text-[var(--color-text-soft)]">
@@ -179,6 +217,5 @@ export default function AuthModal() {
           )}
         </div>
       </div>
-    </div>
   );
 }

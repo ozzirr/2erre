@@ -5,6 +5,7 @@ import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {computePaycheck, formatEUR} from '@/lib/paycheck';
 import {getBrowserClient} from '@/lib/supabase';
+import {usePersistentFlag} from '@/lib/usePersistentFlag';
 import AuthTrigger from '@/components/AuthTrigger';
 
 export default function PaycheckClient() {
@@ -17,13 +18,10 @@ export default function PaycheckClient() {
   const [email, setEmail] = useState('');
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
-  const [used, setUsed] = useState(false);
+  const [used, setUsed] = usePersistentFlag('2erre.paycheck.used');
 
   useEffect(() => {
-    setUsed(localStorage.getItem('2erre.paycheck.used') === '1');
-  }, []);
-
-  useEffect(() => {
+    let unsub: (() => void) | undefined;
     (async () => {
       const supabase = await getBrowserClient();
       if (!supabase) return;
@@ -32,14 +30,21 @@ export default function PaycheckClient() {
         setAuthedEmail(data.user.email);
         setEmail(data.user.email);
       }
+
+      const sub = supabase.auth.onAuthStateChange((_event, session) => {
+        const nextEmail = session?.user?.email ?? null;
+        setAuthedEmail(nextEmail);
+        if (nextEmail) setEmail(nextEmail);
+      });
+      unsub = () => sub.data.subscription.unsubscribe();
     })();
+    return () => unsub?.();
   }, []);
 
   const locked = used && !authedEmail;
 
   function markUsed() {
     if (!used) {
-      localStorage.setItem('2erre.paycheck.used', '1');
       setUsed(true);
     }
   }
@@ -217,12 +222,7 @@ export default function PaycheckClient() {
               </div>
             )}
           </form>
-        ) : (
-          <div className="mt-6 card p-6 text-center">
-            <p className="text-sm text-[var(--color-text-soft)]">{t('locked')}</p>
-            <AuthTrigger mode="signup" className="btn btn-dark mt-4">{t('signup')} →</AuthTrigger>
-          </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

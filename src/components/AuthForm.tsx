@@ -22,18 +22,39 @@ export default function AuthForm({mode}: {mode: 'login' | 'signup'}) {
       setState('unconfigured');
       return;
     }
-    const {error} =
+    const {data, error} =
       mode === 'login'
         ? await supabase.auth.signInWithPassword({email, password})
         : await supabase.auth.signUp({email, password});
+
     if (error) {
       setErrorMsg(error.message);
       setState('err');
-    } else {
+      return;
+    }
+
+    if (mode === 'login') {
+      if (!data.session || !data.user) {
+        setErrorMsg(t('login.failed'));
+        setState('err');
+        return;
+      }
+
       setState('ok');
       router.push('/dashboard');
       router.refresh();
+      return;
     }
+
+    if (data.session && data.user) {
+      setState('ok');
+      router.push('/dashboard');
+      router.refresh();
+      return;
+    }
+
+    setState('idle');
+    setErrorMsg(t('signup.checkEmail'));
   }
 
   const m = mode === 'login' ? 'login' : 'signup';
@@ -73,6 +94,9 @@ export default function AuthForm({mode}: {mode: 'login' | 'signup'}) {
           )}
           {state === 'err' && (
             <p className="mt-4 text-sm text-[var(--color-danger)]">{errorMsg}</p>
+          )}
+          {state === 'idle' && errorMsg && (
+            <p className="mt-4 text-sm text-[var(--color-accent)]">{errorMsg}</p>
           )}
           {state === 'ok' && (
             <p className="mt-4 text-sm text-[var(--color-accent)]">✓</p>

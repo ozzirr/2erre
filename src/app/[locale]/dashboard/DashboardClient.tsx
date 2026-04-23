@@ -19,6 +19,7 @@ export default function DashboardClient() {
   const [status, setStatus] = useState<'loading' | 'authed' | 'anon' | 'unconfigured'>('loading');
 
   useEffect(() => {
+    let unsub: (() => void) | undefined;
     (async () => {
       const supabase = await getBrowserClient();
       if (!supabase) {
@@ -32,7 +33,19 @@ export default function DashboardClient() {
       } else {
         setStatus('anon');
       }
+
+      const sub = supabase.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+          setEmail(session.user.email ?? null);
+          setStatus('authed');
+        } else {
+          setEmail(null);
+          setStatus('anon');
+        }
+      });
+      unsub = () => sub.data.subscription.unsubscribe();
     })();
+    return () => unsub?.();
   }, []);
 
   async function signOut() {

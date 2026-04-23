@@ -15,6 +15,8 @@ export type SupabaseConfig = {
   serviceKey?: string;
 };
 
+let browserClientPromise: Promise<Awaited<ReturnType<typeof createBrowserClientInternal>> | null> | null = null;
+
 export function getSupabaseConfig(): SupabaseConfig | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey =
@@ -38,12 +40,25 @@ export async function getServerClient() {
 }
 
 export async function getBrowserClient() {
+  if (browserClientPromise) return browserClientPromise;
+  browserClientPromise = createBrowserClientInternal();
+  return browserClientPromise;
+}
+
+async function createBrowserClientInternal() {
   const cfg = getSupabaseConfig();
   if (!cfg) return null;
   try {
     const {createClient} = await import('@supabase/supabase-js');
-    return createClient(cfg.url, cfg.anonKey);
+    return createClient(cfg.url, cfg.anonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
   } catch {
+    browserClientPromise = null;
     return null;
   }
 }

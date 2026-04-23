@@ -132,7 +132,7 @@
       "email": "Business email",
       "phone": "Phone number",
       "company": "Company name",
-      "role": "Your role",
+      "companyPlaceholder": "2erre SRL",
       "service": "Service you're interested in",
       "message": "Describe the project",
       "revenue": "Annual revenue",
@@ -269,7 +269,8 @@
       "submit": "Enter",
       "noAccount": "Don't have an account?",
       "signupLink": "Sign up",
-      "forgot": "Forgot your password?"
+      "forgot": "Forgot your password?",
+      "failed": "Login failed. Check your email and password and try again."
     },
     "reset": {
       "title": "Reset password",
@@ -290,7 +291,8 @@
       "subtitle": "Access all free 2erre tools.",
       "submit": "Sign up",
       "hasAccount": "Already have an account?",
-      "loginLink": "Log in"
+      "loginLink": "Log in",
+      "checkEmail": "Check your email to confirm the account before logging in."
     },
     "fields": {
       "email": "Email",

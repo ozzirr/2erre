@@ -132,7 +132,7 @@
       "email": "Email aziendale",
       "phone": "Numero di telefono",
       "company": "Nome azienda",
-      "role": "Ruolo della tua azienda",
+      "companyPlaceholder": "2erre SRL",
       "service": "A quale servizio sei interessato",
       "message": "Descrivici il progetto",
       "revenue": "Fatturato annuale",
@@ -269,7 +269,8 @@
       "submit": "Entra",
       "noAccount": "Non hai un account?",
       "signupLink": "Registrati",
-      "forgot": "Password dimenticata?"
+      "forgot": "Password dimenticata?",
+      "failed": "Login non riuscito. Controlla email e password e riprova."
     },
     "reset": {
       "title": "Reimposta password",
@@ -290,7 +291,8 @@
       "subtitle": "Accedi a tutti gli strumenti gratuiti 2erre.",
       "submit": "Registrati",
       "hasAccount": "Hai già un account?",
-      "loginLink": "Accedi"
+      "loginLink": "Accedi",
+      "checkEmail": "Controlla la tua email per confermare l'account prima di accedere."
     },
     "fields": {
       "email": "Email",

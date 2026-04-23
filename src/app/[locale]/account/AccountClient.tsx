@@ -27,6 +27,7 @@ export default function AccountClient() {
   const [pwMsg, setPwMsg] = useState('');
 
   useEffect(() => {
+    let unsub: (() => void) | undefined;
     (async () => {
       const supabase = await getBrowserClient();
       if (!supabase) {
@@ -46,7 +47,25 @@ export default function AccountClient() {
       setLastName(m.last_name ?? '');
       setPhone(m.phone ?? '');
       setStatus('authed');
+
+      const sub = supabase.auth.onAuthStateChange((_event, session) => {
+        if (!session?.user) {
+          setStatus('anon');
+          return;
+        }
+
+        const nextUser = session.user;
+        setEmail(nextUser.email ?? '');
+        setInitialEmail(nextUser.email ?? '');
+        const nextMeta = (nextUser.user_metadata ?? {}) as Record<string, string>;
+        setFirstName(nextMeta.first_name ?? '');
+        setLastName(nextMeta.last_name ?? '');
+        setPhone(nextMeta.phone ?? '');
+        setStatus('authed');
+      });
+      unsub = () => sub.data.subscription.unsubscribe();
     })();
+    return () => unsub?.();
   }, []);
 
   async function saveProfile(e: React.FormEvent) {

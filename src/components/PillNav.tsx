@@ -23,10 +23,10 @@ export default function PillNav() {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 40);
-      const marquee = document.querySelector('[data-section="clients"]') as HTMLElement | null;
-      const threshold = marquee
-        ? marquee.offsetTop + marquee.offsetHeight - 80
-        : window.innerHeight + 200;
+      const hero = document.getElementById('hero');
+      const threshold = hero
+        ? Math.max(hero.offsetHeight - 140, 120)
+        : window.innerHeight - 140;
       setPastHero(y > threshold);
     };
     onScroll();
@@ -80,6 +80,17 @@ export default function PillNav() {
     setOpen(false);
   }
 
+  function onLogoClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (!isHome) return;
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    e.preventDefault();
+    hero.scrollIntoView({behavior: 'smooth', block: 'start'});
+    history.replaceState(null, '', pathname);
+    window.dispatchEvent(new Event('hero:replay'));
+    setOpen(false);
+  }
+
   return (
     <>
       <header className="sticky top-4 z-50 flex justify-center px-4">
@@ -91,6 +102,7 @@ export default function PillNav() {
         >
           <Link
             href="/"
+            onClick={onLogoClick}
             aria-label={t('brand')}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[var(--color-text-strong)] font-semibold tracking-tight transition-all duration-300 ${
               logoVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 pointer-events-none w-0 overflow-hidden px-0'
@@ -99,10 +111,10 @@ export default function PillNav() {
             <Image
               src="/brand/logo_2erre.png"
               alt={t('brand')}
-              width={120}
-              height={32}
+              width={146}
+              height={39}
               priority
-              className="h-7 w-auto"
+              className="h-8 w-auto"
             />
             <span className="sr-only">{t('brand')}</span>
           </Link>

@@ -5,6 +5,7 @@ import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {computeQuote, formatEUR, type QuoteInput} from '@/lib/quote';
 import {getBrowserClient} from '@/lib/supabase';
+import {usePersistentFlag} from '@/lib/usePersistentFlag';
 import AuthTrigger from '@/components/AuthTrigger';
 
 const TYPES: QuoteInput['type'][] = ['landing', 'website', 'ecommerce', 'webapp', 'mobile', 'ai'];
@@ -26,13 +27,10 @@ export default function QuoteClient() {
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
-  const [used, setUsed] = useState(false);
+  const [used, setUsed] = usePersistentFlag(USED_KEY);
 
   useEffect(() => {
-    setUsed(localStorage.getItem(USED_KEY) === '1');
-  }, []);
-
-  useEffect(() => {
+    let unsub: (() => void) | undefined;
     (async () => {
       const supabase = await getBrowserClient();
       if (!supabase) return;
@@ -41,14 +39,21 @@ export default function QuoteClient() {
         setAuthedEmail(data.user.email);
         setEmail(data.user.email);
       }
+
+      const sub = supabase.auth.onAuthStateChange((_event, session) => {
+        const nextEmail = session?.user?.email ?? null;
+        setAuthedEmail(nextEmail);
+        if (nextEmail) setEmail(nextEmail);
+      });
+      unsub = () => sub.data.subscription.unsubscribe();
     })();
+    return () => unsub?.();
   }, []);
 
   const locked = used && !authedEmail;
 
   function markUsed() {
     if (!used) {
-      localStorage.setItem(USED_KEY, '1');
       setUsed(true);
     }
   }
@@ -211,12 +216,7 @@ export default function QuoteClient() {
               </div>
             )}
           </form>
-        ) : (
-          <div className="mt-6 card p-6 text-center">
-            <p className="text-sm text-[var(--color-text-soft)]">{tPay('locked')}</p>
-            <AuthTrigger mode="signup" className="btn btn-dark mt-4">{tPay('signup')} →</AuthTrigger>
-          </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

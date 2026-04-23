@@ -5,6 +5,7 @@ import QRCode from 'qrcode';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {getBrowserClient} from '@/lib/supabase';
+import {usePersistentFlag} from '@/lib/usePersistentFlag';
 import AuthTrigger from '@/components/AuthTrigger';
 
 const USED_KEY = '2erre.qr.used';
@@ -14,17 +15,14 @@ export default function QrClient() {
   const tPay = useTranslations('tools.paycheck');
   const [text, setText] = useState('');
   const [dataUrl, setDataUrl] = useState<string | null>(null);
-  const [used, setUsed] = useState(false);
+  const [used, setUsed] = usePersistentFlag(USED_KEY);
 
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
 
   useEffect(() => {
-    setUsed(localStorage.getItem(USED_KEY) === '1');
-  }, []);
-
-  useEffect(() => {
+    let unsub: (() => void) | undefined;
     (async () => {
       const supabase = await getBrowserClient();
       if (!supabase) return;
@@ -33,7 +31,15 @@ export default function QrClient() {
         setAuthedEmail(data.user.email);
         setEmail(data.user.email);
       }
+
+      const sub = supabase.auth.onAuthStateChange((_event, session) => {
+        const nextEmail = session?.user?.email ?? null;
+        setAuthedEmail(nextEmail);
+        if (nextEmail) setEmail(nextEmail);
+      });
+      unsub = () => sub.data.subscription.unsubscribe();
     })();
+    return () => unsub?.();
   }, []);
 
   const locked = used && !authedEmail;
@@ -47,7 +53,6 @@ export default function QrClient() {
       color: {dark: '#050507', light: '#ffffff'}
     });
     setDataUrl(url);
-    localStorage.setItem(USED_KEY, '1');
     setUsed(true);
   }
 
@@ -72,7 +77,7 @@ export default function QrClient() {
 
   return (
     <section className="pt-32 pb-24">
-      <div className="max-w-3xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6">
         <div className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-dim)] mb-4">
           2erre · Tools
         </div>
@@ -81,38 +86,59 @@ export default function QrClient() {
         </h1>
         <p className="mt-3 text-[var(--color-text-soft)]">{t('subtitle')}</p>
 
-        <div className="mt-10 card p-8">
-          <label className="label">URL / Testo</label>
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="field"
-            placeholder={t('placeholder')}
-            disabled={locked}
-          />
-          <div className="mt-4 flex gap-3">
-            <button
-              className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={generate}
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="card p-8">
+            <label className="label">URL / Testo</label>
+            <input
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="field"
+              placeholder={t('placeholder')}
               disabled={locked}
-            >
-              {t('generate')} →
-            </button>
-            {dataUrl && (
-              <a className="btn btn-ghost" href={dataUrl} download="2erre-qr.png">
-                {t('download')}
-              </a>
-            )}
+            />
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button
+                className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={generate}
+                disabled={locked}
+              >
+                {t('generate')} →
+              </button>
+              {dataUrl && (
+                <a className="btn btn-ghost" href={dataUrl} download="2erre-qr.png">
+                  {t('download')}
+                </a>
+              )}
+            </div>
           </div>
 
-          {dataUrl && (
-            <div className="mt-8 flex justify-center">
-              <div className="rounded-2xl bg-white p-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={dataUrl} alt="QR" width={320} height={320} />
+          <div className="card p-8 flex flex-col relative">
+            {locked && (
+              <div className="absolute inset-0 z-10 rounded-[inherit] backdrop-blur-sm bg-black/40 flex flex-col items-center justify-center text-center p-6">
+                <p className="text-sm text-[var(--color-text-soft)] max-w-xs">{t('locked')}</p>
+                <AuthTrigger mode="signup" className="btn btn-primary mt-4">{t('signup')} →</AuthTrigger>
               </div>
+            )}
+
+            <div className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-dim)]">
+              {t('generate')}
             </div>
-          )}
+
+            <div className="mt-6 flex flex-1 items-center justify-center">
+              {dataUrl ? (
+                <div className="rounded-[2rem] bg-white p-4 shadow-[0_30px_80px_-36px_rgba(255,255,255,0.4)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={dataUrl} alt="QR" width={320} height={320} className="h-auto w-full max-w-[280px]" />
+                </div>
+              ) : (
+                <div className="flex h-full min-h-[18rem] w-full items-center justify-center rounded-[2rem] border border-dashed border-[var(--color-line-strong)] bg-[var(--color-ink-1)]/70 px-6 text-center">
+                  <p className="max-w-xs text-sm leading-relaxed text-[var(--color-text-soft)]">
+                    Inserisci un link o un testo per vedere qui l’anteprima del QR.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {authedEmail ? (
@@ -151,14 +177,7 @@ export default function QrClient() {
               </div>
             )}
           </form>
-        ) : (
-          <div className="mt-6 card p-6 text-center">
-            <p className="text-sm text-[var(--color-text-soft)]">
-              {locked ? t('locked') : t('locked')}
-            </p>
-            <AuthTrigger mode="signup" className="btn btn-dark mt-4">{t('signup')} →</AuthTrigger>
-          </div>
-        )}
+        ) : null}
       </div>
     </section>
   );
