@@ -136,7 +136,7 @@ function AuthModalCard({
           type="button"
           onClick={close}
           aria-label={tNav('close')}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full border border-[var(--color-line-strong)] bg-[var(--color-ink-1)] flex items-center justify-center text-[var(--color-text-soft)] hover:text-[var(--color-text-strong)] transition"
+          className="!absolute top-4 right-4 z-10 w-9 h-9 rounded-full border border-[var(--color-line-strong)] bg-[var(--color-ink-1)] flex items-center justify-center text-[var(--color-text-soft)] hover:text-[var(--color-text-strong)] transition"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

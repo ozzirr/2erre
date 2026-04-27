@@ -30,8 +30,6 @@
 
 section[id] { scroll-margin-top: 96px; }
 
-html { scroll-behavior: smooth; }
-
 html, body {
   background: var(--color-ink-0);
   color: var(--color-text);
@@ -221,6 +219,64 @@ body {
 .hero-reveal > *:nth-child(2) { animation-delay: 180ms; }
 .hero-reveal > *:nth-child(3) { animation-delay: 300ms; }
 .hero-reveal > *:nth-child(4) { animation-delay: 420ms; }
+
+.page-reveal > * {
+  opacity: 0;
+  animation: hero-reveal-in 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.page-reveal > *:nth-child(1) { animation-delay: 80ms; }
+.page-reveal > *:nth-child(2) { animation-delay: 200ms; }
+.page-reveal > *:nth-child(3) { animation-delay: 320ms; }
+.page-reveal > *:nth-child(4) { animation-delay: 440ms; }
+.page-reveal > *:nth-child(5) { animation-delay: 560ms; }
+.page-reveal > *:nth-child(6) { animation-delay: 680ms; }
+.page-reveal > *:nth-child(n+7) { animation-delay: 800ms; }
+
+/* Global page-entrance: stagger cascade like the hero, on every route. */
+.page-reveal-root {
+  animation: hero-reveal-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Pages whose top-level returns multiple siblings (e.g. the home fragment):
+   stagger the direct children. */
+.page-reveal-root:not(:has(> *:only-child)) > * {
+  opacity: 0;
+  animation: hero-reveal-in 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(1) { animation-delay: 80ms; }
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(2) { animation-delay: 200ms; }
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(3) { animation-delay: 320ms; }
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(4) { animation-delay: 440ms; }
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(5) { animation-delay: 560ms; }
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(6) { animation-delay: 680ms; }
+.page-reveal-root:not(:has(> *:only-child)) > *:nth-child(n+7) { animation-delay: 800ms; }
+
+/* Pages wrapped in a single root element (e.g. <div className="pt-20">…</div>):
+   stagger the grandchildren so the cascade is visible. */
+.page-reveal-root:has(> *:only-child) > * > * {
+  opacity: 0;
+  animation: hero-reveal-in 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(1) { animation-delay: 80ms; }
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(2) { animation-delay: 200ms; }
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(3) { animation-delay: 320ms; }
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(4) { animation-delay: 440ms; }
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(5) { animation-delay: 560ms; }
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(6) { animation-delay: 680ms; }
+.page-reveal-root:has(> *:only-child) > * > *:nth-child(n+7) { animation-delay: 800ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-reveal > *,
+  .hero-reveal > *,
+  .page-reveal-root,
+  .page-reveal-root > *,
+  .page-reveal-root > * > * {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
+
 
 /* ===== 3D Cube ===== */
 .cube-scene {

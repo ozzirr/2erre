@@ -9,6 +9,7 @@ import PillNav from '@/components/PillNav';
 import Footer from '@/components/Footer';
 import AuthModal from '@/components/AuthModal';
 import CustomCursor from '@/components/CustomCursor';
+import PageTransition from '@/components/PageTransition';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -44,7 +45,9 @@ export default async function LocaleLayout({
       <Suspense fallback={null}>
         <PillNav />
       </Suspense>
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <Footer />
       <Suspense fallback={null}>
         <AuthModal />
