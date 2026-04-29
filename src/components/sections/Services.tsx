@@ -45,7 +45,7 @@ export default async function Services() {
               </p>
               <div className="mt-6 pt-6 border-t border-[var(--color-line)]">
                 <span className="inline-flex items-center gap-2 text-[var(--color-text-strong)] text-sm font-medium uppercase tracking-wider group-hover:text-[var(--color-accent)] transition">
-                  {t('discover')}
+                  {t(`items.${key}.cta`)}
                   <span className="text-[var(--color-accent)]">→</span>
                 </span>
               </div>

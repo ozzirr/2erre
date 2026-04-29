@@ -56,9 +56,11 @@ export default function Hero() {
             <span className="text-display leading-none">{t('titleSuffix')}</span>
           </h1>
 
-          <p className="mt-7 max-w-[46rem] text-lg leading-relaxed text-[var(--color-text-soft)] sm:text-xl md:mt-8 md:text-2xl">
-            {t('subtitle')}
-          </p>
+          {t('subtitle') && (
+            <p className="mt-7 max-w-[46rem] text-lg leading-relaxed text-[var(--color-text-soft)] sm:text-xl md:mt-8 md:text-2xl">
+              {t('subtitle')}
+            </p>
+          )}
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:mt-10 sm:flex-row sm:justify-center sm:gap-6">
             <Link

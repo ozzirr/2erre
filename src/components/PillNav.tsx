@@ -61,7 +61,6 @@ export default function PillNav() {
   const links = [
     {href: '/servizi', label: t('solutions')},
     {href: '/chi-siamo', label: t('about')},
-    {href: '/prodotti', label: t('products')},
     {href: '/blog', label: t('blog')}
   ] as const;
 
@@ -134,23 +133,27 @@ export default function PillNav() {
 
           <div className="hidden md:flex items-center gap-2 pl-1">
             <LangSwitcher />
-            {authed && (
-              <Link
-                href="/dashboard"
-                className="px-3 py-1.5 rounded-full text-[0.8125rem] uppercase tracking-wider text-[var(--color-text-soft)] hover:text-[var(--color-text-strong)] transition"
-              >
+            {authed ? (
+              <Link href="/dashboard" className="btn btn-dark !py-1.5 !px-4 !text-[0.8125rem]">
                 {t('dashboard')}
               </Link>
+            ) : (
+              <AuthTrigger mode="login" className="btn btn-dark !py-1.5 !px-4 !text-[0.8125rem]">
+                {t('login')}
+              </AuthTrigger>
             )}
-            <Link href="/contatti" className="btn btn-dark !py-1.5 !px-4 !text-[0.8125rem]">
-              {t('cta')}
-            </Link>
           </div>
 
           <div className="flex md:hidden items-center gap-2 pl-1">
-            <Link href="/contatti" className="btn btn-dark !py-1.5 !px-4 !text-[0.8125rem]">
-              {t('contact')}
-            </Link>
+            {authed ? (
+              <Link href="/dashboard" className="btn btn-dark !py-1.5 !px-4 !text-[0.8125rem]">
+                {t('dashboard')}
+              </Link>
+            ) : (
+              <AuthTrigger mode="login" className="btn btn-dark !py-1.5 !px-4 !text-[0.8125rem]">
+                {t('login')}
+              </AuthTrigger>
+            )}
             <button
               type="button"
               aria-label={open ? t('close') : t('menu')}

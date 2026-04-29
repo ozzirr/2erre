@@ -7,7 +7,7 @@
     "services": "Servizi",
     "solutions": "Soluzioni",
     "caseStudies": "Casi studio",
-    "products": "Prodotti",
+    "products": "Online tools",
     "about": "Chi siamo",
     "blog": "Blog",
     "tools": "Strumenti",
@@ -24,39 +24,39 @@
     "titlePre": "Il partner",
     "titleAccent": "digitale",
     "titleSuffix": "della tua impresa.",
-    "subtitle": "Progettiamo, sviluppiamo e facciamo crescere software, web e mobile per PMI italiane.",
+    "subtitle": "",
     "ctaPrimary": "Inizia ora",
     "ctaSecondary": "Scopri i servizi"
   },
   "services": {
-    "headingPre": "Scegli un",
-    "headingAccent": "servizio.",
-    "subtitle": "Dalla consulenza al prodotto: costruiamo con te o ti diamo chiavi in mano.",
+    "headingPre": "Come possiamo",
+    "headingAccent": "aiutarti.",
+    "subtitle": "Raccontaci dove vuoi arrivare: ti aiutiamo a trasformare un'idea, un processo lento o un prodotto da far crescere in una soluzione digitale concreta.",
     "discover": "Scopri",
     "items": {
       "consulting": {
         "title": "Consulenza & Strategy",
-        "tagline": "Analisi, roadmap, discovery.",
-        "body": "Mappiamo i processi, identifichiamo i colli di bottiglia e costruiamo una roadmap tecnica pragmatica per la crescita digitale.",
-        "cta": "Parliamone"
+        "tagline": "Quando serve chiarezza prima di investire.",
+        "body": "Analizziamo obiettivi, processi e vincoli tecnici per capire cosa costruire, cosa evitare e quale roadmap ti porta risultati prima.",
+        "cta": "Costruiamo la roadmap"
       },
       "web": {
         "title": "Web & Brand",
-        "tagline": "Siti, e-commerce, landing.",
-        "body": "Siti performanti, SEO-ready e full-responsive con stack moderni (Next.js, Tailwind) pensati per convertire.",
-        "cta": "Vedi lavori"
+        "tagline": "Quando il sito deve generare fiducia e contatti.",
+        "body": "Creiamo siti, e-commerce e landing veloci, chiari e pensati per guidare l'utente dal primo scroll alla richiesta di contatto.",
+        "cta": "Miglioriamo la presenza online"
       },
       "apps": {
         "title": "App iOS & Android",
-        "tagline": "Mobile native e cross-platform.",
-        "body": "App native e React Native, dal prototipo al rilascio sugli store, con CI/CD, analytics e crash reporting.",
-        "cta": "Avvia il progetto"
+        "tagline": "Quando la tua idea deve diventare prodotto.",
+        "body": "Dal prototipo allo store, progettiamo e sviluppiamo app mobile solide, facili da usare e pronte per crescere con i tuoi utenti.",
+        "cta": "Portiamo l'app sul mercato"
       },
       "ai": {
         "title": "AI & Automazione",
-        "tagline": "Agenti, RAG, integrazioni.",
-        "body": "Integriamo LLM nei tuoi processi: agenti su WhatsApp/Slack, knowledge base, automazioni con Make, n8n, Zapier.",
-        "cta": "Esplora"
+        "tagline": "Quando vuoi togliere lavoro ripetitivo dal team.",
+        "body": "Integriamo AI e automazioni nei flussi reali: lead, email, documenti, CRM e strumenti interni iniziano a lavorare insieme.",
+        "cta": "Automatizziamo il flusso"
       }
     }
   },
@@ -138,7 +138,7 @@
     }
   },
   "products": {
-    "eyebrow": "Prodotti pronti all'uso.",
+    "eyebrow": "Online tools pronti all'uso.",
     "subtitle": "Strumenti costruiti da noi, provali gratis una volta.",
     "items": {
       "qr": {
@@ -236,6 +236,16 @@
   },
   "footer": {
     "tagline": "Il partner digitale della tua impresa.",
+    "cta": {
+      "eyebrow": "Partiamo da qui",
+      "title": "Raccontaci cosa devi sistemare, lanciare o far crescere.",
+      "body": "Ti diciamo se ha senso, da dove partire e cosa serve davvero.",
+      "button": "Parliamone"
+    },
+    "contact": {
+      "label": "Scrivici",
+      "body": "Per idee, preventivi o una prima valutazione del progetto."
+    },
     "columns": {
       "nav": "Naviga",
       "legal": "Legale",
@@ -382,13 +392,20 @@
   },
   "about": {
     "eyebrow": "Chi siamo",
-    "title": "2erre SRL — digitale, pratico, italiano.",
-    "body": "Siamo una software house italiana specializzata in prodotti digitali per le PMI. Nasciamo dall'incontro tra ingegneria e design, con l'obiettivo di costruire cose utili, veloci e sostenibili.",
-    "valuesTitle": "Come lavoriamo",
+    "title": "Siamo una software house italiana.",
+    "body": "Progettiamo e sviluppiamo software, siti, app e automazioni per PMI italiane.",
+    "bodySecond": "Lavoriamo bene quando c'è un problema concreto da risolvere: un processo lento, un sito che non converte, un'idea da portare sul mercato, un team che perde tempo su attività ripetitive.",
+    "notes": {
+      "n1": {"label": "Cosa facciamo", "text": "Trasformiamo esigenze aziendali in prodotti digitali semplici da usare."},
+      "n2": {"label": "Come ragioniamo", "text": "Prima il risultato, poi lo stack. La tecnologia viene dopo il perché."},
+      "n3": {"label": "Per chi", "text": "Imprese che vogliono un partner tecnico, non un fornitore da rincorrere."}
+    },
+    "valuesEyebrow": "Metodo",
+    "valuesTitle": "Poche promesse, lavoro fatto bene.",
     "values": {
-      "v1": {"title": "Pragmatici", "body": "Scope chiaro, milestone brevi, nessun over-engineering."},
-      "v2": {"title": "Trasparenti", "body": "Codice tuo, stime oneste, report settimanali."},
-      "v3": {"title": "Duraturi", "body": "Stack standard, zero lock-in, manutenibilità a lungo termine."}
+      "v1": {"title": "Partiamo stretti", "body": "Definiamo cosa serve davvero, cosa può aspettare e cosa rischia di far perdere tempo o budget."},
+      "v2": {"title": "Ci facciamo capire", "body": "Niente fumo tecnico: scelte, costi e priorità devono essere chiari anche fuori dal team sviluppo."},
+      "v3": {"title": "Costruiamo per durare", "body": "Codice manutenibile, strumenti standard e consegne pensate per essere riprese, estese e migliorate."}
     }
   },
   "dashboard": {

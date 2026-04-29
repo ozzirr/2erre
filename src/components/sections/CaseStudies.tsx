@@ -11,20 +11,20 @@ const UTM = '?utm_source=2erre.online&utm_medium=case-study&utm_campaign=portfol
 const CASE_META = {
   odora: {
     logoSrc: '/brand/white/logo_odora.webp',
-    logoWidth: 164,
-    logoHeight: 52,
+    logoWidth: 230,
+    logoHeight: 72,
     url: `https://odora.it/${UTM}`
   },
   balance: {
     logoSrc: '/brand/white/logo-balance.webp',
-    logoWidth: 180,
-    logoHeight: 52,
+    logoWidth: 252,
+    logoHeight: 72,
     url: `https://ctrlbalance.com/${UTM}`
   },
   generale: {
     logoSrc: '/brand/white/logo-generale-elettrica-optimized.webp',
-    logoWidth: 248,
-    logoHeight: 58,
+    logoWidth: 330,
+    logoHeight: 78,
     url: `https://generale-elettrica.com/${UTM}`
   }
 } as const;
@@ -69,7 +69,7 @@ export default function CaseStudies() {
                   alt={t(`tabs.${active}`)}
                   width={meta.logoWidth}
                   height={meta.logoHeight}
-                  className="h-auto w-auto max-h-14 max-w-[15rem] object-contain opacity-88"
+                  className="h-auto w-auto max-h-20 max-w-[20rem] object-contain opacity-90"
                 />
               </div>
 
@@ -91,16 +91,6 @@ export default function CaseStudies() {
                 </p>
               </div>
 
-              <div className="mt-8">
-                <a
-                  href={meta.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-[var(--color-text-strong)] hover:text-[var(--color-accent)] transition"
-                >
-                  {t('visit', {name: t(`tabs.${active}`)})}
-                </a>
-              </div>
             </div>
 
             <div className="flex flex-col justify-center lg:pl-2">
@@ -112,6 +102,16 @@ export default function CaseStudies() {
               </div>
               <div className="mt-4 max-w-xs text-base uppercase tracking-[0.16em] text-[var(--color-text-soft)] md:text-lg">
                 {t(`items.${active}.resultLabel`)}
+              </div>
+              <div className="mt-8">
+                <a
+                  href={meta.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary w-full sm:w-auto uppercase tracking-[0.14em] text-sm"
+                >
+                  {t('visit', {name: t(`tabs.${active}`)})}
+                </a>
               </div>
             </div>
           </div>

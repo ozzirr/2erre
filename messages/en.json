@@ -7,7 +7,7 @@
     "services": "Services",
     "solutions": "Solutions",
     "caseStudies": "Case studies",
-    "products": "Products",
+    "products": "Online tools",
     "about": "About",
     "blog": "Blog",
     "tools": "Tools",
@@ -24,39 +24,39 @@
     "titlePre": "The",
     "titleAccent": "digital partner",
     "titleSuffix": "of your business.",
-    "subtitle": "We design, build and scale software, web and mobile products for Italian SMBs.",
+    "subtitle": "",
     "ctaPrimary": "Start now",
     "ctaSecondary": "Explore services"
   },
   "services": {
-    "headingPre": "Pick a",
-    "headingAccent": "service.",
-    "subtitle": "From consulting to product: we build with you or hand you the keys.",
+    "headingPre": "How can we",
+    "headingAccent": "help you?",
+    "subtitle": "Tell us where you want to go: we help turn an idea, a slow process or a product that needs traction into a concrete digital solution.",
     "discover": "Discover",
     "items": {
       "consulting": {
         "title": "Consulting & Strategy",
-        "tagline": "Analysis, roadmap, discovery.",
-        "body": "We map processes, identify bottlenecks and build a pragmatic technical roadmap for digital growth.",
-        "cta": "Let's talk"
+        "tagline": "When you need clarity before investing.",
+        "body": "We analyze goals, processes and technical constraints to understand what to build, what to avoid and which roadmap gets results sooner.",
+        "cta": "Build the roadmap"
       },
       "web": {
         "title": "Web & Brand",
-        "tagline": "Sites, e-commerce, landing pages.",
-        "body": "Fast, SEO-ready, fully responsive sites on modern stacks (Next.js, Tailwind) designed to convert.",
-        "cta": "See work"
+        "tagline": "When your site needs to build trust and leads.",
+        "body": "We create fast, clear websites, e-commerce experiences and landing pages designed to move users from the first scroll to the enquiry.",
+        "cta": "Improve your online presence"
       },
       "apps": {
         "title": "iOS & Android apps",
-        "tagline": "Native and cross-platform mobile.",
-        "body": "Native and React Native apps, from prototype to store release, with CI/CD, analytics and crash reporting.",
-        "cta": "Start the project"
+        "tagline": "When your idea needs to become a product.",
+        "body": "From prototype to store release, we design and build solid mobile apps that are easy to use and ready to grow with your users.",
+        "cta": "Bring the app to market"
       },
       "ai": {
         "title": "AI & Automation",
-        "tagline": "Agents, RAG, integrations.",
-        "body": "We bring LLMs into your processes: WhatsApp/Slack agents, knowledge bases, automations with Make, n8n, Zapier.",
-        "cta": "Explore"
+        "tagline": "When you want repetitive work off your team.",
+        "body": "We integrate AI and automation into real workflows: leads, email, documents, CRMs and internal tools start working together.",
+        "cta": "Automate the workflow"
       }
     }
   },
@@ -138,7 +138,7 @@
     }
   },
   "products": {
-    "eyebrow": "Products ready to use.",
+    "eyebrow": "Online tools ready to use.",
     "subtitle": "Tools built by us — try free once.",
     "items": {
       "qr": {
@@ -236,6 +236,16 @@
   },
   "footer": {
     "tagline": "The digital partner of your business.",
+    "cta": {
+      "eyebrow": "Start here",
+      "title": "Tell us what you need to fix, launch or grow.",
+      "body": "We'll tell you if it makes sense, where to start and what is actually needed.",
+      "button": "Let's talk"
+    },
+    "contact": {
+      "label": "Write us",
+      "body": "For ideas, quotes or a first look at your project."
+    },
     "columns": {
       "nav": "Navigate",
       "legal": "Legal",
@@ -382,13 +392,20 @@
   },
   "about": {
     "eyebrow": "About us",
-    "title": "2erre SRL — digital, pragmatic, Italian.",
-    "body": "We're an Italian software house specialized in digital products for SMBs. Born at the intersection of engineering and design, with the goal of building useful, fast and sustainable things.",
-    "valuesTitle": "How we work",
+    "title": "We are an Italian software house.",
+    "body": "We design and build software, websites, apps and automations for Italian SMBs.",
+    "bodySecond": "We do our best work when there is a concrete problem to solve: a slow process, a site that does not convert, an idea to bring to market, or a team losing time on repetitive work.",
+    "notes": {
+      "n1": {"label": "What we do", "text": "We turn business needs into digital products that are simple to use."},
+      "n2": {"label": "How we think", "text": "Outcome first, stack second. Technology comes after the reason."},
+      "n3": {"label": "For whom", "text": "Businesses that want a technical partner, not a supplier to chase."}
+    },
+    "valuesEyebrow": "Method",
+    "valuesTitle": "Few promises, solid work.",
     "values": {
-      "v1": {"title": "Pragmatic", "body": "Clear scope, short milestones, zero over-engineering."},
-      "v2": {"title": "Transparent", "body": "Your code, honest estimates, weekly reports."},
-      "v3": {"title": "Durable", "body": "Standard stack, zero lock-in, long-term maintainability."}
+      "v1": {"title": "We start narrow", "body": "We define what is really needed, what can wait and what risks wasting time or budget."},
+      "v2": {"title": "We keep it clear", "body": "No technical fog: choices, costs and priorities should make sense outside the dev team too."},
+      "v3": {"title": "We build to last", "body": "Maintainable code, standard tools and deliveries that can be picked up, extended and improved."}
     }
   },
   "dashboard": {

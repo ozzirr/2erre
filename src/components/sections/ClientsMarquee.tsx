@@ -26,16 +26,16 @@ export default function ClientsMarquee() {
           {loop.map((c, i) => (
             <div
               key={`${c.name}-${i}`}
-              className="shrink-0 h-20 md:h-24 flex items-center justify-center opacity-70 hover:opacity-100 transition mr-10 md:mr-14"
+              className="shrink-0 h-24 md:h-28 flex items-center justify-center opacity-70 hover:opacity-100 transition mr-12 md:mr-16"
               aria-hidden={i >= CLIENTS.length}
             >
               {c.src ? (
-                <div className="relative h-20 w-[230px] md:h-24 md:w-[260px]">
+                <div className="relative h-24 w-[270px] md:h-28 md:w-[320px]">
                   <Image
                     src={c.src}
                     alt={c.name}
                     fill
-                    sizes="260px"
+                    sizes="320px"
                     className={`object-contain ${c.imageClassName ?? ''}`}
                   />
                 </div>
