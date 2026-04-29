@@ -237,10 +237,10 @@
   "footer": {
     "tagline": "The digital partner of your business.",
     "cta": {
-      "eyebrow": "Start here",
-      "title": "Tell us what you need to fix, launch or grow.",
-      "body": "We'll tell you if it makes sense, where to start and what is actually needed.",
-      "button": "Let's talk"
+      "eyebrow": "Contact us",
+      "title": "Let's talk about your project.",
+      "body": "Fill out the form and we'll get back within 24h for a discovery call.",
+      "button": "Contact us"
     },
     "contact": {
       "label": "Write us",

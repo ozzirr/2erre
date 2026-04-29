@@ -37,7 +37,7 @@ export default async function Footer() {
                 <div className="text-xs uppercase tracking-[0.22em] text-[var(--color-accent)]">
                   {t('cta.eyebrow')}
                 </div>
-                <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-[var(--color-text-strong)] md:text-5xl">
+                <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-[var(--color-text-strong)] md:text-4xl">
                   {t('cta.title')}
                 </h2>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--color-text-soft)]">

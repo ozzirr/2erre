@@ -7,8 +7,8 @@ type Client = {
 };
 
 const CLIENTS: Client[] = [
-  {name: 'MS Porte', src: '/brand/white/logo-ms-porte-optimized.webp'},
-  {name: 'Olio Arsieni', src: '/brand/white/logo-olio-arsieni-optimized.webp'},
+  {name: 'MS Porte', src: '/brand/white/logo-ms-porte-optimized.webp', imageClassName: 'scale-[0.85]'},
+  {name: 'Olio Arsieni', src: '/brand/white/logo-olio-arsieni-optimized.webp', imageClassName: 'scale-[1.15]'},
   {name: 'Generale Elettrica', src: '/brand/white/logo-generale-elettrica-optimized.webp'},
   {name: 'Odora', src: '/brand/white/logo_odora.webp'},
   {name: 'Balance', src: '/brand/white/logo-balance.webp'},

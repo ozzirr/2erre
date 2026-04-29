@@ -13,18 +13,21 @@ const CASE_META = {
     logoSrc: '/brand/white/logo_odora.webp',
     logoWidth: 230,
     logoHeight: 72,
+    logoClassName: 'max-h-20 max-w-[20rem]',
     url: `https://odora.it/${UTM}`
   },
   balance: {
     logoSrc: '/brand/white/logo-balance.webp',
     logoWidth: 252,
     logoHeight: 72,
+    logoClassName: 'max-h-20 max-w-[20rem]',
     url: `https://ctrlbalance.com/${UTM}`
   },
   generale: {
     logoSrc: '/brand/white/logo-generale-elettrica-optimized.webp',
-    logoWidth: 330,
-    logoHeight: 78,
+    logoWidth: 620,
+    logoHeight: 148,
+    logoClassName: 'max-h-36 max-w-[36rem] scale-[1.55] origin-left',
     url: `https://generale-elettrica.com/${UTM}`
   }
 } as const;
@@ -69,7 +72,7 @@ export default function CaseStudies() {
                   alt={t(`tabs.${active}`)}
                   width={meta.logoWidth}
                   height={meta.logoHeight}
-                  className="h-auto w-auto max-h-20 max-w-[20rem] object-contain opacity-90"
+                  className={`h-auto w-auto object-contain opacity-90 ${meta.logoClassName}`}
                 />
               </div>
 
