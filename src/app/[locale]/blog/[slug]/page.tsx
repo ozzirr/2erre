@@ -45,11 +45,40 @@ export default async function PostPage({
         </h1>
         <p className="mt-4 text-lg text-[var(--color-text-soft)]">{post.excerpt}</p>
 
-        <div className="mt-12 space-y-6 text-[var(--color-text-soft)] leading-[1.75]">
-          {post.body.map((para, i) => (
-            <p key={i}>{para}</p>
+        <div className="mt-12 space-y-10 text-[var(--color-text-soft)] leading-[1.75]">
+          {post.sections.map((section, i) => (
+            <section key={i} className="space-y-4">
+              {section.heading && (
+                <h2 className="text-2xl font-semibold tracking-tight text-[var(--color-text-strong)]">
+                  {section.heading}
+                </h2>
+              )}
+              {section.paragraphs.map((para, paragraphIndex) => (
+                <p key={paragraphIndex}>{para}</p>
+              ))}
+            </section>
           ))}
         </div>
+
+        {post.faq && post.faq.length > 0 && (
+          <div className="mt-14 border-t border-[var(--color-line)] pt-10">
+            <h2 className="text-2xl font-semibold tracking-tight text-[var(--color-text-strong)]">
+              FAQ
+            </h2>
+            <div className="mt-6 space-y-5">
+              {post.faq.map((item) => (
+                <div key={item.q} className="card p-5">
+                  <h3 className="font-semibold text-[var(--color-text-strong)]">
+                    {item.q}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-soft)]">
+                    {item.a}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </article>
   );
